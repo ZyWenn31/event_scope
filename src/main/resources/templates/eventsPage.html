@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/eventsPage.css">
+</head>
+
+<header>
+    <p>Event scope</p>
+    <a th:if="${isAuth}" href="/userProfile">Личный кабинет</a>
+    <a th:if="${!isAuth}" href="/userProfile">Вход</a>
+</header>
+
+<body>
+    <div id="items" >
+        <div id="item" th:each="event : ${events}">
+            <p id="title" th:text="${event.getTitle()}"/>
+            <p id="description" th:text="${event.getDescription()}"/>
+
+            <div id="dates">
+                <div id="created">
+                    <p>Создан: </p>
+                    <p th:text="${event.getCreatedAt()}"/>
+                </div>
+
+                <div id="eventDate">
+                    <p>Запланирован на: </p>
+                    <p th:text="${event.getEventDate()}"/>
+                </div>
+            </div>
+
+            <div id="organizerInfo">
+                <p>Организатор: </p>
+                <p th:text="${event.getOrganizer().getName()}"/>
+            </div>
+
+            <a th:if="${isAuth}" id="iGo" th:href="@{/go(eventId=${event.getId()}, userId=${userId})}">Я пойду</a>
+
+        </div>
+    </div>
+</body>
+</html>

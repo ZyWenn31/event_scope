@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/userProfile.css">
+</head>
+<header>
+    <p>Event scope</p>
+
+    <a href="event">К поиску событий</a>
+</header>
+<body>
+    <div class="userProfile">
+
+        <div class="userRole">
+            <p th:if="${isOrganizer}">Организатор</p>
+            <p th:if="${!isOrganizer}">Пользователь</p>
+        </div>
+
+        <div class="avatarAndUsername">
+            <img th:src="${userAvatar}" alt="Avatar"/>
+
+            <p th:text="${username}"/>
+
+            <div class="nameAndEmail">
+                <p class="userName" th:if="${isOrganizer}" th:text="${userName}"/>
+                <p class="userEmail" th:if="${isOrganizer}" th:text="${userEmail}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="eventsBlock">
+        <div class="participantsBlock">
+            <p >События, в которых я учавствую:</p>
+            <div th:if="${!participationsIsNull}" class="participants">
+                <div class="participant" th:each="participant : ${userParticipantEvents}">
+                    <p th:text="${participant.getEvent().getTitle()}"/>
+                    <p th:text="${participant.getEvent().getStatus()}"/>
+                    <p th:text="${participant.getEvent().getEventDate()}"/>
+                    <p th:text="${participant.getEvent().getOrganizer().getName()}"/>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${isOrganizer}" class="organizedEventsBlock">
+            <p>События, которые я организовал: </p>
+            <div th:if="${!organizedEventsIsNull}" class="organizedEvents">
+                <div th:each="event : ${organizedEvents}" class="organizedEvent">
+                    <p th:text="${event.getTitle()}"/>
+                    <p th:text="${event.getDescription()}"/>
+                    <p th:text="${event.getStatus()}"/>
+                    <p th:text="${event.getRating()}"/>
+                    <p th:text="${event.getEventDate()}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

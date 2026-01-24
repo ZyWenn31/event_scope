@@ -1,0 +1,222 @@
+/* ===== Общие стили ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f5f7fb; /* светло-серый фон */
+    color: #1f2937; /* тёмно-серый текст */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===== Header ===== */
+header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 30px;
+
+    background-color: #1e3a8a; /* indigo */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px 24px;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+header a {
+    color: #e0e7ff; /* светлый indigo */
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+header p {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ===== Основной контейнер ===== */
+.userProfile {
+    margin-top: 40px;
+    width: 40%;
+    min-width: 320px;
+
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Роль пользователя ===== */
+.userRole {
+    align-self: flex-start;
+    padding: 6px 14px;
+    width: 100%;
+
+    background-color: #e0e7ff; /* светлый indigo */
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.userRole p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+/* ===== Блок аватар + имя ===== */
+.avatarAndUsername {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* ===== Аватар ===== */
+.avatarAndUsername img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 3px solid #3b82f6; /* blue */
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.35);
+
+    transition: transform 0.3s ease;
+}
+
+.avatarAndUsername img:hover {
+    transform: scale(1.05);
+}
+
+/* ===== Username ===== */
+.avatarAndUsername > p {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: #111827;
+}
+
+/* ===== Имя и email ===== */
+.nameAndEmail {
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f2937;
+    margin: 2px;
+}
+
+.userEmail {
+    font-size: 14px;
+    color: #6b7280; /* серый */
+    margin: 2px;
+}
+
+/* ===== Контейнер для всех событий ===== */
+.eventsBlock {
+    display: flex;
+    gap: 30px; /* расстояние между блоками */
+    margin-top: 40px;
+    justify-content: center;
+}
+
+/* ===== Блок «События, в которых я участвую» ===== */
+.participantsBlock,
+.organizedEventsBlock {
+    width: 400px; /* фиксированная ширина для каждого блока */
+}
+
+/* Заголовки блоков */
+.participantsBlock > p,
+.organizedEventsBlock > p {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #1e3a8a; /* indigo */
+}
+
+/* ===== Списки с прокруткой ===== */
+.participants,
+.organizedEvents {
+    max-height: 400px;     /* высота блока */
+    overflow-y: auto;      /* вертикальная прокрутка при переполнении */
+    padding-right: 6px;    /* чтобы scrollbar не налезал на контент */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;             /* расстояние между карточками */
+}
+
+/* ===== Карточки участников ===== */
+.participant,
+.organizedEvent {
+    background-color: #f1f5ff; /* светлый indigo фон */
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover-эффект карточек */
+.participant:hover,
+.organizedEvent:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(30, 58, 138, 0.18);
+}
+
+/* Текст внутри карточек */
+.participant p,
+.organizedEvent p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+/* Дополнительно для organizedEvent можно сделать немного другой фон */
+.organizedEvent {
+    background-color: #eef2ff;
+}
+
+/* ===== Кастомизация скролла (Chrome, Edge, Safari) ===== */
+.participants::-webkit-scrollbar,
+.organizedEvents::-webkit-scrollbar {
+    width: 8px;
+}
+
+.participants::-webkit-scrollbar-track,
+.organizedEvents::-webkit-scrollbar-track {
+    background: #e0e7ff;
+    border-radius: 10px;
+}
+
+.participants::-webkit-scrollbar-thumb,
+.organizedEvents::-webkit-scrollbar-thumb {
+    background-color: #3b82f6;
+    border-radius: 10px;
+}
+
+/* Firefox scrollbar */
+.participants,
+.organizedEvents {
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 #e0e7ff;
+}

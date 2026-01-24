@@ -1,0 +1,156 @@
+/* ====== Общие стили ====== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #F9FAFB; /* light gray */
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 80px;
+}
+
+/* ====== Header ====== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    background-color: #2563EB; /* blue */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px 24px;
+}
+
+header p {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+header a {
+    transition: all .4s ease;
+    color: #b6c5d1;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header a:hover {
+    color: white;
+    transition: all .4s ease;
+}
+
+/* ====== Контейнер событий ====== */
+#items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0 10px 10px;
+}
+
+/* ====== Карточка события ====== */
+#item {
+    transition: all .2s ease;
+    width: 50%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid #E5E7EB; /* border gray */
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#item:hover{
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all .2s ease;
+}
+
+/* ====== Заголовок и описание ====== */
+#title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827; /* dark gray */
+}
+
+#description {
+    font-size: 15px;
+    color: #6B7280; /* secondary text */
+    line-height: 1.5;
+}
+
+/* ====== Даты ====== */
+#dates {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+#created,
+#eventDate {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#created p:first-child,
+#eventDate p:first-child {
+    font-size: 13px;
+    color: #4F46E5; /* indigo */
+    font-weight: 500;
+}
+
+#created p:last-child,
+#eventDate p:last-child {
+    font-size: 14px;
+    color: #374151;
+}
+
+/* ====== Информация об организаторе ====== */
+#organizerInfo {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+
+#organizerInfo p:first-child {
+    color: #6B7280;
+    font-size: 14px;
+}
+
+#organizerInfo p:last-child {
+    color: #111827;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#iGo{
+    color: #7c76e3;
+    text-decoration: none;
+    transition: all .3s ease;
+    width: 65px;
+}
+
+#iGo:hover{
+    color: #4e46e6;
+    transition: all .3s ease;
+}

@@ -1,0 +1,12 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/event_scope_db
+    username: postgres
+    password: postgres
