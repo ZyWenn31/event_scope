@@ -1,0 +1,100 @@
+/* Общая разметка страницы */
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fb, #eef2ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #1e293b;
+}
+
+/* Основной блок регистрации */
+.registrationBlock {
+    width: 380px;
+    background-color: #ffffff;
+    padding: 32px 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Заголовок */
+.registrationBlock h2 {
+    margin: 0;
+    text-align: center;
+    color: #1e3a8a; /* Indigo */
+    font-size: 24px;
+}
+
+/* Форма */
+.registrationBlock form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Лейблы */
+.registrationBlock label {
+    font-size: 14px;
+    color: #475569; /* Gray */
+}
+
+/* Инпуты */
+.registrationBlock input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #c7d2fe; /* Light Indigo */
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.registrationBlock input:focus {
+    border-color: #4f46e5; /* Indigo */
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* Кнопка */
+.registrationBlock button {
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background-color: #4f46e5; /* Indigo */
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.registrationBlock button:hover {
+    background-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
+}
+
+/* Ссылка "Войти" */
+.registrationBlock a {
+    margin-top: 6px;
+    text-align: center;
+    text-decoration: none;
+    color: #2563eb; /* Blue */
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.registrationBlock a:hover {
+    color: #1e40af;
+    text-decoration: underline;
+}
+
+/* Ошибки валидации */
+.registrationBlock div[style*="color: red"] {
+    font-size: 12px;
+    margin-top: -6px;
+}

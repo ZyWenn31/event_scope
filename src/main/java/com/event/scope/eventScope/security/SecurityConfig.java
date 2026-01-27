@@ -31,7 +31,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // публичные страницы
-                        .requestMatchers("/", "/event", "/login", "/register", "/css/**", "/go").permitAll()
+                        .requestMatchers("/", "/event", "/login", "/register", "/css/**", "/go", "/registration").permitAll()
 
                         // только авторизованные пользователи
                         .requestMatchers("/userProfile/**").permitAll()
@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")              // кастомная страница
                         .loginProcessingUrl("/login")     // куда отправляется POST
-                        .defaultSuccessUrl("/event", false)
+                        .defaultSuccessUrl("/event", true)
                         .failureUrl("/login?error")
                         .permitAll()
                 )

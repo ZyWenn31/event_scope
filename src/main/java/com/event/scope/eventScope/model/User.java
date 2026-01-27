@@ -1,6 +1,8 @@
 package com.event.scope.eventScope.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,8 +16,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 5, max = 25, message = "Имя должно быть от 5 до 25 символов")
     private String username;
 
+    @Size(min = 6, message = "Пароль должен быть от 6 до 30 символов")
     private String password;
 
     private String role = "USER";
