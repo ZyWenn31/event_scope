@@ -23,7 +23,9 @@ public class Event {
 
     private LocalDateTime createdAt;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private EventStatus status;
+
 
     private Integer rating;
 
@@ -85,11 +87,11 @@ public class Event {
         this.createdAt = createdAt;
     }
 
-    public String getStatus() {
+    public EventStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(EventStatus status) {
         this.status = status;
     }
 
