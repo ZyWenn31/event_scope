@@ -38,8 +38,8 @@
             <div th:if="${!participationsIsNull}" class="participants">
                 <div class="participant" th:each="participant : ${userParticipantEvents}">
                     <p th:text="${participant.getEvent().getTitle()}"/>
-                    <p th:text="${participant.getEvent().getStatus()}"/>
-                    <p th:text="${participant.getEvent().getEventDate()}"/>
+                    <p th:text="${participant.event.status.displayName}"></p>
+                    <p th:text="${#temporals.format(participant.event.createdAt, 'dd.MM.yyyy HH:mm')}"></p>
                     <p th:text="${participant.getEvent().getOrganizer().getName()}"/>
                 </div>
             </div>
@@ -51,9 +51,9 @@
                 <div th:each="event : ${organizedEvents}" class="organizedEvent">
                     <p th:text="${event.getTitle()}"/>
                     <p th:text="${event.getDescription()}"/>
-                    <p th:text="${event.getStatus()}"/>
+                    <p th:text="${event.status.displayName}"></p>
                     <p th:text="${event.getRating()}"/>
-                    <p th:text="${event.getEventDate()}"/>
+                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}"></p>
                 </div>
             </div>
         </div>

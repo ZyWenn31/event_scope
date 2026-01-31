@@ -154,3 +154,112 @@ header a:hover {
     color: #4e46e6;
     transition: all .3s ease;
 }
+
+/* ===== Кнопка "Я пойду" ===== */
+.go-btn {
+    background-color: #3b82f6; /* blue-500 */
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+            background-color 0.2s ease,
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
+}
+
+/* Hover */
+.go-btn:hover {
+    background-color: #2563eb; /* blue-600 */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+/* Active (нажатие) */
+.go-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+/* Focus (доступность) */
+.go-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* ===== Текст "✔ Иду" ===== */
+.going-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #16a34a; /* green-600 */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.participation-btn {
+    background-color: #3b82f6; /* синий */
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.participation-btn:hover {
+    background-color: #2563eb; /* синий темнее */
+    transform: translateY(-1px);
+}
+
+.participation-btn:active {
+    transform: translateY(0);
+}
+
+/* Контейнер для кнопки и спана "Иду" */
+.participation-container {
+    display: flex;
+    align-items: center;         /* выравниваем по центру по вертикали */
+    justify-content: space-between; /* кнопка слева, спан справа */
+    gap: 10px;
+    margin-top: 8px;
+}
+
+/* Кнопка */
+.participation-btn {
+    flex-shrink: 0;              /* кнопка не сжимается */
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Цвета кнопки в зависимости от состояния */
+.participation-btn.join {
+    background-color: #3b82f6; /* синий */
+}
+
+.participation-btn.leave {
+    background-color: #ef4444; /* красный */
+}
+
+.participation-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Спан "Иду" */
+.going-label {
+    font-weight: 600;
+    color: #10b981;  /* зеленый */
+}
+
+
+
+

@@ -220,3 +220,49 @@ header p {
     scrollbar-width: thin;
     scrollbar-color: #3b82f6 #e0e7ff;
 }
+
+/* ===== Заголовок события (1-й <p>) ===== */
+.participant p:nth-child(1),
+.organizedEvent p:nth-child(1) {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a8a; /* indigo */
+    margin-bottom: 6px;
+}
+
+/* ===== Статус события (2-й <p>) ===== */
+.participant p:nth-child(2),
+.organizedEvent p:nth-child(3) {
+    display: inline-block;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e40af;
+    background-color: #dbeafe;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 6px;
+}
+
+/* ===== Дата / время ===== */
+.participant p:nth-child(3),
+.organizedEvent p:nth-child(5) {
+    font-size: 13px;
+    color: #64748b; /* gray */
+    font-style: italic;
+}
+
+/* ===== Организатор / описание ===== */
+.participant p:nth-child(4),
+.organizedEvent p:nth-child(2) {
+    font-size: 13px;
+    color: #374151;
+}
+
+/* ===== Рейтинг (organizedEvent) ===== */
+.organizedEvent p:nth-child(4) {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f766e;
+}
+

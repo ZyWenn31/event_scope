@@ -21,12 +21,12 @@
             <div id="dates">
                 <div id="created">
                     <p>Создан: </p>
-                    <p th:text="${event.getCreatedAt()}"/>
+                    <p th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}"></p>
                 </div>
 
                 <div id="eventDate">
                     <p>Запланирован на: </p>
-                    <p th:text="${event.getEventDate()}"/>
+                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}"></p>
                 </div>
             </div>
 
@@ -35,9 +35,61 @@
                 <p th:text="${event.getOrganizer().getName()}"/>
             </div>
 
-            <a th:if="${isAuth}" id="iGo" th:href="@{/go(eventId=${event.getId()}, userId=${userId})}">Я пойду</a>
+            <div th:if="${isAuth}" class="participation-container">
+                <button
+                        class="participation-btn"
+                        th:attr="data-event-id=${event.id}"
+                        th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
+                </button>
 
+                <span class="status-label" style="display:none;">✔ Иду</span>
+            </div>
         </div>
     </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".participation-btn").forEach(button => {
+
+            // Создаем спан "Иду" рядом с кнопкой, если его нет
+            let goingLabel = button.nextElementSibling;
+            if (!goingLabel || !goingLabel.classList.contains("going-label")) {
+                goingLabel = document.createElement("span");
+                goingLabel.classList.add("going-label");
+                goingLabel.style.display = "none";
+                goingLabel.textContent = "✔ Иду";
+                button.insertAdjacentElement("afterend", goingLabel);
+            }
+
+            // Изначально окрашиваем кнопку в зависимости от текста
+            button.style.backgroundColor = button.textContent.includes("Отменить") ? "#ef4444" : "#3b82f6";
+
+            button.addEventListener("click", async () => {
+                const eventId = button.dataset.eventId;
+                const action = button.textContent.includes("Я пойду") ? "join" : "leave";
+                const url = `/${action}?eventId=${eventId}`;
+
+                const response = await fetch(url, { method: "POST" });
+
+                if (response.ok) {
+                    if (action === "join") {
+                        button.textContent = "Отменить участие";
+                        button.style.backgroundColor = "#ef4444"; // красный
+                        goingLabel.style.display = "inline";      // показываем спан "Иду"
+                    } else {
+                        button.textContent = "Я пойду";
+                        button.style.backgroundColor = "#3b82f6"; // синий
+                        goingLabel.style.display = "none";        // скрываем спан
+                    }
+                } else {
+                    alert("Ошибка при обновлении участия!");
+                }
+            });
+        });
+    });
+</script>
+
+
+
