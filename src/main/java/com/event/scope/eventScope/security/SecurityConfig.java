@@ -31,7 +31,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // публичные страницы
-                        .requestMatchers("/", "/event", "/login", "/register", "/css/**", "/go", "/registration").permitAll()
+                        .requestMatchers("/", "/event", "/login", "/register", "/css/**", "/go", "/registration", "/wish").permitAll()
 
                         // только авторизованные пользователи
                         .requestMatchers("/userProfile/**").permitAll()

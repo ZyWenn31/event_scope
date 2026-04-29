@@ -1,6 +1,7 @@
 package com.event.scope.eventScope.service;
 
 import com.event.scope.eventScope.model.Event;
+import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class EventService {
     }
 
     public Event save(Event event) {
+        if (event == null) {
+            throw new NullPointerException("Event is null");
+        }
         return eventRepository.save(event);
     }
 
@@ -54,7 +58,7 @@ public class EventService {
         return eventRepository.save(existing);
     }
 
-    public List<Event> findAllByStatus(String status) {
+    public List<Event> findAllByStatus(EventStatus status) {
         return eventRepository.findAllByStatus(status);
     }
 }

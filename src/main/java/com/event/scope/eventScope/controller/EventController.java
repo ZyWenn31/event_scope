@@ -2,6 +2,7 @@ package com.event.scope.eventScope.controller;
 
 
 import com.event.scope.eventScope.model.Event;
+import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.service.EventParticipantService;
 import com.event.scope.eventScope.service.EventService;
 import com.event.scope.eventScope.service.UserService;
@@ -11,10 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/event")
@@ -32,14 +30,21 @@ public class EventController {
 
     @GetMapping
     public String getAllEvents(Model model, Principal principal) {
-        List<Event> events = eventService.findAll();
+        List<Event> events = eventService.findAllByStatus(EventStatus.PLANNED);
         model.addAttribute("events", events);
         model.addAttribute("isAuth", principal != null);
 
 
         if (principal != null){
-            model.addAttribute("userEventIds", eventParticipantService.getUserParticipantsEvent(userService.findByUsername(principal.getName())));
-            model.addAttribute("userId", userService.findByUsername(principal.getName()).getId());
+            model.addAttribute("userEventIds",
+                    eventParticipantService
+                            .getUserParticipantsEvent(userService
+                                    .findByUsername(principal.getName())));
+
+
+            model.addAttribute("userId",
+                    userService
+                            .findByUsername(principal.getName()).getId());
         }
         else
             model.addAttribute("userId", -1);

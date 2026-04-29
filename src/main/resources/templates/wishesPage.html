@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пожелания пользователей</title>
+    <link rel="stylesheet" href="/css/wishesPage.css">
+</head>
+
+<header>
+    <p>Event scope</p>
+
+    <div class="header-links">
+        <a href="/event">К мероприятиям</a>
+
+        <a th:if="${isAuth}" href="/wish/create">
+            Добавить пожелание
+        </a>
+
+        <a th:if="${isAuth}" href="/userProfile">
+            Личный кабинет
+        </a>
+
+        <a th:if="${!isAuth}" href="/login">
+            Вход
+        </a>
+    </div>
+</header>
+
+<body>
+
+<div class="filters">
+
+    <form method="get" action="/wish">
+
+        <div class="filter-block">
+
+            <label>Тег</label>
+
+            <select name="tagId">
+                <option value="">Все теги</option>
+
+                <option
+                        th:each="tag : ${tags}"
+                        th:value="${tag.id}"
+                        th:text="${tag.name}"
+                        th:selected="${selectedTagId != null && selectedTagId == tag.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-block">
+
+            <label>Дата создания</label>
+
+            <input
+                    type="date"
+                    name="createdDate"
+                    th:value="${selectedDate}">
+        </div>
+
+        <button type="submit">
+            Применить
+        </button>
+
+    </form>
+</div>
+
+<div id="wishItems">
+
+    <div class="wishItem" th:each="wish : ${wishes}">
+
+        <p class="wishTitle"
+           th:text="${wish.title}">
+        </p>
+
+        <p class="wishDescription"
+           th:text="${wish.description}">
+        </p>
+
+        <div class="wishDate">
+
+            <p>Создано:</p>
+
+            <p th:text="${#temporals.format(wish.createdAt, 'dd.MM.yyyy HH:mm')}">
+            </p>
+        </div>
+
+        <div class="wishAuthor">
+
+            <p>Пользователь:</p>
+
+            <p th:text="${wish.user.name}">
+            </p>
+        </div>
+
+        <div class="wishTags">
+
+                <span class="tag"
+                      th:each="tag : ${wish.tags}"
+                      th:text="${tag.name}">
+                </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

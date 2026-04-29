@@ -25,7 +25,9 @@ public class UserRegistrationValidator implements Validator {
         User user = (User) target;
 
         if (userRegistrationService.findByUsername(user.getUsername()).isPresent()) {
-            errors.rejectValue("username", "", "Пользователь с таким именем уже существует");
+            errors.rejectValue("username",
+                    "",
+                    "Пользователь с таким именем уже существует");
         }
     }
 }

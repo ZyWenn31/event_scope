@@ -260,6 +260,12 @@ header a:hover {
     color: #10b981;  /* зеленый */
 }
 
+.rightHrevs{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 
 
 

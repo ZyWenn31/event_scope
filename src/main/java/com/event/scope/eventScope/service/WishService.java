@@ -5,6 +5,9 @@ import com.event.scope.eventScope.repository.WishRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -47,5 +50,32 @@ public class WishService {
         existing.setTitle(wish.getTitle());
 
         return wishRepository.save(existing);
+    }
+
+
+    public List<Wish> findAllFiltered(Long tagId, LocalDate createdDate) {
+
+        boolean hasTag = tagId != null;
+        boolean hasDate = createdDate != null;
+
+        if (!hasTag && !hasDate) {
+            return wishRepository.findAll();
+        }
+
+        if (hasTag && !hasDate) {
+            return wishRepository.findAllByTags_Id(tagId);
+        }
+
+        LocalDateTime start =
+                createdDate.atStartOfDay();
+
+        LocalDateTime end =
+                createdDate.atTime(LocalTime.MAX);
+
+        if (!hasTag) {
+            return wishRepository.findAllByCreatedAtBetween(start, end);
+        }
+
+        return wishRepository.findAllByTags_IdAndCreatedAtBetween(tagId, start, end);
     }
 }
