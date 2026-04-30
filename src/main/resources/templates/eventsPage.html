@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>EventScope</title>
     <link rel="stylesheet" href="/css/eventsPage.css">
 </head>
 
@@ -10,91 +10,215 @@
     <p>Event scope</p>
 
     <div class="rightHrevs">
-        <a th:if="${!isAuth}" href="/userProfile">Вход</a>
-        <a  href="/wish">К пожеланиям</a>
+        <a th:if="${!isAuth}" href="/login">Вход</a>
+        <a href="/wish">К пожеланиям</a>
         <a th:if="${isAuth}" href="/userProfile">Личный кабинет</a>
     </div>
-
 </header>
 
 <body>
-    <div id="items" >
+
+<div class="page-layout">
+
+    <!-- ===== События ===== -->
+    <div id="items">
+
         <div id="item" th:each="event : ${events}">
-            <p id="title" th:text="${event.getTitle()}"/>
-            <p id="description" th:text="${event.getDescription()}"/>
+
+            <p id="title"
+               th:text="${event.title}">
+            </p>
+
+            <p id="description"
+               th:text="${event.description}">
+            </p>
 
             <div id="dates">
+
                 <div id="created">
-                    <p>Создан: </p>
-                    <p th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}"></p>
+                    <p>Создан:</p>
+
+                    <p th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}">
+                    </p>
                 </div>
 
                 <div id="eventDate">
-                    <p>Запланирован на: </p>
-                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}"></p>
+                    <p>Запланирован на:</p>
+
+                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                    </p>
                 </div>
+
             </div>
 
             <div id="organizerInfo">
-                <p>Организатор: </p>
-                <p th:text="${event.getOrganizer().getName()}"/>
+
+                <p>Организатор:</p>
+
+                <p th:text="${event.organizer.name}">
+                </p>
+
             </div>
 
-            <div th:if="${isAuth}" class="participation-container">
+            <!-- ===== Теги ===== -->
+            <div class="event-tags">
+
+                <span class="event-tag"
+                      th:each="tag : ${event.tags}"
+                      th:text="${tag.name}">
+                </span>
+
+            </div>
+
+            <!-- ===== Кнопка участия ===== -->
+            <div th:if="${isAuth}"
+                 class="participation-container">
+
                 <button
                         class="participation-btn"
                         th:attr="data-event-id=${event.id}"
                         th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
                 </button>
 
-                <span class="status-label" style="display:none;">✔ Иду</span>
+                <span class="going-label"
+                      th:style="${userEventIds.contains(event.id)} ? 'display:inline-flex' : 'display:none'">
+                    ✔ Иду
+                </span>
+
             </div>
+
         </div>
+
     </div>
+
+    <!-- ===== Фильтры ===== -->
+    <aside class="filters">
+
+        <form method="get" action="/event">
+
+            <!-- ===== Поиск ===== -->
+            <div class="search-block">
+
+                <input type="text"
+                       name="title"
+                       placeholder="Поиск..."
+                       th:value="${title}">
+
+                <button type="submit">
+                    Поиск
+                </button>
+
+            </div>
+
+            <!-- ===== Фильтры ===== -->
+            <div class="filter-checkboxes">
+
+                <label class="checkbox-item">
+
+                    <input type="checkbox"
+                           name="onlyFuture"
+                           value="true"
+                           th:checked="${onlyFuture}">
+
+                    <span>Только будущие</span>
+
+                </label>
+
+                <label class="checkbox-item" th:if="${isAuth}">
+
+                    <input type="checkbox"
+                           name="onlyMyParticipantEvents"
+                           value="true"
+                           th:checked="${onlyMyParticipantEvents}">
+
+                    <span>Только моё участие</span>
+
+                </label>
+
+            </div>
+
+            <!-- ===== Теги ===== -->
+            <div class="tags-filter">
+
+                <label class="tag-filter-item"
+                       th:each="tag : ${tags}">
+
+                    <input type="checkbox"
+                           name="tagIds"
+                           th:value="${tag.id}"
+                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}">
+
+                    <span th:text="${tag.name}">
+                    </span>
+
+                </label>
+
+            </div>
+
+        </form>
+
+    </aside>
+
+</div>
+
 </body>
 </html>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".participation-btn").forEach(button => {
 
-            // Создаем спан "Иду" рядом с кнопкой, если его нет
-            let goingLabel = button.nextElementSibling;
-            if (!goingLabel || !goingLabel.classList.contains("going-label")) {
-                goingLabel = document.createElement("span");
-                goingLabel.classList.add("going-label");
-                goingLabel.style.display = "none";
-                goingLabel.textContent = "✔ Иду";
-                button.insertAdjacentElement("afterend", goingLabel);
-            }
+        document.querySelectorAll(".participation-btn")
+            .forEach(button => {
 
-            // Изначально окрашиваем кнопку в зависимости от текста
-            button.style.backgroundColor = button.textContent.includes("Отменить") ? "#ef4444" : "#3b82f6";
+                const label = button.nextElementSibling;
 
-            button.addEventListener("click", async () => {
-                const eventId = button.dataset.eventId;
-                const action = button.textContent.includes("Я пойду") ? "join" : "leave";
-                const url = `/${action}?eventId=${eventId}`;
+                button.style.backgroundColor =
+                    button.textContent.includes("Отменить")
+                        ? "#ef4444"
+                        : "#3b82f6";
 
-                const response = await fetch(url, { method: "POST" });
+                button.addEventListener("click", async () => {
 
-                if (response.ok) {
-                    if (action === "join") {
-                        button.textContent = "Отменить участие";
-                        button.style.backgroundColor = "#ef4444"; // красный
-                        goingLabel.style.display = "inline";      // показываем спан "Иду"
-                    } else {
-                        button.textContent = "Я пойду";
-                        button.style.backgroundColor = "#3b82f6"; // синий
-                        goingLabel.style.display = "none";        // скрываем спан
+                    const eventId = button.dataset.eventId;
+
+                    const action =
+                        button.textContent.includes("Я пойду")
+                            ? "join"
+                            : "leave";
+
+                    const response = await fetch(
+                        `/${action}?eventId=${eventId}`,
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                    if (response.ok) {
+
+                        if (action === "join") {
+
+                            button.textContent =
+                                "Отменить участие";
+
+                            button.style.backgroundColor =
+                                "#ef4444";
+
+                            label.style.display =
+                                "inline-flex";
+
+                        } else {
+
+                            button.textContent =
+                                "Я пойду";
+
+                            button.style.backgroundColor =
+                                "#3b82f6";
+
+                            label.style.display =
+                                "none";
+                        }
                     }
-                } else {
-                    alert("Ошибка при обновлении участия!");
-                }
+                });
             });
-        });
     });
 </script>
-
-
-

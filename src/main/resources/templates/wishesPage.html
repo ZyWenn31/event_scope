@@ -10,11 +10,13 @@
     <p>Event scope</p>
 
     <div class="header-links">
-        <a href="/event">К мероприятиям</a>
+
 
         <a th:if="${isAuth}" href="/wish/create">
             Добавить пожелание
         </a>
+
+        <a href="/event">К мероприятиям</a>
 
         <a th:if="${isAuth}" href="/userProfile">
             Личный кабинет

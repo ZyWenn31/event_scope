@@ -6,6 +6,7 @@ import com.event.scope.eventScope.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -60,5 +61,59 @@ public class EventService {
 
     public List<Event> findAllByStatus(EventStatus status) {
         return eventRepository.findAllByStatus(status);
+    }
+
+    public List<Event> findFiltered(
+            String title,
+            Boolean onlyFuture,
+            Boolean onlyMyParticipantEvents,
+            List<Long> tagIds
+    ) {
+
+        List<Event> events =
+                eventRepository.findAllByStatus(
+                        EventStatus.PLANNED
+                );
+
+        if (title != null && !title.isBlank()) {
+
+            events = events.stream()
+
+                    .filter(event ->
+                            event.getTitle()
+                                    .toLowerCase()
+                                    .contains(title.toLowerCase()))
+
+                    .toList();
+        }
+
+        if (onlyFuture != null && onlyFuture) {
+
+            events = events.stream()
+
+                    .filter(event ->
+                            event.getEventDate()
+                                    .isAfter(LocalDateTime.now()))
+
+                    .toList();
+        }
+
+        if (tagIds != null && !tagIds.isEmpty()) {
+
+            events = events.stream()
+
+                    .filter(event ->
+
+                            event.getTags()
+                                    .stream()
+
+                                    .anyMatch(tag ->
+                                            tagIds.contains(tag.getId()))
+                    )
+
+                    .toList();
+        }
+
+        return events;
     }
 }
