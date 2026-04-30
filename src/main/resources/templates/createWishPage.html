@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Создание пожелания</title>
+
+    <link rel="stylesheet"
+          href="/css/createWishPage.css">
+</head>
+
+<header>
+
+    <p>Event scope</p>
+
+    <div class="header-links">
+
+        <a href="/event">
+            К мероприятиям
+        </a>
+
+        <a href="/wish">
+            К пожеланиям
+        </a>
+
+        <a href="/userProfile">
+            Личный кабинет
+        </a>
+
+    </div>
+
+</header>
+
+<body>
+
+<div class="create-container">
+
+    <form th:action="@{/wish/create}"
+          method="post"
+          th:object="${wish}">
+
+        <h1>
+            Опишите мероприятие, на которое вы хотели бы попасть
+        </h1>
+
+        <!-- ===== Название ===== -->
+        <div class="input-block">
+
+            <label>
+                Название
+            </label>
+
+            <input type="text"
+                   th:field="*{title}"
+                   placeholder="Введите примерное название мероприятия">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('title')}"
+               th:errors="*{title}">
+            </p>
+
+        </div>
+
+        <!-- ===== Описание ===== -->
+        <div class="input-block">
+
+            <label>
+                Описание
+            </label>
+
+            <textarea th:field="*{description}"
+                      placeholder="Опишите мероприятие, которое хотели бы посетить"></textarea>
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}">
+            </p>
+
+        </div>
+
+        <!-- ===== Теги ===== -->
+        <div class="tags-section">
+
+            <p class="tags-title">
+                Теги
+            </p>
+
+            <div class="tags-container">
+
+                <label class="tag-item"
+                       th:each="tag : ${tags}">
+
+                    <input type="checkbox"
+                           name="tagIds"
+                           th:value="${tag.id}">
+
+                    <span th:text="${tag.name}">
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Кнопка ===== -->
+        <button type="submit"
+                class="submit-btn">
+
+            Опубликовать
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,30 +1,37 @@
 package com.event.scope.eventScope.controller;
 
 import com.event.scope.eventScope.model.Tag;
+import com.event.scope.eventScope.model.User;
 import com.event.scope.eventScope.model.Wish;
 import com.event.scope.eventScope.service.TagService;
+import com.event.scope.eventScope.service.UserService;
 import com.event.scope.eventScope.service.WishService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/wish")
 public class WishController {
     private final WishService wishService;
     private final TagService tagService;
+    private final UserService userService;
 
     public WishController(WishService wishService,
-                          TagService tagService) {
+                          TagService tagService, UserService userService) {
 
         this.wishService = wishService;
         this.tagService = tagService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -49,5 +56,64 @@ public class WishController {
         model.addAttribute("isAuth", principal != null);
 
         return "wishesPage";
+    }
+
+    @GetMapping("/create")
+    public String createWishPage(Model model) {
+
+        model.addAttribute("wish",
+                new Wish());
+
+        model.addAttribute("tags",
+                tagService.findAll());
+
+        return "createWishPage";
+    }
+
+
+    @PostMapping("/create")
+    public String createWish(
+            @Valid @ModelAttribute("wish") Wish wish,
+            BindingResult bindingResult,
+            @RequestParam(required = false)
+            List<Long> tagIds,
+            Principal principal,
+            Model model
+    ) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute(
+                    "tags",
+                    tagService.findAll()
+            );
+
+            return "createWishPage";
+        }
+
+        User user =
+                userService.findByUsername(
+                        principal.getName()
+                );
+
+        wish.setUser(user);
+
+        wish.setCreatedAt(
+                LocalDateTime.now()
+        );
+
+        Set<Tag> tags = new HashSet<>();
+
+        if (tagIds != null) {
+
+            tags = tagService
+                    .findAllByIds(tagIds);
+        }
+
+        wish.setTags(tags);
+
+        wishService.save(wish);
+
+        return "redirect:/wish";
     }
 }

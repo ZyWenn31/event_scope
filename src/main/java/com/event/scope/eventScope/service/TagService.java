@@ -6,7 +6,9 @@ import com.event.scope.eventScope.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TagService {
@@ -45,5 +47,12 @@ public class TagService {
 
         return tagRepository.save(existing);
 
+    }
+
+    public Set<Tag> findAllByIds(List<Long> ids) {
+
+        return new HashSet<>(
+                tagRepository.findAllById(ids)
+        );
     }
 }

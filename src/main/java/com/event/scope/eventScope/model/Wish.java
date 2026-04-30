@@ -1,6 +1,9 @@
 package com.event.scope.eventScope.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -12,8 +15,10 @@ public class Wish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Название должно быть заполнено")
     private String title;
 
+    @NotBlank(message = "Описание должно быть заполнено")
     private String description;
 
     private LocalDateTime createdAt;
