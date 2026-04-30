@@ -42,12 +42,17 @@ public class EventController {
             Principal principal
     ) {
 
+        Long myId = userService.findByUsername(
+                principal.getName()
+        ).getId();
+
         List<Event> events =
                 eventService.findFiltered(
                         title,
                         onlyFuture,
                         onlyMyParticipantEvents,
-                        tagIds
+                        tagIds,
+                        myId
                 );
 
         model.addAttribute("events", events);
@@ -85,14 +90,14 @@ public class EventController {
             model.addAttribute(
                     "userId",
 
-                    userService.findByUsername(
-                            principal.getName()
-                    ).getId()
+                    myId
             );
         }
         else {
             model.addAttribute("userId", -1);
         }
+
+        model.addAttribute("username", principal.getName());
 
         return "eventsPage";
     }

@@ -1,268 +1,389 @@
-/* ===== Общие стили ===== */
-body {
+*{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+
     font-family: "Segoe UI", Arial, sans-serif;
-    background-color: #f5f7fb; /* светло-серый фон */
-    color: #1f2937; /* тёмно-серый текст */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* ===== Header ===== */
-header {
-    position: sticky;
+body{
+    height: 100vh;
+    overflow: hidden;
+
+    background-color: #F3F4F6;
+
+    padding-top: 85px;
+}
+
+/* ===== HEADER ===== */
+
+header{
+    position: fixed;
+
     top: 0;
+    left: 0;
+
     width: 100%;
-    height: 30px;
 
-    background-color: #1e3a8a; /* indigo */
+    z-index: 1000;
+
+    background-color: #2563EB;
+
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    z-index: 100;
+    padding: 20px 40px;
 }
 
-header a {
-    color: #e0e7ff; /* светлый indigo */
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-}
+header p{
+    color: white;
 
-header a:hover {
-    text-decoration: underline;
-}
-
-header p {
-    color: #FFFFFF;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
 }
 
-/* ===== Основной контейнер ===== */
-.userProfile {
-    margin-top: 40px;
-    width: 40%;
-    min-width: 320px;
+.header-links{
+    display: flex;
+    gap: 22px;
+}
 
-    background-color: #ffffff;
-    border-radius: 20px;
-    padding: 30px;
+.header-links a{
+    color: #DBEAFE;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    transition: .2s ease;
+}
+
+.header-links a:hover{
+    color: white;
+}
+
+/* ===== ОСНОВНОЙ LAYOUT ===== */
+
+.profile-layout{
+    height: calc(100vh - 85px);
+
+    display: flex;
+
+    gap: 24px;
+
+    padding: 24px;
+}
+
+/* ===== ЛЕВАЯ ЧАСТЬ ===== */
+
+.profile-sidebar{
+    width: 360px;
 
     display: flex;
     flex-direction: column;
-    gap: 25px;
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    gap: 20px;
 }
 
-/* ===== Роль пользователя ===== */
-.userRole {
-    align-self: flex-start;
-    padding: 6px 14px;
-    width: 100%;
+.profile-card,
+.rating-card{
+    background-color: white;
 
-    background-color: #e0e7ff; /* светлый indigo */
-    border-radius: 12px;
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== РОЛЬ ===== */
+
+.user-role{
+    width: fit-content;
+
+    background-color: #DBEAFE;
+
+    color: #2563EB;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ===== АВАТАР ===== */
+
+.avatar-block{
+    margin-top: 22px;
+
     display: flex;
     justify-content: center;
 }
 
-.userRole p {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #1e3a8a;
-}
+.avatar-block img{
+    width: 140px;
+    height: 140px;
 
-/* ===== Блок аватар + имя ===== */
-.avatarAndUsername {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-/* ===== Аватар ===== */
-.avatarAndUsername img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
     object-fit: cover;
 
-    border: 3px solid #3b82f6; /* blue */
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.35);
+    border-radius: 50%;
 
-    transition: transform 0.3s ease;
+    border: 4px solid #2563EB;
 }
 
-.avatarAndUsername img:hover {
-    transform: scale(1.05);
+/* ===== ИНФОРМАЦИЯ ===== */
+
+.user-main-info{
+    margin-top: 22px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
 }
 
-/* ===== Username ===== */
-.avatarAndUsername > p {
-    font-size: 22px;
-    font-weight: 600;
-    margin: 0;
+.username{
+    font-size: 24px;
+    font-weight: 700;
+
     color: #111827;
 }
 
-/* ===== Имя и email ===== */
-.nameAndEmail {
+.organizer-info{
     display: flex;
     flex-direction: column;
+
+    gap: 6px;
+
+    align-items: center;
 }
 
-.userName {
+.real-name{
+    color: #374151;
+
     font-size: 16px;
-    font-weight: 500;
-    color: #1f2937;
-    margin: 2px;
 }
 
-.userEmail {
+.email{
+    color: #6B7280;
+
     font-size: 14px;
-    color: #6b7280; /* серый */
-    margin: 2px;
 }
 
-/* ===== Контейнер для всех событий ===== */
-.eventsBlock {
-    display: flex;
-    gap: 30px; /* расстояние между блоками */
-    margin-top: 40px;
-    justify-content: center;
-}
+/* ===== РЕЙТИНГ ===== */
 
-/* ===== Блок «События, в которых я участвую» ===== */
-.participantsBlock,
-.organizedEventsBlock {
-    width: 400px; /* фиксированная ширина для каждого блока */
-}
-
-/* Заголовки блоков */
-.participantsBlock > p,
-.organizedEventsBlock > p {
+.block-title{
     font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #1e3a8a; /* indigo */
+    font-weight: 700;
+
+    color: #111827;
 }
 
-/* ===== Списки с прокруткой ===== */
-.participants,
-.organizedEvents {
-    max-height: 400px;     /* высота блока */
-    overflow-y: auto;      /* вертикальная прокрутка при переполнении */
-    padding-right: 6px;    /* чтобы scrollbar не налезал на контент */
+.rating-value{
+    margin-top: 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+.rating-value span{
+    font-size: 42px;
+    font-weight: 700;
+
+    color: #2563EB;
+}
+
+.rating-value p{
+    color: #6B7280;
+}
+
+/* ===== ОТЗЫВЫ ===== */
+
+.reviews-block{
+    margin-top: 24px;
+}
+
+.reviews-title{
+    font-size: 15px;
+    font-weight: 600;
+
+    margin-bottom: 12px;
+}
+
+.reviews-list{
+    max-height: 260px;
+
+    overflow-y: auto;
+
     display: flex;
     flex-direction: column;
-    gap: 12px;             /* расстояние между карточками */
+
+    gap: 12px;
 }
 
-/* ===== Карточки участников ===== */
-.participant,
-.organizedEvent {
-    background-color: #f1f5ff; /* светлый indigo фон */
+.review-item{
+    background-color: #F9FAFB;
+
     border-radius: 14px;
-    padding: 14px 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    padding: 14px;
 }
 
-/* Hover-эффект карточек */
-.participant:hover,
-.organizedEvent:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(30, 58, 138, 0.18);
+.review-header{
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 8px;
 }
 
-/* Текст внутри карточек */
-.participant p,
-.organizedEvent p {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #1f2937;
+.review-header p{
+    font-weight: 600;
 }
 
-/* Дополнительно для organizedEvent можно сделать немного другой фон */
-.organizedEvent {
-    background-color: #eef2ff;
-}
+.review-header span{
+    color: #F59E0B;
 
-/* ===== Кастомизация скролла (Chrome, Edge, Safari) ===== */
-.participants::-webkit-scrollbar,
-.organizedEvents::-webkit-scrollbar {
-    width: 8px;
-}
-
-.participants::-webkit-scrollbar-track,
-.organizedEvents::-webkit-scrollbar-track {
-    background: #e0e7ff;
-    border-radius: 10px;
-}
-
-.participants::-webkit-scrollbar-thumb,
-.organizedEvents::-webkit-scrollbar-thumb {
-    background-color: #3b82f6;
-    border-radius: 10px;
-}
-
-/* Firefox scrollbar */
-.participants,
-.organizedEvents {
-    scrollbar-width: thin;
-    scrollbar-color: #3b82f6 #e0e7ff;
-}
-
-/* ===== Заголовок события (1-й <p>) ===== */
-.participant p:nth-child(1),
-.organizedEvent p:nth-child(1) {
-    font-size: 16px;
     font-weight: 700;
-    color: #1e3a8a; /* indigo */
-    margin-bottom: 6px;
 }
 
-/* ===== Статус события (2-й <p>) ===== */
-.participant p:nth-child(2),
-.organizedEvent p:nth-child(3) {
-    display: inline-block;
+.review-comment{
+    color: #4B5563;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+/* ===== ПРАВАЯ ЧАСТЬ ===== */
+
+.events-section{
+    flex: 1;
+
+    display: flex;
+
+    gap: 24px;
+}
+
+/* ===== КОЛОНКА ===== */
+
+.events-column{
+    flex: 1;
+
+    background-color: white;
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.events-title{
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 18px;
+}
+
+/* ===== ПРОКРУТКА ===== */
+
+.events-scroll{
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding-right: 6px;
+}
+
+/* ===== КАРТОЧКА ===== */
+
+.event-card{
+    background-color: #F9FAFB;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    transition: .2s ease;
+}
+
+.event-card:hover{
+    transform: translateY(-2px);
+
+    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+.event-title{
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.event-description{
+    color: #6B7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.event-status p{
     width: fit-content;
+
+    background-color: #DBEAFE;
+
+    color: #2563EB;
+
+    padding: 5px 12px;
+
+    border-radius: 999px;
+
     font-size: 12px;
     font-weight: 600;
-    color: #1e40af;
-    background-color: #dbeafe;
-    padding: 2px 8px;
-    border-radius: 999px;
-    margin-bottom: 6px;
 }
 
-/* ===== Дата / время ===== */
-.participant p:nth-child(3),
-.organizedEvent p:nth-child(5) {
-    font-size: 13px;
-    color: #64748b; /* gray */
-    font-style: italic;
+.event-date,
+.event-organizer,
+.event-rating{
+    display: flex;
+
+    gap: 6px;
+
+    font-size: 14px;
 }
 
-/* ===== Организатор / описание ===== */
-.participant p:nth-child(4),
-.organizedEvent p:nth-child(2) {
-    font-size: 13px;
-    color: #374151;
+.event-date p:first-child,
+.event-organizer p:first-child,
+.event-rating p:first-child{
+    color: #6B7280;
 }
 
-/* ===== Рейтинг (organizedEvent) ===== */
-.organizedEvent p:nth-child(4) {
-    font-size: 13px;
-    font-weight: 600;
-    color: #0f766e;
-}
+.event-date p:last-child,
+.event-organizer p:last-child,
+.event-rating p:last-child{
+    color: #111827;
 
+    font-weight: 500;
+}

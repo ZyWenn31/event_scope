@@ -1,65 +1,254 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/userProfile.css">
+
+    <title>Личный кабинет</title>
+
+    <link rel="stylesheet"
+          href="/css/userProfile.css">
 </head>
+
 <header>
+
     <p>Event scope</p>
 
-    <a href="event">К поиску событий</a>
+    <div class="header-links">
+
+        <a th:if="${!isOrganizer}" href="/makeMeOrganizer">
+            Стать организатором
+        </a>
+
+        <a href="/event">
+            К мероприятиям
+        </a>
+
+        <a href="/wish">
+            К пожеланиям
+        </a>
+
+        <a href="/logout">
+            Выход
+        </a>
+
+    </div>
+
 </header>
+
 <body>
-    <div class="userProfile">
 
-        <div class="userRole">
-            <p th:if="${isOrganizer}">Организатор</p>
-            <p th:if="${!isOrganizer}">Пользователь</p>
-        </div>
+<div class="profile-layout">
 
-        <div class="avatarAndUsername">
-            <img th:src="${userAvatar}" alt="Avatar"/>
+    <!-- ===== ЛЕВАЯ ПАНЕЛЬ ===== -->
+    <div class="profile-sidebar">
 
-            <p th:text="${username}"/>
+        <div class="profile-card">
 
-            <div class="nameAndEmail">
-                <p class="userName" th:if="${isOrganizer}" th:text="${userName}"/>
-                <p class="userEmail" th:if="${isOrganizer}" th:text="${userEmail}"/>
+            <div class="user-role">
+
+                <p th:if="${isOrganizer}">
+                    Организатор
+                </p>
+
+                <p th:if="${!isOrganizer}">
+                    Пользователь
+                </p>
+
             </div>
+
+            <div class="avatar-block">
+
+                <img th:src="${userAvatar}"
+                     alt="avatar">
+
+            </div>
+
+            <div class="user-main-info">
+
+                <p class="username"
+                   th:text="${username}">
+                </p>
+
+                <div th:if="${isOrganizer}"
+                     class="organizer-info">
+
+                    <p class="real-name"
+                       th:text="${userName}">
+                    </p>
+
+                    <p class="email"
+                       th:text="${userEmail}">
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <a href="/logout">Выход</a>
+        <!-- ===== БЛОК РЕЙТИНГА ===== -->
+        <div th:if="${isOrganizer}"
+             class="rating-card">
+
+            <p class="block-title">
+                Рейтинг организатора
+            </p>
+
+            <div class="rating-value">
+
+                <span th:text="${organizerRating}">
+                </span>
+
+                <p>/ 5</p>
+
+            </div>
+
+            <div class="reviews-block">
+
+                <p class="reviews-title">
+                    Отзывы
+                </p>
+
+                <div class="reviews-list">
+
+                    <div class="review-item"
+                         th:each="review : ${organizerReviews}">
+
+                        <div class="review-header">
+
+                            <p th:text="${review.user.username}">
+                            </p>
+
+                            <span th:text="${review.rating + ' ★'}">
+                            </span>
+
+                        </div>
+
+                        <p class="review-comment"
+                           th:text="${review.comment}">
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="eventsBlock">
-        <div class="participantsBlock">
-            <p >События, в которых я учавствую:</p>
-            <div th:if="${!participationsIsNull}" class="participants">
-                <div class="participant" th:each="participant : ${userParticipantEvents}">
-                    <p th:text="${participant.getEvent().getTitle()}"/>
-                    <p th:text="${participant.event.status.displayName}"></p>
-                    <p th:text="${#temporals.format(participant.event.createdAt, 'dd.MM.yyyy HH:mm')}"></p>
-                    <p th:text="${participant.getEvent().getOrganizer().getName()}"/>
+    <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
+    <div class="events-section">
+
+        <!-- ===== УЧАСТИЯ ===== -->
+        <div class="events-column">
+
+            <p class="events-title">
+                Мероприятия, в которых я участвую
+            </p>
+
+            <div class="events-scroll">
+
+                <div class="event-card"
+                     th:each="participant : ${userParticipantEvents}">
+
+                    <p class="event-title"
+                       th:text="${participant.event.title}">
+                    </p>
+
+                    <p class="event-description"
+                       th:text="${participant.event.description}">
+                    </p>
+
+                    <div class="event-status">
+
+                        <p th:text="${participant.event.status.displayName}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-date">
+
+                        <p>Дата мероприятия:</p>
+
+                        <p th:text="${#temporals.format(participant.event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-organizer">
+
+                        <p>Организатор:</p>
+
+                        <p th:text="${participant.event.organizer.name}">
+                        </p>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div th:if="${isOrganizer}" class="organizedEventsBlock">
-            <p>События, которые я организовал: </p>
-            <div th:if="${!organizedEventsIsNull}" class="organizedEvents">
-                <div th:each="event : ${organizedEvents}" class="organizedEvent">
-                    <p th:text="${event.getTitle()}"/>
-                    <p th:text="${event.getDescription()}"/>
-                    <p th:text="${event.status.displayName}"></p>
-                    <p th:text="${event.getRating()}"/>
-                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}"></p>
+        <!-- ===== ОРГАНИЗОВАННЫЕ ===== -->
+        <div th:if="${isOrganizer}"
+             class="events-column">
+
+            <p class="events-title">
+                Организованные мероприятия
+            </p>
+
+            <div class="events-scroll">
+
+                <div class="event-card"
+                     th:each="event : ${organizedEvents}">
+
+                    <p class="event-title"
+                       th:text="${event.title}">
+                    </p>
+
+                    <p class="event-description"
+                       th:text="${event.description}">
+                    </p>
+
+                    <div class="event-status">
+
+                        <p th:text="${event.status.displayName}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-date">
+
+                        <p>Дата мероприятия:</p>
+
+                        <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-rating">
+
+                        <p>Рейтинг:</p>
+
+                        <p th:text="${event.rating}">
+                        </p>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
-
+</div>
 
 </body>
 </html>

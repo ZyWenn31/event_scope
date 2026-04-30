@@ -12,7 +12,7 @@
     <div class="rightHrevs">
         <a th:if="${!isAuth}" href="/login">Вход</a>
         <a href="/wish">К пожеланиям</a>
-        <a th:if="${isAuth}" href="/userProfile">Личный кабинет</a>
+        <a th:if="${isAuth}" href="/userProfile" th:text="${username}">Личный кабинет</a>
     </div>
 </header>
 

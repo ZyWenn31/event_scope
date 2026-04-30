@@ -34,6 +34,22 @@ public class UserController {
 
 
         if (user.getRole().equals("ORGANIZER")) {
+            double averageRating =
+                    user.getOrganizerReviews()
+                            .stream()
+                            .mapToInt(review -> review.getRating())
+                            .average()
+                            .orElse(0.0);
+
+            model.addAttribute(
+                    "organizerRating",
+                    String.format("%.1f", averageRating)
+            );
+
+            model.addAttribute(
+                    "organizerReviews",
+                    user.getOrganizerReviews()
+            );
             model.addAttribute("isOrganizer", true);
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());

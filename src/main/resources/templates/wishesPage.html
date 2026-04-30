@@ -18,7 +18,7 @@
 
         <a href="/event">К мероприятиям</a>
 
-        <a th:if="${isAuth}" href="/userProfile">
+        <a th:if="${isAuth}" href="/userProfile" th:text="${username}">
             Личный кабинет
         </a>
 

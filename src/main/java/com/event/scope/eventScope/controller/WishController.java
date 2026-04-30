@@ -54,18 +54,21 @@ public class WishController {
         model.addAttribute("selectedDate", createdDate);
 
         model.addAttribute("isAuth", principal != null);
+        model.addAttribute("username", principal.getName());
 
         return "wishesPage";
     }
 
     @GetMapping("/create")
-    public String createWishPage(Model model) {
+    public String createWishPage(Model model, Principal principal) {
 
         model.addAttribute("wish",
                 new Wish());
 
         model.addAttribute("tags",
                 tagService.findAll());
+
+
 
         return "createWishPage";
     }
@@ -113,6 +116,8 @@ public class WishController {
         wish.setTags(tags);
 
         wishService.save(wish);
+
+        model.addAttribute("username", principal.getName());
 
         return "redirect:/wish";
     }

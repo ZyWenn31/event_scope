@@ -67,7 +67,8 @@ public class EventService {
             String title,
             Boolean onlyFuture,
             Boolean onlyMyParticipantEvents,
-            List<Long> tagIds
+            List<Long> tagIds,
+            Long myId
     ) {
 
         List<Event> events =
@@ -113,6 +114,8 @@ public class EventService {
 
                     .toList();
         }
+
+        events = events.stream().filter(event -> event.getOrganizer().getId() != myId).toList();
 
         return events;
     }
