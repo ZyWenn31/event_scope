@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title th:text="${profileUser.username}">Профиль</title>
+
+    <link rel="stylesheet"
+          href="/css/publicUserProfile.css">
+</head>
+
+<header>
+
+    <p>Event scope</p>
+
+    <div class="header-links">
+
+        <a href="/event">К мероприятиям</a>
+
+        <a href="/wish">К пожеланиям</a>
+
+        <a th:if="${isAuth}"
+           href="/userProfile"
+           th:text="${currentUsername}">
+            Личный кабинет
+        </a>
+
+        <a th:if="${!isAuth}" href="/login">Войти</a>
+
+    </div>
+
+</header>
+
+<body>
+
+<div class="profile-layout">
+
+    <!-- ===== ЛЕВАЯ ПАНЕЛЬ ===== -->
+    <div class="profile-sidebar">
+
+        <!-- ===== Карточка пользователя ===== -->
+        <div class="profile-card">
+
+            <div class="role-badge"
+                 th:classappend="${isOrganizer} ? 'role-organizer' : 'role-user'">
+                <span th:text="${isOrganizer} ? 'Организатор' : 'Пользователь'"></span>
+            </div>
+
+            <div class="avatar-block">
+                <img th:src="${profileUser.avatarPath}"
+                     alt="avatar">
+            </div>
+
+            <div class="user-info">
+
+                <p class="profile-username"
+                   th:text="${profileUser.username}">
+                </p>
+
+                <p class="profile-name"
+                   th:if="${profileUser.name != null && !profileUser.name.isBlank()}"
+                   th:text="${profileUser.name}">
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Рейтинг и отзывы (только организатор) ===== -->
+        <div class="rating-card"
+             th:if="${isOrganizer}">
+
+            <p class="block-title">Рейтинг организатора</p>
+
+            <div class="rating-display">
+                <span class="rating-number"
+                      th:text="${organizerRating}">
+                </span>
+                <span class="rating-star">★</span>
+                <span class="rating-max">/ 5</span>
+            </div>
+
+            <!-- ===== Слайдер отзывов ===== -->
+            <div th:if="${!organizerReviews.isEmpty()}"
+                 class="reviews-section">
+
+                <p class="reviews-title">Отзывы</p>
+
+                <div class="slider-wrapper">
+
+                    <button class="slider-btn slider-prev"
+                            type="button">
+                        &#8249;
+                    </button>
+
+                    <div class="slider-viewport">
+
+                        <div class="slider-track">
+
+                            <div class="review-slide"
+                                 th:each="review : ${organizerReviews}">
+
+                                <div class="review-top">
+
+                                    <p class="reviewer-name"
+                                       th:text="${review.user.username}">
+                                    </p>
+
+                                    <span class="review-stars"
+                                          th:text="${review.rating + ' ★'}">
+                                    </span>
+
+                                </div>
+
+                                <p class="review-comment"
+                                   th:text="${review.comment}">
+                                </p>
+
+                                <p class="review-date"
+                                   th:if="${review.createdAt != null}"
+                                   th:text="${#temporals.format(review.createdAt, 'dd.MM.yyyy')}">
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button class="slider-btn slider-next"
+                            type="button">
+                        &#8250;
+                    </button>
+
+                </div>
+
+                <div class="slider-dots"></div>
+
+            </div>
+
+            <p th:if="${organizerReviews.isEmpty()}"
+               class="no-reviews">
+                Отзывов пока нет
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
+    <div class="events-section">
+
+        <!-- ===== Предстоящие события ===== -->
+        <div class="events-column">
+
+            <p class="column-title">Предстоящие события</p>
+
+            <div class="events-scroll">
+
+                <div th:if="${plannedParticipations.isEmpty()}"
+                     class="empty-state">
+                    Нет запланированных событий
+                </div>
+
+                <div class="event-card"
+                     th:each="p : ${plannedParticipations}"
+                     th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
+
+                    <p class="event-title"
+                       th:text="${p.event.title}">
+                    </p>
+
+                    <p class="event-description"
+                       th:text="${p.event.description}">
+                    </p>
+
+                    <div class="event-date-row">
+
+                        <p class="date-label">Дата:</p>
+
+                        <p class="date-value"
+                           th:text="${#temporals.format(p.event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-tags">
+
+                        <span class="event-tag"
+                              th:each="tag : ${p.event.tags}"
+                              th:text="${tag.name}">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Все мероприятия ===== -->
+        <div class="events-column">
+
+            <p class="column-title">Все мероприятия</p>
+
+            <div class="events-scroll">
+
+                <div th:if="${allParticipations.isEmpty()}"
+                     class="empty-state">
+                    Пользователь ещё не участвовал в мероприятиях
+                </div>
+
+                <div class="event-card"
+                     th:each="p : ${allParticipations}"
+                     th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
+
+                    <div class="card-header-row">
+
+                        <p class="event-title"
+                           th:text="${p.event.title}">
+                        </p>
+
+                        <div class="status-badge"
+                             th:classappend="${p.event.status.name() == 'PLANNED'} ? 'status-planned' :
+                                             (${p.event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                            <span th:text="${p.event.status.displayName}"></span>
+                        </div>
+
+                    </div>
+
+                    <p class="event-description"
+                       th:text="${p.event.description}">
+                    </p>
+
+                    <div class="event-date-row">
+
+                        <p class="date-label">Дата:</p>
+
+                        <p class="date-value"
+                           th:text="${#temporals.format(p.event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-tags">
+
+                        <span class="event-tag"
+                              th:each="tag : ${p.event.tags}"
+                              th:text="${tag.name}">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Организованные события ===== -->
+        <div class="events-column"
+             th:if="${isOrganizer}">
+
+            <p class="column-title">Организует</p>
+
+            <div class="events-scroll">
+
+                <div th:if="${organizedEvents.isEmpty()}"
+                     class="empty-state">
+                    Нет организованных мероприятий
+                </div>
+
+                <div class="event-card"
+                     th:each="event : ${organizedEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${event.id})}">
+
+                    <div class="card-header-row">
+
+                        <p class="event-title"
+                           th:text="${event.title}">
+                        </p>
+
+                        <div class="status-badge"
+                             th:classappend="${event.status.name() == 'PLANNED'} ? 'status-planned' :
+                                             (${event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                            <span th:text="${event.status.displayName}"></span>
+                        </div>
+
+                    </div>
+
+                    <p class="event-description"
+                       th:text="${event.description}">
+                    </p>
+
+                    <div class="event-date-row">
+
+                        <p class="date-label">Дата:</p>
+
+                        <p class="date-value"
+                           th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-date-row">
+
+                        <p class="date-label">Участников:</p>
+
+                        <p class="date-value"
+                           th:text="${event.participants.size()}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-tags">
+
+                        <span class="event-tag"
+                              th:each="tag : ${event.tags}"
+                              th:text="${tag.name}">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+<script>
+    // ===== Навигация по карточкам =====
+    document.querySelectorAll(".event-card").forEach(card => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
+            window.location.href = card.dataset.href;
+        });
+    });
+
+    // ===== Слайдер отзывов =====
+    const track = document.querySelector(".slider-track");
+
+    if (track) {
+
+        const slides = Array.from(track.querySelectorAll(".review-slide"));
+        const dotsContainer = document.querySelector(".slider-dots");
+
+        let current = 0;
+
+        // Создаём точки
+        slides.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.className = "dot" + (i === 0 ? " dot-active" : "");
+            dot.addEventListener("click", () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            document.querySelectorAll(".dot").forEach((d, i) => {
+                d.classList.toggle("dot-active", i === current);
+            });
+        }
+
+        document.querySelector(".slider-prev")
+            .addEventListener("click", () => goTo(current - 1));
+
+        document.querySelector(".slider-next")
+            .addEventListener("click", () => goTo(current + 1));
+    }
+</script>
+
+</html>

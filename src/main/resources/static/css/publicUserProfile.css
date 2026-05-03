@@ -1,0 +1,579 @@
+/* ===== Сброс ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+
+    background-color: #F3F4F6;
+
+    padding-top: 85px;
+}
+
+/* ===== Header ===== */
+header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    background-color: #2563EB;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+}
+
+header p {
+    color: white;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.header-links {
+    display: flex;
+    gap: 22px;
+}
+
+.header-links a {
+    color: #DBEAFE;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    transition: color .2s ease;
+}
+
+.header-links a:hover {
+    color: white;
+}
+
+/* ===== Основной layout ===== */
+.profile-layout {
+    height: calc(100vh - 85px);
+
+    display: flex;
+
+    gap: 24px;
+
+    padding: 24px;
+}
+
+/* ===== Левая панель ===== */
+.profile-sidebar {
+    width: 360px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    overflow-y: auto;
+}
+
+/* ===== Карточки панели ===== */
+.profile-card,
+.rating-card {
+    background-color: white;
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Бейдж роли ===== */
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 14px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.role-organizer {
+    background-color: #EFF6FF;
+    color: #2563EB;
+}
+
+.role-user {
+    background-color: #F3F4F6;
+    color: #6B7280;
+}
+
+/* ===== Аватар ===== */
+.avatar-block {
+    margin-top: 22px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-block img {
+    width: 130px;
+    height: 130px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 4px solid #2563EB;
+
+    background-color: #E5E7EB;
+}
+
+/* ===== Информация пользователя ===== */
+.user-info {
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.profile-username {
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.profile-name {
+    font-size: 15px;
+
+    color: #6B7280;
+}
+
+/* ===== Рейтинг ===== */
+.block-title {
+    font-size: 17px;
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 16px;
+}
+
+.rating-display {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.rating-number {
+    font-size: 42px;
+    font-weight: 700;
+
+    color: #2563EB;
+}
+
+.rating-star {
+    font-size: 30px;
+
+    color: #F59E0B;
+}
+
+.rating-max {
+    font-size: 16px;
+
+    color: #9CA3AF;
+}
+
+/* ===== Слайдер ===== */
+.reviews-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.reviews-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    color: #9CA3AF;
+}
+
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.slider-viewport {
+    flex: 1;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+}
+
+.slider-track {
+    display: flex;
+
+    transition: transform .35s ease;
+}
+
+.review-slide {
+    min-width: 100%;
+
+    background-color: #F9FAFB;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 16px;
+
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reviewer-name {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #111827;
+}
+
+.review-stars {
+    color: #F59E0B;
+
+    font-size: 15px;
+
+    letter-spacing: 2px;
+}
+
+.review-comment {
+    font-size: 14px;
+    line-height: 1.5;
+
+    color: #4B5563;
+}
+
+.review-date {
+    font-size: 12px;
+
+    color: #9CA3AF;
+}
+
+/* ===== Кнопки слайдера ===== */
+.slider-btn {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #EFF6FF;
+
+    color: #2563EB;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+            background-color .2s ease,
+            transform .15s ease;
+}
+
+.slider-btn:hover {
+    background-color: #DBEAFE;
+
+    transform: scale(1.08);
+}
+
+/* ===== Точки слайдера ===== */
+.slider-dots {
+    display: flex;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background-color: #D1D5DB;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
+
+.dot-active {
+    background-color: #2563EB;
+}
+
+/* ===== Нет отзывов ===== */
+.no-reviews {
+    font-size: 14px;
+
+    color: #9CA3AF;
+
+    text-align: center;
+
+    padding: 16px 0;
+}
+
+/* ===== Правая секция ===== */
+.events-section {
+    flex: 1;
+
+    display: flex;
+
+    gap: 24px;
+
+    overflow: hidden;
+}
+
+/* ===== Колонка событий ===== */
+.events-column {
+    flex: 1;
+
+    min-width: 260px;
+
+    background-color: white;
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.column-title {
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #111827;
+
+    margin-bottom: 18px;
+
+    flex-shrink: 0;
+}
+
+/* ===== Скролл списка ===== */
+.events-scroll {
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    padding-right: 4px;
+}
+
+/* ===== Пустое состояние ===== */
+.empty-state {
+    font-size: 14px;
+
+    color: #9CA3AF;
+
+    text-align: center;
+
+    padding: 28px 0;
+}
+
+/* ===== Карточка события ===== */
+.event-card {
+    background-color: #F9FAFB;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Заголовок карточки ===== */
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 12px;
+}
+
+.event-title {
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+/* ===== Статус ===== */
+.status-badge {
+    flex-shrink: 0;
+
+    padding: 4px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-planned {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+.status-finished {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.status-canceled {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+/* ===== Описание ===== */
+.event-description {
+    font-size: 13px;
+    line-height: 1.5;
+
+    color: #6B7280;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+/* ===== Дата ===== */
+.event-date-row {
+    display: flex;
+
+    gap: 6px;
+
+    font-size: 13px;
+}
+
+.date-label {
+    color: #9CA3AF;
+}
+
+.date-value {
+    color: #111827;
+    font-weight: 500;
+}
+
+/* ===== Теги ===== */
+.event-tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+.event-tag {
+    background-color: #EEF2FF;
+    color: #4338CA;
+
+    border-radius: 999px;
+
+    padding: 4px 12px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 1100px) {
+
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .profile-layout {
+        height: auto;
+
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+    }
+
+    .events-section {
+        overflow: visible;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .events-section {
+        flex-direction: column;
+    }
+}

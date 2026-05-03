@@ -50,6 +50,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<OrganizerReview> organizerReviews;
 
+    // Отзывы, полученные как организатор
+    @OneToMany(mappedBy = "organizer")
+    private List<OrganizerReview> receivedReviews;
+
     // Telegram аккаунт
     @OneToOne(mappedBy = "user")
     private TelegramAccount telegramAccount;
@@ -152,6 +156,14 @@ public class User {
 
     public void setOrganizerReviews(List<OrganizerReview> organizerReviews) {
         this.organizerReviews = organizerReviews;
+    }
+
+    public List<OrganizerReview> getReceivedReviews() {
+        return receivedReviews;
+    }
+
+    public void setReceivedReviews(List<OrganizerReview> receivedReviews) {
+        this.receivedReviews = receivedReviews;
     }
 
     public TelegramAccount getTelegramAccount() {
