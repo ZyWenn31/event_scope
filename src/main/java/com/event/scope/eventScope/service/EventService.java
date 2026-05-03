@@ -119,4 +119,57 @@ public class EventService {
 
         return events;
     }
+
+    public List<Event> findFiltered(
+            String title,
+            Boolean onlyFuture,
+            List<Long> tagIds
+    ) {
+
+        List<Event> events =
+                eventRepository.findAllByStatus(
+                        EventStatus.PLANNED
+                );
+
+        if (title != null && !title.isBlank()) {
+
+            events = events.stream()
+
+                    .filter(event ->
+                            event.getTitle()
+                                    .toLowerCase()
+                                    .contains(title.toLowerCase()))
+
+                    .toList();
+        }
+
+        if (onlyFuture != null && onlyFuture) {
+
+            events = events.stream()
+
+                    .filter(event ->
+                            event.getEventDate()
+                                    .isAfter(LocalDateTime.now()))
+
+                    .toList();
+        }
+
+        if (tagIds != null && !tagIds.isEmpty()) {
+
+            events = events.stream()
+
+                    .filter(event ->
+
+                            event.getTags()
+                                    .stream()
+
+                                    .anyMatch(tag ->
+                                            tagIds.contains(tag.getId()))
+                    )
+
+                    .toList();
+        }
+
+        return events;
+    }
 }

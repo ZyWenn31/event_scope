@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title th:text="${event.title}">Мероприятие</title>
+
+    <link rel="stylesheet"
+          href="/css/eventDetailPage.css">
+</head>
+
+<header>
+
+    <p>Event scope</p>
+
+    <div class="header-links">
+
+        <a href="/event">
+            К мероприятиям
+        </a>
+
+        <a href="/wish">
+            К пожеланиям
+        </a>
+
+        <a th:if="${isAuth}"
+           href="/userProfile"
+           th:text="${username}">
+            Личный кабинет
+        </a>
+
+        <a th:if="${!isAuth}" href="/login">
+            Войти
+        </a>
+
+    </div>
+
+</header>
+
+<body>
+
+<div class="detail-layout">
+
+    <!-- ===== ЛЕВАЯ ЧАСТЬ — основная информация ===== -->
+    <div class="main-panel">
+
+        <!-- ===== Шапка карточки ===== -->
+        <div class="event-header">
+
+            <h1 class="event-title"
+                th:text="${event.title}">
+            </h1>
+
+            <div class="status-badge"
+                 th:classappend="${event.status.name() == 'PLANNED'} ? 'status-planned' :
+                                 (${event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                <span th:text="${event.status.displayName}"></span>
+            </div>
+
+        </div>
+
+        <!-- ===== Организатор ===== -->
+        <div class="info-block">
+
+            <p class="info-label">Организатор</p>
+
+            <div th:if="${isCurrentUserOrganizer}"
+                 class="organizer-you">
+                Вы организатор
+            </div>
+
+            <p th:if="${!isCurrentUserOrganizer}"
+               class="info-value"
+               th:text="${event.organizer.name}">
+            </p>
+
+        </div>
+
+        <!-- ===== Описание ===== -->
+        <div class="info-block">
+
+            <p class="info-label">Описание</p>
+
+            <p class="event-description"
+               th:text="${event.description}">
+            </p>
+
+        </div>
+
+        <!-- ===== Даты ===== -->
+        <div class="dates-row">
+
+            <div class="date-block">
+
+                <p class="info-label">Дата мероприятия</p>
+
+                <p class="date-value"
+                   th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                </p>
+
+            </div>
+
+            <div class="date-block">
+
+                <p class="info-label">Создано</p>
+
+                <p class="date-value"
+                   th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}">
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Рейтинг ===== -->
+        <div class="info-block">
+
+            <p class="info-label">Рейтинг</p>
+
+            <div class="rating-row">
+
+                <span class="rating-number"
+                      th:text="${event.rating}">
+                </span>
+
+                <span class="rating-star">★</span>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Теги ===== -->
+        <div class="info-block"
+             th:if="${event.tags != null && !event.tags.isEmpty()}">
+
+            <p class="info-label">Теги</p>
+
+            <div class="tags-list">
+
+                <span class="tag-chip"
+                      th:each="tag : ${event.tags}"
+                      th:text="${tag.name}">
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== ПРАВАЯ ЧАСТЬ — участники ===== -->
+    <div class="participants-panel">
+
+        <div class="participants-header">
+
+            <p class="participants-title">Участники</p>
+
+            <span class="participants-count"
+                  th:text="${participantCount}">
+            </span>
+
+        </div>
+
+        <div class="participants-scroll">
+
+            <div th:if="${participants.isEmpty()}"
+                 class="no-participants">
+                Пока никто не записался
+            </div>
+
+            <div class="participant-card"
+                 th:each="p : ${participants}">
+
+                <img class="participant-avatar"
+                     th:src="${p.user.avatarPath}"
+                     th:onerror="this.src='/css/default-avatar.png'"
+                     alt="avatar">
+
+                <div class="participant-info">
+
+                    <p class="participant-username"
+                       th:text="${p.user.username}">
+                    </p>
+
+                    <p class="participant-name"
+                       th:if="${p.user.name != null && !p.user.name.isBlank()}"
+                       th:text="${p.user.name}">
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

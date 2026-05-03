@@ -2,6 +2,9 @@ package com.event.scope.eventScope.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,10 +18,14 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Название обязательно")
     private String title;
 
+    @NotBlank(message = "Описание обязательно")
     private String description;
 
+    @NotNull(message = "Дата мероприятия обязательна")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime eventDate;
 
     private LocalDateTime createdAt;

@@ -16,4 +16,6 @@ public interface EventParticipantRepository extends JpaRepository<EventParticipa
     Optional<EventParticipant> findByUserAndEvent(User user, Event event);
 
     List<EventParticipant> findAllByUser(User user);
+
+    List<EventParticipant> findAllByEvent(Event event);
 }

@@ -23,7 +23,9 @@
     <!-- ===== События ===== -->
     <div id="items">
 
-        <div id="item" th:each="event : ${events}">
+        <div id="item"
+             th:each="event : ${events}"
+             th:attr="data-href=@{/event/{id}(id=${event.id})}">
 
             <p id="title"
                th:text="${event.title}">
@@ -86,6 +88,12 @@
                 </span>
 
             </div>
+
+            <!-- ===== Подробнее ===== -->
+            <a class="detail-link"
+               th:href="@{/event/{id}(id=${event.id})}">
+                Подробнее
+            </a>
 
         </div>
 
@@ -167,6 +175,15 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
+        // ===== Навигация по карточке =====
+        document.querySelectorAll("#item").forEach(card => {
+            card.style.cursor = "pointer";
+            card.addEventListener("click", () => {
+                window.location.href = card.dataset.href;
+            });
+        });
+
+        // ===== Кнопка участия (остановить всплытие) =====
         document.querySelectorAll(".participation-btn")
             .forEach(button => {
 
@@ -177,7 +194,9 @@
                         ? "#ef4444"
                         : "#3b82f6";
 
-                button.addEventListener("click", async () => {
+                button.addEventListener("click", async (e) => {
+
+                    e.stopPropagation();
 
                     const eventId = button.dataset.eventId;
 
@@ -220,5 +239,10 @@
                     }
                 });
             });
+
+        // ===== Ссылка «Подробнее» (остановить всплытие) =====
+        document.querySelectorAll(".detail-link").forEach(link => {
+            link.addEventListener("click", e => e.stopPropagation());
+        });
     });
 </script>

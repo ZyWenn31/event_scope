@@ -21,6 +21,10 @@
             Стать организатором
         </a>
 
+        <a th:if="${isOrganizer}" href="/event/create">
+            Запланировать мероприятие
+        </a>
+
         <a href="/event">
             К мероприятиям
         </a>
@@ -153,7 +157,8 @@
             <div class="events-scroll">
 
                 <div class="event-card"
-                     th:each="participant : ${userParticipantEvents}">
+                     th:each="participant : ${userParticipantEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${participant.event.id})}">
 
                     <p class="event-title"
                        th:text="${participant.event.title}">
@@ -188,6 +193,11 @@
 
                     </div>
 
+                    <button class="cancel-participation-btn"
+                            th:attr="data-event-id=${participant.event.id}">
+                        Отменить участие
+                    </button>
+
                 </div>
 
             </div>
@@ -205,7 +215,8 @@
             <div class="events-scroll">
 
                 <div class="event-card"
-                     th:each="event : ${organizedEvents}">
+                     th:each="event : ${organizedEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${event.id})}">
 
                     <p class="event-title"
                        th:text="${event.title}">
@@ -251,4 +262,27 @@
 </div>
 
 </body>
+
+<script>
+    // ===== Навигация по карточке =====
+    document.querySelectorAll(".event-card").forEach(card => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
+            window.location.href = card.dataset.href;
+        });
+    });
+
+    // ===== Кнопка отмены участия (остановить всплытие) =====
+    document.querySelectorAll(".cancel-participation-btn").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            const eventId = btn.dataset.eventId;
+            const response = await fetch(`/leave?eventId=${eventId}`, { method: "POST" });
+            if (response.ok) {
+                btn.closest(".event-card").remove();
+            }
+        });
+    });
+</script>
+
 </html>

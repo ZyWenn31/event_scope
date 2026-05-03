@@ -1,0 +1,399 @@
+/* ===== Сброс ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+
+    background-color: #F3F4F6;
+
+    padding-top: 85px;
+}
+
+/* ===== Header ===== */
+header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    background-color: #2563EB;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+}
+
+header p {
+    color: white;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.header-links {
+    display: flex;
+    gap: 22px;
+}
+
+.header-links a {
+    color: #DBEAFE;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    transition: color .2s ease;
+}
+
+.header-links a:hover {
+    color: white;
+}
+
+/* ===== Основной layout ===== */
+.detail-layout {
+    height: calc(100vh - 85px);
+
+    display: flex;
+
+    gap: 24px;
+
+    padding: 24px;
+}
+
+/* ===== Левая панель ===== */
+.main-panel {
+    flex: 1;
+
+    background-color: white;
+
+    border-radius: 24px;
+
+    padding: 32px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 28px;
+}
+
+/* ===== Шапка события ===== */
+.event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 16px;
+}
+
+.event-title {
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #111827;
+
+    line-height: 1.3;
+
+    flex: 1;
+}
+
+/* ===== Статус ===== */
+.status-badge {
+    flex-shrink: 0;
+
+    padding: 6px 16px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-planned {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+.status-finished {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.status-canceled {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+/* ===== Блок информации ===== */
+.info-block {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.info-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    color: #9CA3AF;
+}
+
+.info-value {
+    font-size: 16px;
+    font-weight: 500;
+
+    color: #111827;
+}
+
+/* ===== Бейдж "Вы организатор" ===== */
+.organizer-you {
+    display: inline-flex;
+    align-items: center;
+
+    width: fit-content;
+
+    background-color: #EFF6FF;
+
+    border: 1.5px solid #BFDBFE;
+
+    border-radius: 12px;
+
+    padding: 8px 16px;
+
+    color: #2563EB;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* ===== Описание ===== */
+.event-description {
+    font-size: 16px;
+    line-height: 1.7;
+
+    color: #374151;
+}
+
+/* ===== Строка дат ===== */
+.dates-row {
+    display: flex;
+    gap: 40px;
+}
+
+.date-block {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.date-value {
+    font-size: 16px;
+    font-weight: 600;
+
+    color: #111827;
+}
+
+/* ===== Рейтинг ===== */
+.rating-row {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.rating-number {
+    font-size: 40px;
+    font-weight: 700;
+
+    color: #2563EB;
+}
+
+.rating-star {
+    font-size: 28px;
+
+    color: #F59E0B;
+}
+
+/* ===== Теги ===== */
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.tag-chip {
+    background-color: #EEF2FF;
+    color: #4338CA;
+
+    border-radius: 999px;
+
+    padding: 8px 18px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ===== Правая панель — участники ===== */
+.participants-panel {
+    width: 320px;
+    flex-shrink: 0;
+
+    background-color: white;
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+/* ===== Заголовок панели участников ===== */
+.participants-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.participants-title {
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.participants-count {
+    background-color: #DBEAFE;
+    color: #2563EB;
+
+    border-radius: 999px;
+
+    padding: 4px 14px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* ===== Скролл-список участников ===== */
+.participants-scroll {
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding-right: 4px;
+}
+
+/* ===== Пустое состояние ===== */
+.no-participants {
+    color: #9CA3AF;
+
+    font-size: 14px;
+
+    text-align: center;
+
+    padding: 24px 0;
+}
+
+/* ===== Карточка участника ===== */
+.participant-card {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    background-color: #F9FAFB;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 16px;
+
+    padding: 12px 16px;
+
+    transition: box-shadow .2s ease;
+}
+
+.participant-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* ===== Аватар участника ===== */
+.participant-avatar {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 2px solid #BFDBFE;
+
+    flex-shrink: 0;
+}
+
+/* ===== Информация участника ===== */
+.participant-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.participant-username {
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #111827;
+}
+
+.participant-name {
+    font-size: 13px;
+
+    color: #6B7280;
+}
+
+/* ===== Адаптив ===== */
+@media (max-width: 900px) {
+
+    body {
+        overflow: auto;
+        height: auto;
+    }
+
+    .detail-layout {
+        height: auto;
+
+        flex-direction: column;
+    }
+
+    .participants-panel {
+        width: 100%;
+    }
+}

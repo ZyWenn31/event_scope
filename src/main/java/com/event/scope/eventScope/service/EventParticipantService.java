@@ -88,6 +88,10 @@ public class EventParticipantService {
                 .ifPresent(eventParticipantRepository::delete);
     }
 
+    public List<EventParticipant> getEventParticipants(Event event) {
+        return eventParticipantRepository.findAllByEvent(event);
+    }
+
     public Set<Long> getUserParticipantsEvent(User user){
         Set<Long> userEventIds = new HashSet<>();
 

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Создание мероприятия</title>
+
+    <link rel="stylesheet"
+          href="/css/createEventPage.css">
+</head>
+
+<header>
+
+    <p>Event scope</p>
+
+    <div class="header-links">
+
+        <a href="/event">
+            К мероприятиям
+        </a>
+
+        <a href="/wish">
+            К пожеланиям
+        </a>
+
+        <a href="/userProfile">
+            Личный кабинет
+        </a>
+
+    </div>
+
+</header>
+
+<body>
+
+<div class="create-container">
+
+    <form th:action="@{/event/create}"
+          method="post"
+          th:object="${event}">
+
+        <h1>
+            Создание мероприятия
+        </h1>
+
+        <!-- ===== Название ===== -->
+        <div class="input-block">
+
+            <label>
+                Название
+            </label>
+
+            <input type="text"
+                   th:field="*{title}"
+                   placeholder="Введите название мероприятия">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('title')}"
+               th:errors="*{title}">
+            </p>
+
+        </div>
+
+        <!-- ===== Описание ===== -->
+        <div class="input-block">
+
+            <label>
+                Описание
+            </label>
+
+            <textarea th:field="*{description}"
+                      placeholder="Расскажите подробнее о мероприятии"></textarea>
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}">
+            </p>
+
+        </div>
+
+        <!-- ===== Дата мероприятия ===== -->
+        <div class="input-block">
+
+            <label>
+                Дата и время мероприятия
+            </label>
+
+            <input type="datetime-local"
+                   th:field="*{eventDate}"
+                   th:attr="min=${minDateTime}">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('eventDate')}"
+               th:errors="*{eventDate}">
+            </p>
+
+        </div>
+
+        <!-- ===== Теги ===== -->
+        <div class="tags-section">
+
+            <p class="tags-title">
+                Теги
+            </p>
+
+            <div class="tags-container">
+
+                <label class="tag-item"
+                       th:each="tag : ${tags}">
+
+                    <input type="checkbox"
+                           name="tagIds"
+                           th:value="${tag.id}">
+
+                    <span th:text="${tag.name}">
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Кнопка ===== -->
+        <button type="submit"
+                class="submit-btn">
+
+            Опубликовать
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
