@@ -83,6 +83,8 @@ header p{
     flex-direction: column;
 
     gap: 20px;
+
+    overflow: hidden;
 }
 
 .profile-card,
@@ -94,6 +96,12 @@ header p{
     padding: 24px;
 
     box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.rating-card {
+    flex: 1;
+
+    overflow-y: auto;
 }
 
 /* ===== РОЛЬ ===== */
@@ -205,21 +213,8 @@ header p{
 
 /* ===== ОТЗЫВЫ ===== */
 
-.reviews-block{
+.reviews-block {
     margin-top: 24px;
-}
-
-.reviews-title{
-    font-size: 15px;
-    font-weight: 600;
-
-    margin-bottom: 12px;
-}
-
-.reviews-list{
-    max-height: 260px;
-
-    overflow-y: auto;
 
     display: flex;
     flex-direction: column;
@@ -227,37 +222,147 @@ header p{
     gap: 12px;
 }
 
-.review-item{
+.reviews-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    color: #9CA3AF;
+}
+
+/* ===== СЛАЙДЕР ===== */
+
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.slider-viewport {
+    flex: 1;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+}
+
+.slider-track {
+    display: flex;
+
+    transition: transform .35s ease;
+}
+
+.review-slide {
+    min-width: 100%;
+
     background-color: #F9FAFB;
 
-    border-radius: 14px;
+    border: 1px solid #E5E7EB;
 
-    padding: 14px;
+    border-radius: 16px;
+
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
 }
 
-.review-header{
+.review-header {
     display: flex;
     justify-content: space-between;
-
-    margin-bottom: 8px;
+    align-items: center;
 }
 
-.review-header p{
+.review-header p {
+    font-size: 14px;
     font-weight: 600;
+
+    color: #111827;
 }
 
-.review-header span{
+.review-header span {
     color: #F59E0B;
 
     font-weight: 700;
+
+    font-size: 15px;
 }
 
-.review-comment{
-    color: #4B5563;
+.review-comment {
+    font-size: 14px;
+    line-height: 1.5;
 
+    color: #4B5563;
+}
+
+.slider-btn {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #EFF6FF;
+
+    color: #2563EB;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+            background-color .2s ease,
+            transform .15s ease;
+}
+
+.slider-btn:hover {
+    background-color: #DBEAFE;
+
+    transform: scale(1.08);
+}
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background-color: #D1D5DB;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
+
+.dot-active {
+    background-color: #2563EB;
+}
+
+.no-reviews {
     font-size: 14px;
 
-    line-height: 1.4;
+    color: #9CA3AF;
+
+    text-align: center;
+
+    padding: 16px 0;
 }
 
 /* ===== ПРАВАЯ ЧАСТЬ ===== */

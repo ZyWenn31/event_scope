@@ -41,6 +41,8 @@
 
 <body>
 
+<button class="back-btn" onclick="history.back()">&#8592; Назад</button>
+
 <div class="detail-layout">
 
     <!-- ===== ЛЕВАЯ ЧАСТЬ — основная информация ===== -->
@@ -171,7 +173,8 @@
             </div>
 
             <div class="participant-card"
-                 th:each="p : ${participants}">
+                 th:each="p : ${participants}"
+                 th:attr="data-href=@{/userProfile/{username}(username=${p.user.username})}">
 
                 <img class="participant-avatar"
                      th:src="${p.user.avatarPath}"
@@ -200,4 +203,14 @@
 </div>
 
 </body>
+
+<script>
+    document.querySelectorAll(".participant-card").forEach(card => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", () => {
+            window.location.href = card.dataset.href;
+        });
+    });
+</script>
+
 </html>

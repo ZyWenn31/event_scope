@@ -39,7 +39,7 @@ public class UserController {
 
         if (user.getRole().equals("ORGANIZER")) {
             double averageRating =
-                    user.getOrganizerReviews()
+                    user.getReceivedReviews()
                             .stream()
                             .mapToInt(review -> review.getRating())
                             .average()
@@ -52,7 +52,7 @@ public class UserController {
 
             model.addAttribute(
                     "organizerReviews",
-                    user.getOrganizerReviews()
+                    user.getReceivedReviews()
             );
             model.addAttribute("isOrganizer", true);
             model.addAttribute("userName", user.getName());

@@ -109,36 +109,58 @@
 
             </div>
 
-            <div class="reviews-block">
+            <div th:if="${!organizerReviews.isEmpty()}"
+                 class="reviews-block">
 
-                <p class="reviews-title">
-                    Отзывы
-                </p>
+                <p class="reviews-title">Отзывы</p>
 
-                <div class="reviews-list">
+                <div class="slider-wrapper">
 
-                    <div class="review-item"
-                         th:each="review : ${organizerReviews}">
+                    <button class="slider-btn slider-prev"
+                            type="button">
+                        &#8249;
+                    </button>
 
-                        <div class="review-header">
+                    <div class="slider-viewport">
 
-                            <p th:text="${review.user.username}">
-                            </p>
+                        <div class="slider-track">
 
-                            <span th:text="${review.rating + ' ★'}">
-                            </span>
+                            <div class="review-slide"
+                                 th:each="review : ${organizerReviews}">
+
+                                <div class="review-header">
+
+                                    <p th:text="${review.user.username}"></p>
+
+                                    <span th:text="${review.rating + ' ★'}"></span>
+
+                                </div>
+
+                                <p class="review-comment"
+                                   th:text="${review.comment}">
+                                </p>
+
+                            </div>
 
                         </div>
 
-                        <p class="review-comment"
-                           th:text="${review.comment}">
-                        </p>
-
                     </div>
+
+                    <button class="slider-btn slider-next"
+                            type="button">
+                        &#8250;
+                    </button>
 
                 </div>
 
+                <div class="slider-dots"></div>
+
             </div>
+
+            <p th:if="${organizerReviews.isEmpty()}"
+               class="no-reviews">
+                Отзывов пока нет
+            </p>
 
         </div>
 
@@ -271,6 +293,38 @@
             window.location.href = card.dataset.href;
         });
     });
+
+    // ===== Слайдер отзывов =====
+    const track = document.querySelector(".slider-track");
+
+    if (track) {
+
+        const slides = Array.from(track.querySelectorAll(".review-slide"));
+        const dotsContainer = document.querySelector(".slider-dots");
+
+        let current = 0;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.className = "dot" + (i === 0 ? " dot-active" : "");
+            dot.addEventListener("click", () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            document.querySelectorAll(".dot").forEach((d, i) => {
+                d.classList.toggle("dot-active", i === current);
+            });
+        }
+
+        document.querySelector(".slider-prev")
+            .addEventListener("click", () => goTo(current - 1));
+
+        document.querySelector(".slider-next")
+            .addEventListener("click", () => goTo(current + 1));
+    }
 
     // ===== Кнопка отмены участия (остановить всплытие) =====
     document.querySelectorAll(".cancel-participation-btn").forEach(btn => {
