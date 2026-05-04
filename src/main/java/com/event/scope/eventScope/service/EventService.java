@@ -6,6 +6,7 @@ import com.event.scope.eventScope.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -65,111 +66,100 @@ public class EventService {
 
     public List<Event> findFiltered(
             String title,
-            Boolean onlyFuture,
-            Boolean onlyMyParticipantEvents,
             List<Long> tagIds,
-            Long myId
+            Long myId,
+            String sortBy,
+            String organizer,
+            LocalDate eventDate
     ) {
 
-        List<Event> events =
-                eventRepository.findAllByStatus(
-                        EventStatus.PLANNED
-                );
+        List<Event> events = eventRepository.findAllByStatus(EventStatus.PLANNED);
 
         if (title != null && !title.isBlank()) {
-
             events = events.stream()
-
-                    .filter(event ->
-                            event.getTitle()
-                                    .toLowerCase()
-                                    .contains(title.toLowerCase()))
-
+                    .filter(e -> e.getTitle().toLowerCase().contains(title.toLowerCase()))
                     .toList();
         }
 
-        if (onlyFuture != null && onlyFuture) {
-
+        if (organizer != null && !organizer.isBlank()) {
             events = events.stream()
+                    .filter(e -> e.getOrganizer().getName() != null &&
+                            e.getOrganizer().getName().toLowerCase().contains(organizer.toLowerCase()))
+                    .toList();
+        }
 
-                    .filter(event ->
-                            event.getEventDate()
-                                    .isAfter(LocalDateTime.now()))
-
+        if (eventDate != null) {
+            LocalDateTime from = eventDate.atStartOfDay();
+            LocalDateTime to = eventDate.atTime(23, 59, 59);
+            events = events.stream()
+                    .filter(e -> !e.getEventDate().isBefore(from) && !e.getEventDate().isAfter(to))
                     .toList();
         }
 
         if (tagIds != null && !tagIds.isEmpty()) {
-
             events = events.stream()
-
-                    .filter(event ->
-
-                            event.getTags()
-                                    .stream()
-
-                                    .anyMatch(tag ->
-                                            tagIds.contains(tag.getId()))
-                    )
-
+                    .filter(e -> e.getTags().stream().anyMatch(tag -> tagIds.contains(tag.getId())))
                     .toList();
         }
 
-        events = events.stream().filter(event -> event.getOrganizer().getId() != myId).toList();
+        events = events.stream().filter(e -> !e.getOrganizer().getId().equals(myId)).toList();
+
+        events = applySorting(events, sortBy);
 
         return events;
     }
 
     public List<Event> findFiltered(
             String title,
-            Boolean onlyFuture,
-            List<Long> tagIds
+            List<Long> tagIds,
+            String sortBy,
+            String organizer,
+            LocalDate eventDate
     ) {
 
-        List<Event> events =
-                eventRepository.findAllByStatus(
-                        EventStatus.PLANNED
-                );
+        List<Event> events = eventRepository.findAllByStatus(EventStatus.PLANNED);
 
         if (title != null && !title.isBlank()) {
-
             events = events.stream()
-
-                    .filter(event ->
-                            event.getTitle()
-                                    .toLowerCase()
-                                    .contains(title.toLowerCase()))
-
+                    .filter(e -> e.getTitle().toLowerCase().contains(title.toLowerCase()))
                     .toList();
         }
 
-        if (onlyFuture != null && onlyFuture) {
-
+        if (organizer != null && !organizer.isBlank()) {
             events = events.stream()
+                    .filter(e -> e.getOrganizer().getName() != null &&
+                            e.getOrganizer().getName().toLowerCase().contains(organizer.toLowerCase()))
+                    .toList();
+        }
 
-                    .filter(event ->
-                            event.getEventDate()
-                                    .isAfter(LocalDateTime.now()))
-
+        if (eventDate != null) {
+            LocalDateTime from = eventDate.atStartOfDay();
+            LocalDateTime to = eventDate.atTime(23, 59, 59);
+            events = events.stream()
+                    .filter(e -> !e.getEventDate().isBefore(from) && !e.getEventDate().isAfter(to))
                     .toList();
         }
 
         if (tagIds != null && !tagIds.isEmpty()) {
-
             events = events.stream()
-
-                    .filter(event ->
-
-                            event.getTags()
-                                    .stream()
-
-                                    .anyMatch(tag ->
-                                            tagIds.contains(tag.getId()))
-                    )
-
+                    .filter(e -> e.getTags().stream().anyMatch(tag -> tagIds.contains(tag.getId())))
                     .toList();
         }
 
+        events = applySorting(events, sortBy);
+
         return events;
+    }
+
+    private List<Event> applySorting(List<Event> events, String sortBy) {
+        if ("DATE_DESC".equals(sortBy)) {
+            return events.stream()
+                    .sorted((a, b) -> b.getEventDate().compareTo(a.getEventDate()))
+                    .toList();
+        } else {
+            return events.stream()
+                    .sorted((a, b) -> a.getEventDate().compareTo(b.getEventDate()))
+                    .toList();
+        }
     }
 }

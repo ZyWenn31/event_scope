@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.event.scope.eventScope.model.EventParticipant;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,9 +50,10 @@ public class EventController {
     @GetMapping
     public String getAllEvents(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) Boolean onlyFuture,
-            @RequestParam(required = false) Boolean onlyMyParticipantEvents,
             @RequestParam(required = false) List<Long> tagIds,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String organizer,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate eventDate,
             Model model,
             Principal principal
     ) {
@@ -65,10 +68,11 @@ public class EventController {
 
             events = eventService.findFiltered(
                     title,
-                    onlyFuture,
-                    onlyMyParticipantEvents,
                     tagIds,
-                    myId
+                    myId,
+                    sortBy,
+                    organizer,
+                    eventDate
             );
 
             model.addAttribute(
@@ -83,7 +87,7 @@ public class EventController {
 
         } else {
 
-            events = eventService.findFiltered(title, onlyFuture, tagIds);
+            events = eventService.findFiltered(title, tagIds, sortBy, organizer, eventDate);
 
             model.addAttribute("userId", -1);
             model.addAttribute("username", "");
@@ -91,11 +95,12 @@ public class EventController {
 
         model.addAttribute("events", events);
         model.addAttribute("title", title);
-        model.addAttribute("onlyFuture", onlyFuture != null && onlyFuture);
-        model.addAttribute("onlyMyParticipantEvents", onlyMyParticipantEvents != null && onlyMyParticipantEvents);
         model.addAttribute("selectedTags", tagIds);
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("isAuth", isAuth);
+        model.addAttribute("selectedSortBy", sortBy != null ? sortBy : "DATE_ASC");
+        model.addAttribute("organizer", organizer);
+        model.addAttribute("eventDate", eventDate);
 
         return "eventsPage";
     }
@@ -174,6 +179,14 @@ public class EventController {
         review.setCreatedAt(LocalDateTime.now());
 
         eventReviewService.save(review);
+
+        Event updatedEvent = eventService.findById(id);
+        double avg = updatedEvent.getReviews().stream()
+                .mapToInt(EventReview::getRating)
+                .average()
+                .orElse(0.0);
+        updatedEvent.setRating((int) Math.round(avg));
+        eventService.save(updatedEvent);
 
         return "redirect:/event/" + id;
     }

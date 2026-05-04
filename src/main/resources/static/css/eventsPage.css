@@ -126,20 +126,62 @@ header a:hover {
 #eventDate {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
-#created p:first-child,
-#eventDate p:first-child {
+#created p:first-child {
     color: #374151;
     font-size: 14px;
     font-weight: 500;
 }
 
-#created p:last-child,
-#eventDate p:last-child {
+#created p:last-child {
     color: #111827;
     font-size: 15px;
+}
+
+.event-date-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.event-date-row p:first-child {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.event-date-row p:last-child {
+    color: #111827;
+    font-size: 15px;
+}
+
+.event-time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-time-row p {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.event-time-badge {
+    background-color: #DBEAFE;
+
+    color: #1D4ED8;
+
+    border-radius: 10px;
+
+    padding: 6px 16px;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
 }
 
 /* ===== Организатор ===== */
@@ -276,6 +318,138 @@ header a:hover {
     color: white;
 }
 
+/* ===== Секция фильтра ===== */
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ===== Радио-кнопки статуса ===== */
+.filter-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.radio-btn-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    color: #6B7280;
+
+    cursor: pointer;
+
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.radio-btn-item input[type="radio"] {
+    display: none;
+}
+
+.radio-btn-item:hover {
+    background-color: #F3F4F6;
+    color: #374151;
+}
+
+.radio-btn-item.radio-btn-active {
+    background-color: #EFF6FF;
+    color: #2563EB;
+    font-weight: 600;
+}
+
+/* ===== Поле даты ===== */
+.date-input {
+    width: 100%;
+
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+
+    padding: 9px 12px;
+
+    font-size: 13px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #374151;
+
+    background-color: white;
+
+    outline: none;
+
+    transition: border-color .2s ease;
+}
+
+.date-input:focus {
+    border-color: #2563EB;
+}
+
+/* ===== Сортировка ===== */
+.sort-select {
+    width: 100%;
+
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+
+    padding: 9px 12px;
+
+    font-size: 13px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #374151;
+
+    background-color: white;
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition: border-color .2s ease;
+}
+
+.sort-select:focus {
+    border-color: #2563EB;
+}
+
+/* ===== Кнопка применить ===== */
+.apply-btn {
+    width: 100%;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 11px;
+
+    background-color: #2563EB;
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease, transform .15s ease;
+}
+
+.apply-btn:hover {
+    background-color: #1D4ED8;
+    transform: translateY(-1px);
+}
+
 /* ===== Checkbox ===== */
 .filter-checkboxes {
     display: flex;
@@ -301,6 +475,12 @@ header a:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+
+    max-height: 200px;
+
+    overflow-y: auto;
+
+    padding-right: 4px;
 }
 
 .tag-filter-item input {

@@ -45,10 +45,19 @@
                 </div>
 
                 <div id="eventDate">
-                    <p>Запланирован на:</p>
 
-                    <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
-                    </p>
+                    <div class="event-date-row">
+                        <p>Запланировано на:</p>
+                        <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}"></p>
+                    </div>
+
+                    <div class="event-time-row">
+                        <p>Начало в:</p>
+                        <span class="event-time-badge"
+                              th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
+                        </span>
+                    </div>
+
                 </div>
 
             </div>
@@ -104,46 +113,64 @@
 
         <form method="get" action="/event">
 
-            <!-- ===== Поиск ===== -->
+            <!-- ===== Поиск по названию ===== -->
             <div class="search-block">
 
                 <input type="text"
                        name="title"
-                       placeholder="Поиск..."
+                       placeholder="Поиск по названию..."
                        th:value="${title}">
 
-                <button type="submit">
-                    Поиск
-                </button>
+            </div>
+
+            <!-- ===== Поиск по организатору ===== -->
+            <div class="search-block">
+
+                <input type="text"
+                       name="organizer"
+                       placeholder="Организатор..."
+                       th:value="${organizer}">
 
             </div>
 
-            <!-- ===== Фильтры ===== -->
-            <div class="filter-checkboxes">
+            <!-- ===== Дата ===== -->
+            <div class="filter-section">
 
-                <label class="checkbox-item">
+                <p class="filter-label">Дата проведения</p>
 
-                    <input type="checkbox"
-                           name="onlyFuture"
-                           value="true"
-                           th:checked="${onlyFuture}">
-
-                    <span>Только будущие</span>
-
-                </label>
-
-                <label class="checkbox-item" th:if="${isAuth}">
-
-                    <input type="checkbox"
-                           name="onlyMyParticipantEvents"
-                           value="true"
-                           th:checked="${onlyMyParticipantEvents}">
-
-                    <span>Только моё участие</span>
-
-                </label>
+                <input type="date"
+                       class="date-input"
+                       name="eventDate"
+                       th:value="${eventDate != null ? #temporals.format(eventDate, 'yyyy-MM-dd') : ''}">
 
             </div>
+
+            <!-- ===== Сортировка ===== -->
+            <div class="filter-section">
+
+                <p class="filter-label">Сортировка</p>
+
+                <select class="sort-select"
+                        name="sortBy">
+
+                    <option value="DATE_ASC"
+                            th:selected="${selectedSortBy == 'DATE_ASC'}">
+                        Сначала ближайшие
+                    </option>
+
+                    <option value="DATE_DESC"
+                            th:selected="${selectedSortBy == 'DATE_DESC'}">
+                        Сначала дальние
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- ===== Кнопка применить ===== -->
+            <button type="submit" class="apply-btn">
+                Применить
+            </button>
 
             <!-- ===== Теги ===== -->
             <div class="tags-filter">
