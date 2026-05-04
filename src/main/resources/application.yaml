@@ -10,3 +10,4 @@ spring:
     url: jdbc:postgresql://localhost:5433/event_scope_db
     username: postgres
     password: postgres
+

@@ -88,9 +88,100 @@
 
                 </div>
 
+                <p th:if="${!isOrganizer && hasName}"
+                   class="real-name"
+                   th:text="${userName}">
+                </p>
+
+                <p th:if="${!isOrganizer && hasEmail}"
+                   class="email"
+                   th:text="${userEmail}">
+                </p>
+
             </div>
 
         </div>
+
+        <!-- ===== БЛОК ИМЕНИ ===== -->
+        <div th:if="${!isOrganizer && !hasName}"
+             class="email-connect-card">
+
+            <p class="block-title">Укажите имя</p>
+
+            <p class="email-connect-hint">
+                Имя будет отображаться в профиле и мероприятиях
+            </p>
+
+            <form method="post" action="/userProfile/setName"
+                  class="email-connect-form">
+
+                <input type="text"
+                       name="name"
+                       class="email-connect-input"
+                       placeholder="Иван Иванов"
+                       required>
+
+                <button type="submit"
+                        class="email-connect-btn">
+                    Сохранить
+                </button>
+
+            </form>
+
+            <p th:if="${param.nameError != null}"
+               class="email-connect-error">
+                Имя должно содержать от 5 до 60 символов
+            </p>
+
+        </div>
+
+        <p th:if="${!isOrganizer && hasName && param.nameSaved != null}"
+           class="email-saved-notice">
+            Имя успешно сохранено
+        </p>
+
+        <!-- ===== БЛОК EMAIL ===== -->
+        <div th:if="${!isOrganizer && !hasEmail}"
+             class="email-connect-card">
+
+            <p class="block-title">Укажите email</p>
+
+            <p class="email-connect-hint">
+                Email нужен для получения роли организатора
+            </p>
+
+            <form method="post" action="/userProfile/setEmail"
+                  class="email-connect-form">
+
+                <input type="email"
+                       name="email"
+                       class="email-connect-input"
+                       placeholder="example@mail.com"
+                       required>
+
+                <button type="submit"
+                        class="email-connect-btn">
+                    Подключить
+                </button>
+
+            </form>
+
+            <p th:if="${param.emailError != null && param.emailError[0] == 'taken'}"
+               class="email-connect-error">
+                Этот email уже используется
+            </p>
+
+            <p th:if="${param.emailError != null && param.emailError[0] == 'invalid'}"
+               class="email-connect-error">
+                Некорректный формат email
+            </p>
+
+        </div>
+
+        <p th:if="${!isOrganizer && hasEmail && param.emailSaved != null}"
+           class="email-saved-notice">
+            Email успешно сохранён
+        </p>
 
         <!-- ===== БЛОК РЕЙТИНГА ===== -->
         <div th:if="${isOrganizer}"

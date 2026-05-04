@@ -62,6 +62,25 @@ header p{
     color: white;
 }
 
+.header-notice {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background-color: rgba(255,255,255,0.15);
+    color: white;
+}
+
+.header-notice-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.header-notice-error {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
 /* ===== ОСНОВНОЙ LAYOUT ===== */
 
 .profile-layout{
@@ -88,7 +107,8 @@ header p{
 }
 
 .profile-card,
-.rating-card{
+.rating-card,
+.email-connect-card {
     background-color: white;
 
     border-radius: 24px;
@@ -96,6 +116,68 @@ header p{
     padding: 24px;
 
     box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== БЛОК EMAIL ===== */
+
+.email-connect-hint {
+    font-size: 13px;
+    color: #6B7280;
+    margin-bottom: 14px;
+}
+
+.email-connect-form {
+    display: flex;
+    gap: 8px;
+}
+
+.email-connect-input {
+    flex: 1;
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #111827;
+    outline: none;
+    transition: border-color .2s ease;
+}
+
+.email-connect-input:focus {
+    border-color: #2563EB;
+}
+
+.email-connect-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    background-color: #2563EB;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .15s ease;
+    white-space: nowrap;
+}
+
+.email-connect-btn:hover {
+    background-color: #1D4ED8;
+    transform: translateY(-1px);
+}
+
+.email-connect-error {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #DC2626;
+}
+
+.email-saved-notice {
+    font-size: 13px;
+    font-weight: 600;
+    color: #065F46;
+    background-color: #D1FAE5;
+    border-radius: 12px;
+    padding: 10px 16px;
 }
 
 .rating-card {

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/userProfile")
 public class UserController {
     private final UserService userService;
     private final OrganizerReviewService organizerReviewService;
@@ -29,7 +27,7 @@ public class UserController {
         this.organizerReviewService = organizerReviewService;
     }
 
-    @GetMapping
+    @GetMapping("/userProfile")
     public String userProfile(Principal principal, Model model) {
 
         if  (principal == null) {
@@ -69,12 +67,22 @@ public class UserController {
 
         } else {
             model.addAttribute("isOrganizer", false);
+            boolean hasEmail = user.getEmail() != null && !user.getEmail().isBlank();
+            model.addAttribute("hasEmail", hasEmail);
+            if (hasEmail) {
+                model.addAttribute("userEmail", user.getEmail());
+            }
+            boolean hasName = user.getName() != null && !user.getName().isBlank();
+            model.addAttribute("hasName", hasName);
+            if (hasName) {
+                model.addAttribute("userName", user.getName());
+            }
         }
 
         return "userProfile";
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/userProfile/{username}")
     public String publicProfile(
             @PathVariable String username,
             Model model,
@@ -135,7 +143,7 @@ public class UserController {
         return "publicUserProfile";
     }
 
-    @PostMapping("/{username}/review")
+    @PostMapping("/userProfile/{username}/review")
     public String submitOrganizerReview(
             @PathVariable String username,
             @RequestParam Integer rating,
@@ -175,4 +183,51 @@ public class UserController {
 
         return "redirect:/userProfile/" + username;
     }
+
+    @PostMapping("/userProfile/setEmail")
+    public String setEmail(
+            @RequestParam String email,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String trimmed = email == null ? "" : email.trim();
+
+        if (!trimmed.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            return "redirect:/userProfile?emailError=invalid";
+        }
+
+        if (userService.isEmailTaken(trimmed)) {
+            return "redirect:/userProfile?emailError=taken";
+        }
+
+        userService.setEmail(userService.findByUsername(principal.getName()), trimmed);
+
+        return "redirect:/userProfile?emailSaved=true";
+    }
+
+    @PostMapping("/userProfile/setName")
+    public String setName(
+            @RequestParam String name,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String trimmed = name == null ? "" : name.trim();
+
+        if (trimmed.isBlank() || trimmed.length() < 5 || trimmed.length() > 60) {
+            return "redirect:/userProfile?nameError=invalid";
+        }
+
+        userService.setName(userService.findByUsername(principal.getName()), trimmed);
+
+        return "redirect:/userProfile?nameSaved=true";
+    }
+
 }

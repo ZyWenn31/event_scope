@@ -64,4 +64,18 @@ public class UserService {
                         () -> new EntityNotFoundException("User with username " + username +" not found")
                 );
     }
+
+    public boolean isEmailTaken(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public void setEmail(User user, String email) {
+        user.setEmail(email);
+        userRepository.save(user);
+    }
+
+    public void setName(User user, String name) {
+        user.setName(name);
+        userRepository.save(user);
+    }
 }
