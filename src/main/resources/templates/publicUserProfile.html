@@ -149,6 +149,61 @@
 
         </div>
 
+        <!-- ===== Форма отзыва на организатора ===== -->
+        <div class="org-review-form-card"
+             th:if="${canReviewOrganizer}">
+
+            <p class="org-review-form-title">Оставить отзыв</p>
+
+            <form th:action="@{/userProfile/{username}/review(username=${profileUser.username})}"
+                  method="post"
+                  class="org-review-form">
+
+                <div class="star-rating">
+
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5">★</label>
+
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">★</label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">★</label>
+
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">★</label>
+
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">★</label>
+
+                </div>
+
+                <textarea class="org-review-textarea"
+                          name="comment"
+                          placeholder="Ваш комментарий (необязательно)"
+                          maxlength="1000"
+                          rows="3">
+                </textarea>
+
+                <button type="submit"
+                        class="org-review-submit-btn">
+                    Отправить отзыв
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- ===== Уже оставлен отзыв ===== -->
+        <div class="org-review-done-card"
+             th:if="${alreadyReviewedOrganizer}">
+
+            <span class="org-review-done-icon">✓</span>
+
+            <p>Вы уже оставили отзыв об этом организаторе</p>
+
+        </div>
+
     </div>
 
     <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->

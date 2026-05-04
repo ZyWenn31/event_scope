@@ -1,6 +1,8 @@
 package com.event.scope.eventScope.service;
 
+import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.EventReview;
+import com.event.scope.eventScope.model.User;
 import com.event.scope.eventScope.repository.EventReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,10 @@ public class EventReviewService {
 
     public EventReview save(EventReview eventReview) {
         return eventReviewRepository.save(eventReview);
+    }
+
+    public boolean existsByUserAndEvent(User user, Event event) {
+        return eventReviewRepository.existsByUserAndEvent(user, event);
     }
 
     public void deleteById(Long id) {

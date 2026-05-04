@@ -1,6 +1,7 @@
 package com.event.scope.eventScope.service;
 
 import com.event.scope.eventScope.model.OrganizerReview;
+import com.event.scope.eventScope.model.User;
 import com.event.scope.eventScope.repository.OrganizerReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,10 @@ public class OrganizerReviewService {
 
     public List<OrganizerReview> findAll() {
         return organizerReviewRepository.findAll();
+    }
+
+    public boolean existsByUserAndOrganizer(User user, User organizer) {
+        return organizerReviewRepository.existsByUserAndOrganizer(user, organizer);
     }
 
     public OrganizerReview save(OrganizerReview organizerReview) {

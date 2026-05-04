@@ -150,6 +150,106 @@
 
         </div>
 
+        <!-- ===== Форма отзыва ===== -->
+        <div class="review-form-block"
+             th:if="${canReview}">
+
+            <p class="info-label">Оставить отзыв</p>
+
+            <form th:action="@{/event/{id}/review(id=${event.id})}"
+                  method="post"
+                  class="review-form">
+
+                <div class="star-rating">
+
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5">★</label>
+
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">★</label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">★</label>
+
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">★</label>
+
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">★</label>
+
+                </div>
+
+                <textarea class="review-textarea"
+                          name="comment"
+                          placeholder="Ваш комментарий (необязательно)"
+                          maxlength="1000"
+                          rows="3">
+                </textarea>
+
+                <button type="submit"
+                        class="review-submit-btn">
+                    Отправить отзыв
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- ===== Уже оставлен отзыв ===== -->
+        <div class="review-done-block"
+             th:if="${alreadyReviewed}">
+
+            <span class="review-done-icon">✓</span>
+
+            <p>Вы уже оставили отзыв на это мероприятие</p>
+
+        </div>
+
+        <!-- ===== Отзывы на мероприятие ===== -->
+        <div class="event-reviews-block"
+             th:if="${event.status.name() == 'FINISHED'}">
+
+            <p class="event-reviews-title">Отзывы</p>
+
+            <div th:if="${event.reviews.isEmpty()}"
+                 class="event-reviews-empty">
+                Отзывов пока нет
+            </div>
+
+            <div class="event-reviews-list"
+                 th:if="${!event.reviews.isEmpty()}">
+
+                <div class="event-review-card"
+                     th:each="review : ${event.reviews}">
+
+                    <div class="event-review-header">
+
+                        <p class="event-review-author"
+                           th:text="${review.user.username}">
+                        </p>
+
+                        <span class="event-review-stars"
+                              th:text="${review.rating + ' ★'}">
+                        </span>
+
+                    </div>
+
+                    <p class="event-review-comment"
+                       th:if="${review.comment != null && !review.comment.isBlank()}"
+                       th:text="${review.comment}">
+                    </p>
+
+                    <p class="event-review-date"
+                       th:if="${review.createdAt != null}"
+                       th:text="${#temporals.format(review.createdAt, 'dd.MM.yyyy')}">
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
     <!-- ===== ПРАВАЯ ЧАСТЬ — участники ===== -->

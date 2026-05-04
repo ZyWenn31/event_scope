@@ -2,10 +2,12 @@ package com.event.scope.eventScope.controller;
 
 
 import com.event.scope.eventScope.model.Event;
+import com.event.scope.eventScope.model.EventReview;
 import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.model.Tag;
 import com.event.scope.eventScope.model.User;
 import com.event.scope.eventScope.service.EventParticipantService;
+import com.event.scope.eventScope.service.EventReviewService;
 import com.event.scope.eventScope.service.EventService;
 import com.event.scope.eventScope.service.TagService;
 import com.event.scope.eventScope.service.UserService;
@@ -33,12 +35,14 @@ public class EventController {
     private final UserService userService;
     private final EventParticipantService eventParticipantService;
     private final TagService tagService;
+    private final EventReviewService eventReviewService;
 
-    public EventController(EventService eventService, UserService userService, EventParticipantService eventParticipantService, TagService tagService) {
+    public EventController(EventService eventService, UserService userService, EventParticipantService eventParticipantService, TagService tagService, EventReviewService eventReviewService) {
         this.eventService = eventService;
         this.userService = userService;
         this.eventParticipantService = eventParticipantService;
         this.tagService = tagService;
+        this.eventReviewService = eventReviewService;
     }
 
     @GetMapping
@@ -111,14 +115,67 @@ public class EventController {
         boolean isCurrentUserOrganizer = principal != null &&
                 event.getOrganizer().getUsername().equals(principal.getName());
 
+        boolean canReview = false;
+        boolean alreadyReviewed = false;
+
+        if (principal != null && EventStatus.FINISHED.equals(event.getStatus())) {
+            User currentUser = userService.findByUsername(principal.getName());
+            boolean isParticipant = participants.stream()
+                    .anyMatch(p -> p.getUser().getId().equals(currentUser.getId()));
+            if (isParticipant) {
+                alreadyReviewed = eventReviewService.existsByUserAndEvent(currentUser, event);
+                canReview = !alreadyReviewed;
+            }
+        }
+
         model.addAttribute("event", event);
         model.addAttribute("participants", participants);
         model.addAttribute("participantCount", participants.size());
         model.addAttribute("isCurrentUserOrganizer", isCurrentUserOrganizer);
         model.addAttribute("isAuth", principal != null);
         model.addAttribute("username", principal != null ? principal.getName() : "");
+        model.addAttribute("canReview", canReview);
+        model.addAttribute("alreadyReviewed", alreadyReviewed);
 
         return "eventDetailPage";
+    }
+
+    @PostMapping("/{id}/review")
+    public String submitReview(
+            @PathVariable Long id,
+            @RequestParam Integer rating,
+            @RequestParam(required = false) String comment,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Event event = eventService.findById(id);
+        User user = userService.findByUsername(principal.getName());
+
+        if (!EventStatus.FINISHED.equals(event.getStatus())) {
+            return "redirect:/event/" + id;
+        }
+
+        boolean isParticipant = eventParticipantService.getEventParticipants(event).stream()
+                .anyMatch(p -> p.getUser().getId().equals(user.getId()));
+
+        if (!isParticipant || eventReviewService.existsByUserAndEvent(user, event)) {
+            return "redirect:/event/" + id;
+        }
+
+        EventReview review = new EventReview();
+        review.setUser(user);
+        review.setEvent(event);
+        review.setRating(rating);
+        review.setComment(comment != null ? comment.trim() : null);
+        review.setCreatedAt(LocalDateTime.now());
+
+        eventReviewService.save(review);
+
+        return "redirect:/event/" + id;
     }
 
     @GetMapping("/create")

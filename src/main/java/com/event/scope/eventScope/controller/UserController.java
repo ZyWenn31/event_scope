@@ -2,24 +2,31 @@ package com.event.scope.eventScope.controller;
 
 import com.event.scope.eventScope.model.EventParticipant;
 import com.event.scope.eventScope.model.EventStatus;
+import com.event.scope.eventScope.model.OrganizerReview;
 import com.event.scope.eventScope.model.User;
+import com.event.scope.eventScope.service.OrganizerReviewService;
 import com.event.scope.eventScope.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
 @RequestMapping("/userProfile")
 public class UserController {
     private final UserService userService;
+    private final OrganizerReviewService organizerReviewService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, OrganizerReviewService organizerReviewService) {
         this.userService = userService;
+        this.organizerReviewService = organizerReviewService;
     }
 
     @GetMapping
@@ -104,6 +111,68 @@ public class UserController {
         model.addAttribute("isAuth", principal != null);
         model.addAttribute("currentUsername", principal != null ? principal.getName() : "");
 
+        boolean canReviewOrganizer = false;
+        boolean alreadyReviewedOrganizer = false;
+
+        if (principal != null && isOrganizer && !principal.getName().equals(username)) {
+            User viewer = userService.findByUsername(principal.getName());
+
+            long finishedAttended = user.getOrganizedEvents().stream()
+                    .filter(e -> EventStatus.FINISHED.equals(e.getStatus()))
+                    .filter(e -> e.getParticipants().stream()
+                            .anyMatch(p -> p.getUser().getId().equals(viewer.getId())))
+                    .count();
+
+            if (finishedAttended >= 2) {
+                alreadyReviewedOrganizer = organizerReviewService.existsByUserAndOrganizer(viewer, user);
+                canReviewOrganizer = !alreadyReviewedOrganizer;
+            }
+        }
+
+        model.addAttribute("canReviewOrganizer", canReviewOrganizer);
+        model.addAttribute("alreadyReviewedOrganizer", alreadyReviewedOrganizer);
+
         return "publicUserProfile";
+    }
+
+    @PostMapping("/{username}/review")
+    public String submitOrganizerReview(
+            @PathVariable String username,
+            @RequestParam Integer rating,
+            @RequestParam(required = false) String comment,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User organizer = userService.findByUsername(username);
+        User viewer = userService.findByUsername(principal.getName());
+
+        if (!"ORGANIZER".equals(organizer.getRole()) || principal.getName().equals(username)) {
+            return "redirect:/userProfile/" + username;
+        }
+
+        long finishedAttended = organizer.getOrganizedEvents().stream()
+                .filter(e -> EventStatus.FINISHED.equals(e.getStatus()))
+                .filter(e -> e.getParticipants().stream()
+                        .anyMatch(p -> p.getUser().getId().equals(viewer.getId())))
+                .count();
+
+        if (finishedAttended < 2 || organizerReviewService.existsByUserAndOrganizer(viewer, organizer)) {
+            return "redirect:/userProfile/" + username;
+        }
+
+        OrganizerReview review = new OrganizerReview();
+        review.setUser(viewer);
+        review.setOrganizer(organizer);
+        review.setRating(rating);
+        review.setComment(comment != null ? comment.trim() : null);
+        review.setCreatedAt(LocalDateTime.now());
+
+        organizerReviewService.save(review);
+
+        return "redirect:/userProfile/" + username;
     }
 }
