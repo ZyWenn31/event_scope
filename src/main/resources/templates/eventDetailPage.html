@@ -73,10 +73,11 @@
                 Вы организатор
             </div>
 
-            <p th:if="${!isCurrentUserOrganizer}"
-               class="info-value"
+            <a th:if="${!isCurrentUserOrganizer}"
+               class="organizer-link"
+               th:href="@{/userProfile/{username}(username=${event.organizer.username})}"
                th:text="${event.organizer.name}">
-            </p>
+            </a>
 
         </div>
 
