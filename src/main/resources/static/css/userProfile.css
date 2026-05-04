@@ -103,7 +103,8 @@ header p{
 
     gap: 20px;
 
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .profile-card,
@@ -171,6 +172,57 @@ header p{
     color: #DC2626;
 }
 
+.avatar-upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+
+    border: 1.5px dashed #BFDBFE;
+    border-radius: 12px;
+
+    padding: 14px;
+
+    background-color: #EFF6FF;
+
+    color: #2563EB;
+
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Segoe UI", Arial, sans-serif;
+    letter-spacing: 0.01em;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.avatar-file-label:hover {
+    background-color: #DBEAFE;
+    border-color: #93C5FD;
+}
+
+.avatar-file-name {
+    font-size: 12px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #9CA3AF;
+    text-align: center;
+    letter-spacing: 0.01em;
+}
+
+.avatar-submit-btn {
+    width: 100%;
+}
+
 .email-saved-notice {
     font-size: 13px;
     font-weight: 600;
@@ -181,9 +233,7 @@ header p{
 }
 
 .rating-card {
-    flex: 1;
-
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 /* ===== РОЛЬ ===== */

@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -228,6 +233,37 @@ public class UserController {
         userService.setName(userService.findByUsername(principal.getName()), trimmed);
 
         return "redirect:/userProfile?nameSaved=true";
+    }
+
+    @PostMapping("/userProfile/uploadAvatar")
+    public String uploadAvatar(
+            @RequestParam("avatar") MultipartFile file,
+            Principal principal
+    ) throws IOException {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        if (file.isEmpty() || file.getContentType() == null
+                || !file.getContentType().startsWith("image/")) {
+            return "redirect:/userProfile?avatarError=true";
+        }
+
+        User user = userService.findByUsername(principal.getName());
+
+        String filename = user.getUsername() + ".png";
+        Path savePath = Paths.get(
+                System.getProperty("user.dir"),
+                "src", "main", "resources", "static", "images", filename
+        );
+        Files.createDirectories(savePath.getParent());
+        file.transferTo(savePath);
+
+        user.setAvatarPath("/images/" + filename);
+        userService.save(user);
+
+        return "redirect:/userProfile?avatarSaved=true";
     }
 
 }

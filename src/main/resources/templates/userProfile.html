@@ -102,6 +102,53 @@
 
         </div>
 
+        <!-- ===== БЛОК АВАТАРА ===== -->
+        <div class="email-connect-card" style="text-align: center;">
+
+            <p class="block-title">Фото профиля</p>
+
+            <form method="post"
+                  action="/userProfile/uploadAvatar"
+                  enctype="multipart/form-data"
+                  class="avatar-upload-form">
+
+                <input type="file"
+                       id="avatarInput"
+                       name="avatar"
+                       accept="image/*"
+                       required
+                       style="display: none;">
+
+                <label for="avatarInput"
+                       class="avatar-file-label">
+                    &#128247; Выберите новый аватар
+                </label>
+
+                <p class="avatar-file-name"
+                   id="avatarFileName">
+                    Файл не выбран
+                </p>
+
+                <button type="submit"
+                        class="email-connect-btn avatar-submit-btn">
+                    Загрузить
+                </button>
+
+            </form>
+
+            <p th:if="${param.avatarError != null}"
+               class="email-connect-error">
+                Выберите файл изображения
+            </p>
+
+            <p th:if="${param.avatarSaved != null}"
+               class="email-saved-notice"
+               style="margin-top: 8px;">
+                Фото обновлено
+            </p>
+
+        </div>
+
         <!-- ===== БЛОК ИМЕНИ ===== -->
         <div th:if="${!isOrganizer && !hasName}"
              class="email-connect-card">
@@ -451,6 +498,15 @@
             });
         });
     });
+
+    // ===== Выбор файла аватара =====
+    const avatarInput = document.getElementById("avatarInput");
+    if (avatarInput) {
+        avatarInput.addEventListener("change", () => {
+            const nameEl = document.getElementById("avatarFileName");
+            nameEl.textContent = avatarInput.files[0]?.name || "Файл не выбран";
+        });
+    }
 
     // ===== Кнопка отмены участия (остановить всплытие) =====
     document.querySelectorAll(".cancel-participation-btn").forEach(btn => {
