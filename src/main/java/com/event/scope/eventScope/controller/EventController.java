@@ -6,11 +6,14 @@ import com.event.scope.eventScope.model.EventReview;
 import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.model.Tag;
 import com.event.scope.eventScope.model.User;
+import com.event.scope.eventScope.model.Wish;
 import com.event.scope.eventScope.service.EventParticipantService;
 import com.event.scope.eventScope.service.EventReviewService;
 import com.event.scope.eventScope.service.EventService;
 import com.event.scope.eventScope.service.TagService;
 import com.event.scope.eventScope.service.UserService;
+import com.event.scope.eventScope.service.WishLikeService;
+import com.event.scope.eventScope.service.WishService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,13 +41,17 @@ public class EventController {
     private final EventParticipantService eventParticipantService;
     private final TagService tagService;
     private final EventReviewService eventReviewService;
+    private final WishService wishService;
+    private final WishLikeService wishLikeService;
 
-    public EventController(EventService eventService, UserService userService, EventParticipantService eventParticipantService, TagService tagService, EventReviewService eventReviewService) {
+    public EventController(EventService eventService, UserService userService, EventParticipantService eventParticipantService, TagService tagService, EventReviewService eventReviewService, WishService wishService, WishLikeService wishLikeService) {
         this.eventService = eventService;
         this.userService = userService;
         this.eventParticipantService = eventParticipantService;
         this.tagService = tagService;
         this.eventReviewService = eventReviewService;
+        this.wishService = wishService;
+        this.wishLikeService = wishLikeService;
     }
 
     @GetMapping
@@ -133,7 +140,16 @@ public class EventController {
             }
         }
 
+        long days = java.time.temporal.ChronoUnit.DAYS.between(event.getCreatedAt(), LocalDateTime.now());
+
+        if (event.getWish() != null) {
+            model.addAttribute("wishLikeCount", wishLikeService.countLikes(event.getWish()));
+            long wishDays = java.time.temporal.ChronoUnit.DAYS.between(event.getWish().getCreatedAt(), LocalDateTime.now());
+            model.addAttribute("wishDaysAgo", formatDaysAgo(wishDays));
+        }
+
         model.addAttribute("event", event);
+        model.addAttribute("createdDaysAgo", formatDaysAgo(days));
         model.addAttribute("participants", participants);
         model.addAttribute("participantCount", participants.size());
         model.addAttribute("isCurrentUserOrganizer", isCurrentUserOrganizer);
@@ -192,18 +208,28 @@ public class EventController {
     }
 
     @GetMapping("/create")
-    public String createEventPage(Model model) {
+    public String createEventPage(
+            @RequestParam(required = false) Long wishId,
+            Model model
+    ) {
 
         model.addAttribute("event", new Event());
-
         model.addAttribute("tags", tagService.findAll());
-
         model.addAttribute(
                 "minDateTime",
                 LocalDate.now().plusDays(1)
                         .atStartOfDay()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
         );
+
+        if (wishId != null) {
+            var wish = wishService.findById(wishId);
+            model.addAttribute("sourceWish", wish);
+            model.addAttribute("wishId", wishId);
+            model.addAttribute("wishLikeCount", wishLikeService.countLikes(wish));
+            long wishDays = java.time.temporal.ChronoUnit.DAYS.between(wish.getCreatedAt(), LocalDateTime.now());
+            model.addAttribute("wishDaysAgo", formatDaysAgo(wishDays));
+        }
 
         return "createEventPage";
     }
@@ -213,6 +239,7 @@ public class EventController {
             @Valid @ModelAttribute("event") Event event,
             BindingResult bindingResult,
             @RequestParam(required = false) List<Long> tagIds,
+            @RequestParam(required = false) Long wishId,
             Principal principal,
             Model model
     ) {
@@ -231,13 +258,16 @@ public class EventController {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("tags", tagService.findAll());
-
             model.addAttribute(
                     "minDateTime",
                     LocalDate.now().plusDays(1)
                             .atStartOfDay()
                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
             );
+            if (wishId != null) {
+                model.addAttribute("sourceWish", wishService.findById(wishId));
+                model.addAttribute("wishId", wishId);
+            }
 
             return "createEventPage";
         }
@@ -255,8 +285,30 @@ public class EventController {
         }
         event.setTags(tags);
 
+        if (wishId != null) {
+            event.setWish(wishService.findById(wishId));
+        }
+
         eventService.save(event);
 
         return "redirect:/event";
+    }
+
+    private String formatDaysAgo(long days) {
+        if (days == 0) return "Сегодня";
+        if (days == 1) return "Вчера";
+        long mod10 = days % 10;
+        long mod100 = days % 100;
+        String word;
+        if (mod100 >= 11 && mod100 <= 19) {
+            word = "дней";
+        } else if (mod10 == 1) {
+            word = "день";
+        } else if (mod10 >= 2 && mod10 <= 4) {
+            word = "дня";
+        } else {
+            word = "дней";
+        }
+        return days + " " + word + " назад";
     }
 }

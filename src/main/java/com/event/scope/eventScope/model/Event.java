@@ -40,6 +40,10 @@ public class Event {
     @JoinColumn(name = "organizer_id", nullable = false)
     private User organizer;
 
+    @ManyToOne
+    @JoinColumn(name = "wish_id")
+    private Wish wish;
+
     @OneToMany(mappedBy = "event")
     private List<EventParticipant> participants;
 
@@ -116,6 +120,14 @@ public class Event {
 
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
+    }
+
+    public Wish getWish() {
+        return wish;
+    }
+
+    public void setWish(Wish wish) {
+        this.wish = wish;
     }
 
     public List<EventParticipant> getParticipants() {

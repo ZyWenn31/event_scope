@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -152,14 +153,12 @@ public class EventService {
     }
 
     private List<Event> applySorting(List<Event> events, String sortBy) {
-        if ("DATE_DESC".equals(sortBy)) {
-            return events.stream()
-                    .sorted((a, b) -> b.getEventDate().compareTo(a.getEventDate()))
-                    .toList();
-        } else {
-            return events.stream()
-                    .sorted((a, b) -> a.getEventDate().compareTo(b.getEventDate()))
-                    .toList();
-        }
+        return events.stream()
+                .sorted(Comparator
+                        .<Event, Integer>comparing(
+                                e -> e.getParticipants() != null ? e.getParticipants().size() : 0,
+                                Comparator.reverseOrder())
+                        .thenComparing(Event::getCreatedAt, Comparator.reverseOrder()))
+                .toList();
     }
 }

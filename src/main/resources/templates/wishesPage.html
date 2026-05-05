@@ -33,6 +33,17 @@
 
     <form method="get" action="/wish">
 
+        <!-- ===== Только мои ===== -->
+        <div class="filter-block" th:if="${isAuth}">
+            <label class="only-mine-item">
+                <input type="checkbox"
+                       name="onlyMine"
+                       value="true"
+                       th:checked="${onlyMine}">
+                <span>Только мои пожелания</span>
+            </label>
+        </div>
+
         <!-- ===== Дата ===== -->
         <div class="filter-block">
 
@@ -80,36 +91,59 @@
 
     <div class="wishItem" th:each="wish : ${wishes}">
 
-        <p class="wishTitle"
-           th:text="${wish.title}">
-        </p>
+        <p class="wishTitle" th:text="${wish.title}"></p>
 
-        <p class="wishDescription"
-           th:text="${wish.description}">
-        </p>
+        <p class="wishDescription" th:text="${wish.description}"></p>
 
-        <div class="wishDate">
-
-            <p>Создано:</p>
-
-            <p th:text="${#temporals.format(wish.createdAt, 'dd.MM.yyyy HH:mm')}">
-            </p>
+        <div class="wish-meta">
+            <span class="wish-author" th:text="${wish.user.username}"></span>
+            <span class="wish-dot">·</span>
+            <span class="wish-date" th:text="${daysAgoMap[wish.id]}"></span>
         </div>
 
-        <div class="wishAuthor">
-
-            <p>Пользователь:</p>
-
-            <p th:text="${wish.user.username}">
-            </p>
+        <div class="wish-events-strip"
+             th:if="${wish.events != null && !wish.events.isEmpty()}">
+            <span class="wish-events-label">События</span>
+            <div class="wish-events-scroll">
+                <a class="wish-event-chip"
+                   th:each="event : ${wish.events}"
+                   th:href="@{/event/{id}(id=${event.id})}"
+                   th:text="${event.title}"
+                   th:classappend="${event.status.name() == 'FINISHED'} ? ' chip-finished' : (${event.status.name() == 'CANCELED'} ? ' chip-canceled' : '')">
+                </a>
+            </div>
         </div>
 
-        <div class="wishTags">
+        <div class="wish-footer">
 
+            <div class="wishTags">
                 <span class="tag"
                       th:each="tag : ${wish.tags}"
                       th:text="${tag.name}">
                 </span>
+            </div>
+
+            <div class="wish-actions">
+
+                <a th:if="${isOrganizer}"
+                   class="create-from-wish-btn"
+                   th:href="@{/event/create(wishId=${wish.id})}">
+                    + Создать мероприятие
+                </a>
+
+                <button th:if="${isAuth}"
+                        class="like-btn"
+                        th:classappend="${likedWishIds.contains(wish.id)} ? ' liked'"
+                        th:attr="data-wish-id=${wish.id}">
+                    ♥ <span class="like-count" th:text="${likeCounts[wish.id] ?: 0}"></span>
+                </button>
+
+                <span th:if="${!isAuth}"
+                      class="like-btn like-btn-readonly">
+                    ♥ <span class="like-count" th:text="${likeCounts[wish.id] ?: 0}"></span>
+                </span>
+
+            </div>
 
         </div>
 
@@ -118,4 +152,18 @@
 </div>
 
 </body>
+
+<script>
+    document.querySelectorAll(".like-btn[data-wish-id]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const wishId = btn.dataset.wishId;
+            const res = await fetch(`/wish/like?wishId=${wishId}`, { method: "POST" });
+            if (!res.ok) return;
+            const data = await res.json();
+            btn.querySelector(".like-count").textContent = data.count;
+            btn.classList.toggle("liked", data.liked);
+        });
+    });
+</script>
+
 </html>

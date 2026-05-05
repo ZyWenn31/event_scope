@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,9 @@ public class Wish {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
+
+    @OneToMany(mappedBy = "wish")
+    private List<Event> events;
 
     public Long getId() {
         return id;
@@ -81,6 +85,14 @@ public class Wish {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }
 

@@ -35,74 +35,55 @@
                th:text="${event.description}">
             </p>
 
-            <div id="dates">
+                <!-- ===== Мета: организатор + дата ===== -->
+            <div class="event-meta">
 
-                <div id="created">
-                    <p>Создан:</p>
+                <span class="event-organizer-label">Организатор:</span>
+                <span class="event-organizer-name" th:text="${event.organizer.name}"></span>
 
-                    <p th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}">
-                    </p>
+                <span class="meta-dot">·</span>
+
+                <span class="event-meta-date"
+                      th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}">
+                </span>
+
+                <span class="event-time-badge"
+                      th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
+                </span>
+
+            </div>
+
+            <!-- ===== Футер: теги + действия ===== -->
+            <div class="event-footer">
+
+                <div class="event-tags">
+                    <span class="event-tag"
+                          th:each="tag : ${event.tags}"
+                          th:text="${tag.name}">
+                    </span>
                 </div>
 
-                <div id="eventDate">
+                <div class="event-actions">
 
-                    <div class="event-date-row">
-                        <p>Запланировано на:</p>
-                        <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}"></p>
-                    </div>
-
-                    <div class="event-time-row">
-                        <p>Начало в:</p>
-                        <span class="event-time-badge"
-                              th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
+                    <div th:if="${isAuth}" class="participation-container">
+                        <button class="participation-btn"
+                                th:attr="data-event-id=${event.id}"
+                                th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
+                        </button>
+                        <span class="going-label"
+                              th:style="${userEventIds.contains(event.id)} ? 'display:inline-flex' : 'display:none'">
+                            ✔ Иду
                         </span>
                     </div>
 
+                    <a class="detail-link"
+                       th:href="@{/event/{id}(id=${event.id})}">
+                        Подробнее
+                    </a>
+
                 </div>
 
             </div>
-
-            <div id="organizerInfo">
-
-                <p>Организатор:</p>
-
-                <p th:text="${event.organizer.name}">
-                </p>
-
-            </div>
-
-            <!-- ===== Теги ===== -->
-            <div class="event-tags">
-
-                <span class="event-tag"
-                      th:each="tag : ${event.tags}"
-                      th:text="${tag.name}">
-                </span>
-
-            </div>
-
-            <!-- ===== Кнопка участия ===== -->
-            <div th:if="${isAuth}"
-                 class="participation-container">
-
-                <button
-                        class="participation-btn"
-                        th:attr="data-event-id=${event.id}"
-                        th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
-                </button>
-
-                <span class="going-label"
-                      th:style="${userEventIds.contains(event.id)} ? 'display:inline-flex' : 'display:none'">
-                    ✔ Иду
-                </span>
-
-            </div>
-
-            <!-- ===== Подробнее ===== -->
-            <a class="detail-link"
-               th:href="@{/event/{id}(id=${event.id})}">
-                Подробнее
-            </a>
 
         </div>
 

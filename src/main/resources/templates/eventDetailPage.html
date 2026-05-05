@@ -63,72 +63,124 @@
 
         </div>
 
-        <!-- ===== Организатор ===== -->
-        <div class="info-block">
+        <!-- ===== Пожелание-источник ===== -->
+        <div class="source-wish-banner"
+             th:if="${event.wish != null}"
+             id="sourceWishBanner">
 
-            <p class="info-label">Организатор</p>
-
-            <div th:if="${isCurrentUserOrganizer}"
-                 class="organizer-you">
-                Вы организатор
+            <div class="source-wish-header">
+                <div>
+                    <p class="source-wish-label">На основе пожелания</p>
+                    <p class="source-wish-title" th:text="${event.wish.title}"></p>
+                </div>
+                <span class="source-wish-chevron">&#8249;</span>
             </div>
 
-            <a th:if="${!isCurrentUserOrganizer}"
-               class="organizer-link"
-               th:href="@{/userProfile/{username}(username=${event.organizer.username})}"
-               th:text="${event.organizer.name}">
-            </a>
+            <div class="source-wish-details" id="sourceWishDetails">
 
-        </div>
-
-        <!-- ===== Описание ===== -->
-        <div class="info-block">
-
-            <p class="info-label">Описание</p>
-
-            <p class="event-description"
-               th:text="${event.description}">
-            </p>
-
-        </div>
-
-        <!-- ===== Даты ===== -->
-        <div class="dates-row">
-
-            <div class="date-block">
-
-                <p class="info-label">Дата мероприятия</p>
-
-                <p class="date-value"
-                   th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                <p class="source-wish-description"
+                   th:text="${event.wish.description}">
                 </p>
 
-            </div>
+                <div class="source-wish-meta">
 
-            <div class="date-block">
+                    <span class="source-wish-meta-item">
+                        &#128100; <span th:text="${event.wish.user.username}"></span>
+                    </span>
 
-                <p class="info-label">Создано</p>
+                    <span class="source-wish-meta-item">
+                        &#128336; <span th:text="${wishDaysAgo}"></span>
+                    </span>
 
-                <p class="date-value"
-                   th:text="${#temporals.format(event.createdAt, 'dd.MM.yyyy HH:mm')}">
-                </p>
+                    <span class="source-wish-meta-item">
+                        &#9829; <span th:text="${wishLikeCount}"></span>
+                    </span>
+
+                </div>
+
+                <div class="source-wish-tags"
+                     th:if="${event.wish.tags != null && !event.wish.tags.isEmpty()}">
+                    <span class="source-wish-tag"
+                          th:each="tag : ${event.wish.tags}"
+                          th:text="${tag.name}">
+                    </span>
+                </div>
 
             </div>
 
         </div>
 
-        <!-- ===== Рейтинг ===== -->
-        <div class="info-block">
+        <!-- ===== Основная сетка ===== -->
+        <div class="content-grid">
 
-            <p class="info-label">Рейтинг</p>
+            <!-- Левая колонка -->
+            <div class="content-col">
 
-            <div class="rating-row">
+                <div class="info-block">
 
-                <span class="rating-number"
-                      th:text="${event.rating}">
-                </span>
+                    <p class="info-label">Организатор</p>
 
-                <span class="rating-star">★</span>
+                    <div th:if="${isCurrentUserOrganizer}"
+                         class="organizer-you">
+                        Вы организатор
+                    </div>
+
+                    <a th:if="${!isCurrentUserOrganizer}"
+                       class="organizer-link"
+                       th:href="@{/userProfile/{username}(username=${event.organizer.username})}"
+                       th:text="${event.organizer.name}">
+                    </a>
+
+                </div>
+
+                <div class="info-block">
+
+                    <p class="info-label">Описание</p>
+
+                    <p class="event-description"
+                       th:text="${event.description}">
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="content-col content-col-right">
+
+                <div class="info-block">
+
+                    <p class="info-label">Дата мероприятия</p>
+
+                    <p class="date-value"
+                       th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                    </p>
+
+                </div>
+
+                <div class="info-block">
+
+                    <p class="info-label">Создано</p>
+
+                    <p class="date-value" th:text="${createdDaysAgo}"></p>
+
+                </div>
+
+                <div class="info-block">
+
+                    <p class="info-label">Рейтинг</p>
+
+                    <div class="rating-row">
+
+                        <span class="rating-number"
+                              th:text="${event.rating}">
+                        </span>
+
+                        <span class="rating-star">★</span>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -312,6 +364,15 @@
             window.location.href = card.dataset.href;
         });
     });
+
+    const banner = document.getElementById("sourceWishBanner");
+    if (banner) {
+        const details = document.getElementById("sourceWishDetails");
+        banner.addEventListener("click", () => {
+            const expanded = banner.classList.toggle("expanded");
+            details.style.maxHeight = expanded ? details.scrollHeight + "px" : "0";
+        });
+    }
 </script>
 
 </html>

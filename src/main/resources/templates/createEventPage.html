@@ -45,6 +45,55 @@
             Создание мероприятия
         </h1>
 
+        <!-- ===== Пожелание-источник ===== -->
+        <div th:if="${sourceWish}"
+             class="source-wish-banner"
+             id="sourceWishBanner">
+
+            <input type="hidden" name="wishId" th:value="${wishId}">
+
+            <div class="source-wish-header">
+                <div>
+                    <p class="source-wish-label">На основе пожелания</p>
+                    <p class="source-wish-title" th:text="${sourceWish.title}"></p>
+                </div>
+                <span class="source-wish-chevron">&#8249;</span>
+            </div>
+
+            <div class="source-wish-details" id="sourceWishDetails">
+
+                <p class="source-wish-description"
+                   th:text="${sourceWish.description}">
+                </p>
+
+                <div class="source-wish-meta">
+
+                    <span class="source-wish-meta-item">
+                        &#128100; <span th:text="${sourceWish.user.username}"></span>
+                    </span>
+
+                    <span class="source-wish-meta-item">
+                        &#128336; <span th:text="${wishDaysAgo}"></span>
+                    </span>
+
+                    <span class="source-wish-meta-item">
+                        &#9829; <span th:text="${wishLikeCount}"></span>
+                    </span>
+
+                </div>
+
+                <div class="source-wish-tags"
+                     th:if="${sourceWish.tags != null && !sourceWish.tags.isEmpty()}">
+                    <span class="source-wish-tag"
+                          th:each="tag : ${sourceWish.tags}"
+                          th:text="${tag.name}">
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
         <!-- ===== Название ===== -->
         <div class="input-block">
 
@@ -136,4 +185,17 @@
 </div>
 
 </body>
+
+<script>
+    const banner = document.getElementById("sourceWishBanner");
+    if (banner) {
+        const details = document.getElementById("sourceWishDetails");
+        banner.addEventListener("click", (e) => {
+            if (e.target.closest("input[type='hidden']")) return;
+            const expanded = banner.classList.toggle("expanded");
+            details.style.maxHeight = expanded ? details.scrollHeight + "px" : "0";
+        });
+    }
+</script>
+
 </html>
