@@ -1,31 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login page</title>
+    <title>Вход — EventScope</title>
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<div class="login-container">
-    <h2>Вход в EventScope</h2>
 
-    <div th:if="${errorMessage}" class="error">
-        <p th:text="${errorMessage}"></p>
+<div class="auth-wrapper">
+
+    <!-- ===== Брендовая панель ===== -->
+    <div class="auth-brand">
+        <div class="brand-circles">
+            <div class="circle c1"></div>
+            <div class="circle c2"></div>
+            <div class="circle c3"></div>
+        </div>
+        <div class="brand-content">
+            <p class="brand-logo">Event scope</p>
+            <p class="brand-tagline">Находите события,<br>которые вам интересны</p>
+        </div>
     </div>
 
-    <form th:action="@{/login}" method="post">
+    <!-- ===== Форма ===== -->
+    <div class="auth-form-side">
+        <div class="auth-card">
 
-        <label>Логин</label>
-        <input type="text" name="username" required>
+            <h2>Вход в аккаунт</h2>
 
-        <label>Пароль</label>
-        <input type="password" name="password" required>
+            <div th:if="${errorMessage}" class="error-msg">
+                <p th:text="${errorMessage}"></p>
+            </div>
 
-        <button type="submit">Войти</button>
-    </form>
+            <form th:action="@{/login}" method="post">
 
-    <a href="/registration">Регистрация</a>
-    <a href="/event">К просмотру событий</a>
+                <div class="input-block">
+                    <label>Логин</label>
+                    <input type="text" name="username" required placeholder="Введите логин">
+                </div>
+
+                <div class="input-block">
+                    <label>Пароль</label>
+                    <input type="password" name="password" required placeholder="Введите пароль">
+                </div>
+
+                <button type="submit" class="submit-btn">Войти</button>
+
+            </form>
+
+            <div class="auth-links">
+                <a href="/registration">Нет аккаунта? Зарегистрируйтесь</a>
+                <a href="/event">Смотреть события без входа</a>
+            </div>
+
+        </div>
+    </div>
+
 </div>
+
 </body>
 </html>

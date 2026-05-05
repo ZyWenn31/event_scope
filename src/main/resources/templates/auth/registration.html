@@ -1,28 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Регистрация — EventScope</title>
     <link rel="stylesheet" href="/css/registration.css">
 </head>
 <body>
-    <div class="registrationBlock">
-        <h2>Регистрация в EventScope</h2>
 
-        <form action="/registration" method="post" th:object="${user}">
+<div class="auth-wrapper">
 
-            <label>Логин</label>
-            <input type="text" name="username" required th:field="*{username}">
-            <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username errors</div>
-
-            <label>Пароль</label>
-            <input type="password" name="password" required th:field="*{password}">
-            <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password errors</div>
-
-            <button type="submit">Зарегистрироватся</button>
-        </form>
-
-        <a href="/login">Войти</a>
+    <!-- ===== Брендовая панель ===== -->
+    <div class="auth-brand">
+        <div class="brand-circles">
+            <div class="circle c1"></div>
+            <div class="circle c2"></div>
+            <div class="circle c3"></div>
+        </div>
+        <div class="brand-content">
+            <p class="brand-logo">Event scope</p>
+            <p class="brand-tagline">Присоединяйтесь и<br>создавайте события вместе</p>
+        </div>
     </div>
+
+    <!-- ===== Форма ===== -->
+    <div class="auth-form-side">
+        <div class="auth-card">
+
+            <h2>Создать аккаунт</h2>
+
+            <form action="/registration" method="post" th:object="${user}">
+
+                <div class="input-block">
+                    <label>Логин</label>
+                    <input type="text" name="username" required
+                           placeholder="Придумайте логин"
+                           th:field="*{username}">
+                    <p class="validation-error"
+                       th:if="${#fields.hasErrors('username')}"
+                       th:errors="*{username}">
+                    </p>
+                </div>
+
+                <div class="input-block">
+                    <label>Пароль</label>
+                    <input type="password" name="password" required
+                           placeholder="Придумайте пароль"
+                           th:field="*{password}">
+                    <p class="validation-error"
+                       th:if="${#fields.hasErrors('password')}"
+                       th:errors="*{password}">
+                    </p>
+                </div>
+
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+
+            </form>
+
+            <div class="auth-links">
+                <a href="/login">Уже есть аккаунт? Войдите</a>
+                <a href="/event">Смотреть события без входа</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

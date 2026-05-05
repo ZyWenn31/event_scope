@@ -1,102 +1,193 @@
-/* Общая разметка страницы */
-body {
-    min-height: 100vh;
+* {
     margin: 0;
-    background: #f3f4f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
     font-family: "Segoe UI", Arial, sans-serif;
-    color: #1e293b;
 }
 
-/* Основной блок регистрации */
-.registrationBlock {
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ===== Обёртка ===== */
+.auth-wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* ===== Брендовая панель ===== */
+.auth-brand {
+    width: 42%;
+    background-color: #2563EB;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    flex-shrink: 0;
+}
+
+.brand-content {
+    position: relative;
+    z-index: 2;
+}
+
+.brand-logo {
+    font-size: 38px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 18px;
+}
+
+.brand-tagline {
+    font-size: 19px;
+    color: #BFDBFE;
+    line-height: 1.7;
+}
+
+/* ===== Декоративные круги ===== */
+.brand-circles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.c1 { width: 360px; height: 360px; bottom: -100px; right: -100px; }
+.c2 { width: 220px; height: 220px; top: -70px;  right:   30px; }
+.c3 { width: 150px; height: 150px; top:  50%;   left:   -55px; transform: translateY(-50%); }
+
+/* ===== Правая сторона с формой ===== */
+.auth-form-side {
+    flex: 1;
+    background-color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* ===== Карточка ===== */
+.auth-card {
     width: 100%;
-    max-width: 400px;
-    background-color: #ffffff;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
+    max-width: 420px;
+    background-color: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
 }
 
-/* Заголовок */
-.registrationBlock h2 {
-    margin: 0;
-    text-align: center;
-    color: #4f46e5; /* Indigo */
-    font-size: 24px;
+/* ===== Заголовок ===== */
+.auth-card h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
 }
 
-/* Форма */
-.registrationBlock form {
+/* ===== Форма ===== */
+.auth-card form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
-/* Лейблы */
-.registrationBlock label {
-    font-size: 14px;
-    color: #475569; /* Gray */
+/* ===== Блок поля ===== */
+.input-block {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
-/* Инпуты */
-.registrationBlock input {
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid #c7d2fe; /* Light Indigo */
+.input-block label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9CA3AF;
+}
+
+.input-block input {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 0 14px;
     font-size: 14px;
+    color: #111827;
+    background-color: #F9FAFB;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.input-block input:focus {
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.registrationBlock input:focus {
-    border-color: #4f46e5; /* Indigo */
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+/* ===== Ошибки валидации ===== */
+.validation-error {
+    font-size: 13px;
+    font-weight: 500;
+    color: #EF4444;
 }
 
-/* Кнопка */
-.registrationBlock button {
-    margin-top: 10px;
-    padding: 12px;
+/* ===== Кнопка ===== */
+.submit-btn {
+    width: 100%;
+    height: 48px;
     border: none;
     border-radius: 12px;
-    background-color: #2563eb; /* Indigo */
-    color: #ffffff;
+    background-color: #2563EB;
+    color: white;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    margin-top: 4px;
+    transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
 }
 
-.registrationBlock button:hover {
-    background-color: #4338ca;
+.submit-btn:hover {
+    background-color: #1D4ED8;
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
 }
 
-/* Ссылка "Войти" */
-.registrationBlock a {
-    margin-top: 6px;
-    text-align: center;
-    text-decoration: none;
-    color: #2563eb; /* Blue */
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== Ссылки ===== */
+.auth-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.auth-links a {
     font-size: 14px;
-    transition: color 0.2s;
+    color: #2563EB;
+    text-decoration: none;
+    transition: color .2s ease;
 }
 
-.registrationBlock a:hover {
-    color: #1e40af;
-    text-decoration: underline;
+.auth-links a:hover {
+    color: #1D4ED8;
 }
 
-/* Ошибки валидации */
-.registrationBlock div[style*="color: red"] {
-    font-size: 12px;
-    margin-top: -6px;
+/* ===== Адаптив ===== */
+@media (max-width: 700px) {
+    .auth-brand { display: none; }
+    .auth-form-side { padding: 24px; }
 }
