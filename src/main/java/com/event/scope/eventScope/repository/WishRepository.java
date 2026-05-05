@@ -9,14 +9,14 @@ import java.util.List;
 
 @Repository
 public interface WishRepository extends JpaRepository<Wish, Long> {
-    List<Wish> findAllByTags_Id(Long tagId);
+    List<Wish> findDistinctByTags_IdIn(List<Long> tagIds);
     List<Wish> findAllByCreatedAtBetween(
             LocalDateTime start,
             LocalDateTime end
     );
 
-    List<Wish> findAllByTags_IdAndCreatedAtBetween(
-            Long tagId,
+    List<Wish> findDistinctByTags_IdInAndCreatedAtBetween(
+            List<Long> tagIds,
             LocalDateTime start,
             LocalDateTime end
     );

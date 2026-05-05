@@ -21,8 +21,23 @@
             Стать организатором
         </a>
 
-        <a th:if="${isOrganizer}" href="/event/create">
-            Запланировать мероприятие
+        <span th:if="${param.orgError != null && param.orgError[0] == 'both'}"
+              class="header-notice header-notice-error">
+            Заполните имя и email в профиле
+        </span>
+
+        <span th:if="${param.orgError != null && param.orgError[0] == 'name'}"
+              class="header-notice header-notice-error">
+            Заполните имя в профиле
+        </span>
+
+        <span th:if="${param.orgError != null && param.orgError[0] == 'email'}"
+              class="header-notice header-notice-error">
+            Заполните email в профиле
+        </span>
+
+        <a th:if="${isOrganizer}" href="/event/create" class="create-event-btn">
+            + Запланировать мероприятие
         </a>
 
         <a href="/event">

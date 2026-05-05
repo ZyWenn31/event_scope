@@ -53,29 +53,26 @@ public class WishService {
     }
 
 
-    public List<Wish> findAllFiltered(Long tagId, LocalDate createdDate) {
+    public List<Wish> findAllFiltered(List<Long> tagIds, LocalDate createdDate) {
 
-        boolean hasTag = tagId != null;
+        boolean hasTags = tagIds != null && !tagIds.isEmpty();
         boolean hasDate = createdDate != null;
 
-        if (!hasTag && !hasDate) {
+        if (!hasTags && !hasDate) {
             return wishRepository.findAll();
         }
 
-        if (hasTag && !hasDate) {
-            return wishRepository.findAllByTags_Id(tagId);
+        if (hasTags && !hasDate) {
+            return wishRepository.findDistinctByTags_IdIn(tagIds);
         }
 
-        LocalDateTime start =
-                createdDate.atStartOfDay();
+        LocalDateTime start = createdDate.atStartOfDay();
+        LocalDateTime end = createdDate.atTime(LocalTime.MAX);
 
-        LocalDateTime end =
-                createdDate.atTime(LocalTime.MAX);
-
-        if (!hasTag) {
+        if (!hasTags) {
             return wishRepository.findAllByCreatedAtBetween(start, end);
         }
 
-        return wishRepository.findAllByTags_IdAndCreatedAtBetween(tagId, start, end);
+        return wishRepository.findDistinctByTags_IdInAndCreatedAtBetween(tagIds, start, end);
     }
 }

@@ -65,6 +65,11 @@ public class UserService {
                 );
     }
 
+    public void promoteToOrganizer(User user) {
+        user.setRole("ORGANIZER");
+        userRepository.save(user);
+    }
+
     public boolean isEmailTaken(String email) {
         return userRepository.existsByEmail(email);
     }

@@ -189,6 +189,37 @@ public class UserController {
         return "redirect:/userProfile/" + username;
     }
 
+    @GetMapping("/makeMeOrganizer")
+    public String makeMeOrganizer(Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findByUsername(principal.getName());
+
+        if ("ORGANIZER".equals(user.getRole())) {
+            return "redirect:/userProfile";
+        }
+
+        boolean hasName = user.getName() != null && !user.getName().isBlank();
+        boolean hasEmail = user.getEmail() != null && !user.getEmail().isBlank();
+
+        if (!hasName && !hasEmail) {
+            return "redirect:/userProfile?orgError=both";
+        }
+        if (!hasName) {
+            return "redirect:/userProfile?orgError=name";
+        }
+        if (!hasEmail) {
+            return "redirect:/userProfile?orgError=email";
+        }
+
+        userService.promoteToOrganizer(user);
+
+        return "redirect:/userProfile";
+    }
+
     @PostMapping("/userProfile/setEmail")
     public String setEmail(
             @RequestParam String email,

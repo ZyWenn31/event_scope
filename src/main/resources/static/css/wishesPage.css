@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
     background-color: #F9FAFB;
 
-    margin-top: 90px;
+    margin-top: 85px;
     padding: 20px;
 
     display: flex;
@@ -33,31 +33,33 @@ header {
     background-color: #2563EB;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
-    padding: 16px 24px;
+    padding: 20px 40px;
 }
 
 header p {
     color: white;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
 }
 
 .header-links {
     display: flex;
-    gap: 18px;
+    align-items: center;
+    gap: 22px;
 }
 
-header a {
-    color: #c7d2fe;
+.header-links a {
+    color: #DBEAFE;
     text-decoration: none;
-    transition: all .2s ease;
     font-size: 15px;
+    font-weight: 600;
+    transition: color .2s ease;
 }
 
-header a:hover {
+.header-links a:hover {
     color: white;
 }
 
@@ -217,15 +219,16 @@ header a:hover {
     gap: 6px;
 }
 
-.filter-block label {
-    font-size: 14px;
+.filter-label {
+    font-size: 13px;
     font-weight: 600;
-    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #9CA3AF;
 }
 
-/* ====== Поля ====== */
-.filter-block select,
-.filter-block input {
+/* ====== Поле даты ====== */
+.date-input {
     width: 100%;
 
     padding: 10px 12px;
@@ -236,18 +239,61 @@ header a:hover {
     background-color: #F9FAFB;
 
     font-size: 14px;
+    font-family: "Segoe UI", Arial, sans-serif;
     color: #111827;
 
-    transition: all .2s ease;
-}
-
-.filter-block select:focus,
-.filter-block input:focus {
     outline: none;
 
-    border-color: #3B82F6;
+    transition: border-color .2s ease;
+}
 
+.date-input:focus {
+    border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* ====== Теги-чекбоксы ====== */
+.tags-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    max-height: 200px;
+    overflow-y: auto;
+
+    padding-right: 4px;
+}
+
+.tag-filter-item input {
+    display: none;
+}
+
+.tag-filter-item span {
+    display: inline-block;
+
+    background-color: #EEF2FF;
+    color: #4338CA;
+
+    border-radius: 999px;
+
+    padding: 7px 14px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.tag-filter-item span:hover {
+    background-color: #E0E7FF;
+}
+
+.tag-filter-item input:checked + span {
+    background-color: #4F46E5;
+    color: white;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
 }
 
 /* ====== Кнопка ====== */

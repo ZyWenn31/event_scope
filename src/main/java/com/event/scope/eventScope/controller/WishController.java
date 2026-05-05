@@ -36,25 +36,27 @@ public class WishController {
 
     @GetMapping
     public String getAllWishes(
-            @RequestParam(required = false) Long tagId,
+            @RequestParam(required = false) List<Long> tagIds,
             @RequestParam(required = false) LocalDate createdDate,
             Model model,
             Principal principal
     ) {
 
         List<Wish> wishes =
-                wishService.findAllFiltered(tagId, createdDate);
+                wishService.findAllFiltered(tagIds, createdDate);
 
         List<Tag> tags = tagService.findAll();
 
         model.addAttribute("wishes", wishes);
         model.addAttribute("tags", tags);
 
-        model.addAttribute("selectedTagId", tagId);
+        model.addAttribute("selectedTags", tagIds);
         model.addAttribute("selectedDate", createdDate);
 
         model.addAttribute("isAuth", principal != null);
-        model.addAttribute("username", principal.getName());
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
 
         return "wishesPage";
     }

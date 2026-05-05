@@ -9,7 +9,7 @@
 <header>
     <p>Event scope</p>
 
-    <div class="rightHrevs">
+    <div class="header-links">
         <a th:if="${!isAuth}" href="/login">Вход</a>
         <a href="/wish">К пожеланиям</a>
         <a th:if="${isAuth}" href="/userProfile" th:text="${username}">Личный кабинет</a>

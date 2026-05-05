@@ -45,6 +45,7 @@ header p{
 
 .header-links{
     display: flex;
+    align-items: center;
     gap: 22px;
 }
 
@@ -54,12 +55,34 @@ header p{
     text-decoration: none;
 
     font-size: 15px;
+    font-weight: 600;
 
     transition: .2s ease;
 }
 
 .header-links a:hover{
     color: white;
+}
+
+.create-event-btn {
+    background-color: white;
+
+    color: #2563EB !important;
+
+    border-radius: 10px;
+
+    padding: 8px 16px;
+
+    font-weight: 600;
+
+    transition: background-color .2s ease, transform .15s ease !important;
+}
+
+.create-event-btn:hover {
+    background-color: #DBEAFE !important;
+    color: #1D4ED8 !important;
+
+    transform: translateY(-1px);
 }
 
 .header-notice {

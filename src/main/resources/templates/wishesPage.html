@@ -33,32 +33,42 @@
 
     <form method="get" action="/wish">
 
+        <!-- ===== Дата ===== -->
         <div class="filter-block">
 
-            <label>Тег</label>
+            <label class="filter-label">Дата создания</label>
 
-            <select name="tagId">
-                <option value="">Все теги</option>
+            <input type="date"
+                   class="date-input"
+                   name="createdDate"
+                   th:value="${selectedDate}">
 
-                <option
-                        th:each="tag : ${tags}"
-                        th:value="${tag.id}"
-                        th:text="${tag.name}"
-                        th:selected="${selectedTagId != null && selectedTagId == tag.id}">
-                </option>
-            </select>
         </div>
 
+        <!-- ===== Теги ===== -->
         <div class="filter-block">
 
-            <label>Дата создания</label>
+            <p class="filter-label">Теги</p>
 
-            <input
-                    type="date"
-                    name="createdDate"
-                    th:value="${selectedDate}">
+            <div class="tags-filter">
+
+                <label class="tag-filter-item"
+                       th:each="tag : ${tags}">
+
+                    <input type="checkbox"
+                           name="tagIds"
+                           th:value="${tag.id}"
+                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}">
+
+                    <span th:text="${tag.name}"></span>
+
+                </label>
+
+            </div>
+
         </div>
 
+        <!-- ===== Кнопка ===== -->
         <button type="submit">
             Применить
         </button>

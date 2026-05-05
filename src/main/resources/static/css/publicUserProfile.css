@@ -45,6 +45,7 @@ header p {
 
 .header-links {
     display: flex;
+    align-items: center;
     gap: 22px;
 }
 
@@ -54,6 +55,7 @@ header p {
     text-decoration: none;
 
     font-size: 15px;
+    font-weight: 600;
 
     transition: color .2s ease;
 }

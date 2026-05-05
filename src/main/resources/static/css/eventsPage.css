@@ -31,30 +31,32 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    padding: 16px 32px;
+    padding: 20px 40px;
 }
 
 header p {
     color: white;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
 }
 
-.rightHrevs {
+.header-links {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 22px;
 }
 
-header a {
+.header-links a {
     text-decoration: none;
-    color: #dbeafe;
+    color: #DBEAFE;
 
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 600;
 
-    transition: .2s ease;
+    transition: color .2s ease;
 }
 
-header a:hover {
+.header-links a:hover {
     color: white;
 }
 
