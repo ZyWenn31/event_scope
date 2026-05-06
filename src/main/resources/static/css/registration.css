@@ -135,6 +135,40 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+/* ===== Обёртка для поля с паролем ===== */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    padding-right: 44px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: #9CA3AF;
+    transition: color .2s ease;
+}
+
+.toggle-password:hover {
+    color: #2563EB;
+}
+
+.toggle-password svg {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
 /* ===== Ошибки валидации ===== */
 .validation-error {
     font-size: 13px;

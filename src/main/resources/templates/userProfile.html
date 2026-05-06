@@ -216,9 +216,12 @@
                   class="email-connect-form">
 
                 <input type="email"
+                       id="emailInput"
                        name="email"
                        class="email-connect-input"
                        placeholder="example@mail.com"
+                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+                       title="Введите корректный адрес электронной почты"
                        required>
 
                 <button type="submit"
@@ -334,6 +337,9 @@
                 <input type="radio" id="filter-all" name="participation-filter" value="all" checked>
                 <label for="filter-all">Все</label>
 
+                <input type="radio" id="filter-in-progress" name="participation-filter" value="in_progress">
+                <label for="filter-in-progress">Сейчас</label>
+
                 <input type="radio" id="filter-planned" name="participation-filter" value="planned">
                 <label for="filter-planned">Запланированные</label>
 
@@ -346,6 +352,7 @@
 
                 <div class="event-card"
                      th:each="participant : ${userParticipantEvents}"
+                     th:classappend="${participant.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
                      th:attr="data-href=@{/event/{id}(id=${participant.event.id})},data-status=${participant.event.status.name()}">
 
                     <p class="event-title"
@@ -357,8 +364,9 @@
                     </p>
 
                     <div class="event-status"
-                         th:classappend="${participant.event.status.name() == 'PLANNED'} ? 'status-planned' :
-                                         (${participant.event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                         th:classappend="${participant.event.status.name() == 'PLANNED'}      ? 'status-planned' :
+                                         (${participant.event.status.name() == 'IN_PROGRESS'} ? 'status-in-progress' :
+                                         (${participant.event.status.name() == 'FINISHED'}    ? 'status-finished' : 'status-canceled'))">
 
                         <p th:text="${participant.event.status.displayName}">
                         </p>
@@ -407,6 +415,7 @@
 
                 <div class="event-card"
                      th:each="event : ${organizedEvents}"
+                     th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
                      th:attr="data-href=@{/event/{id}(id=${event.id})}">
 
                     <p class="event-title"
@@ -418,8 +427,9 @@
                     </p>
 
                     <div class="event-status"
-                         th:classappend="${event.status.name() == 'PLANNED'} ? 'status-planned' :
-                                         (${event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                         th:classappend="${event.status.name() == 'PLANNED'}      ? 'status-planned' :
+                                         (${event.status.name() == 'IN_PROGRESS'} ? 'status-in-progress' :
+                                         (${event.status.name() == 'FINISHED'}    ? 'status-finished' : 'status-canceled'))">
 
                         <p th:text="${event.status.displayName}">
                         </p>
@@ -501,10 +511,12 @@
     document.querySelectorAll("input[name='participation-filter']").forEach(radio => {
         radio.addEventListener("change", () => {
             const value = radio.value;
-            document.querySelectorAll(".event-card[data-status]").forEach(card => {
+            document.querySelectorAll("#participation-scroll .event-card").forEach(card => {
                 const status = card.dataset.status;
                 if (value === "all") {
                     card.style.display = "";
+                } else if (value === "in_progress") {
+                    card.style.display = status === "IN_PROGRESS" ? "" : "none";
                 } else if (value === "planned") {
                     card.style.display = status === "PLANNED" ? "" : "none";
                 } else {
@@ -520,6 +532,14 @@
         avatarInput.addEventListener("change", () => {
             const nameEl = document.getElementById("avatarFileName");
             nameEl.textContent = avatarInput.files[0]?.name || "Файл не выбран";
+        });
+    }
+
+    // ===== Фильтрация символов в поле email =====
+    const emailInput = document.getElementById("emailInput");
+    if (emailInput) {
+        emailInput.addEventListener("input", () => {
+            emailInput.value = emailInput.value.replace(/[^a-zA-Z0-9._%+\-@]/g, "");
         });
     }
 

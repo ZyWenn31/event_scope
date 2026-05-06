@@ -2,6 +2,8 @@ package com.event.scope.eventScope.service;
 
 import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.EventStatus;
+import com.event.scope.eventScope.model.Tag;
+import com.event.scope.eventScope.model.User;
 import com.event.scope.eventScope.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.event.scope.eventScope.model.EventStatus.IN_PROGRESS;
+import static com.event.scope.eventScope.model.EventStatus.PLANNED;
 
 @Service
 public class EventService {
@@ -68,13 +75,16 @@ public class EventService {
     public List<Event> findFiltered(
             String title,
             List<Long> tagIds,
-            Long myId,
+            User user,
             String sortBy,
             String organizer,
-            LocalDate eventDate
+            LocalDate eventDate,
+            boolean inProgress
     ) {
 
-        List<Event> events = eventRepository.findAllByStatus(EventStatus.PLANNED);
+        List<Event> events = inProgress
+                ? eventRepository.findAllByStatusIn(List.of(IN_PROGRESS))
+                : eventRepository.findAllByStatusIn(List.of(PLANNED, IN_PROGRESS));
 
         if (title != null && !title.isBlank()) {
             events = events.stream()
@@ -103,9 +113,18 @@ public class EventService {
                     .toList();
         }
 
-        events = events.stream().filter(e -> !e.getOrganizer().getId().equals(myId)).toList();
+        events = events.stream().filter(e -> !e.getOrganizer().getId().equals(user.getId())).toList();
 
-        events = applySorting(events, sortBy);
+        Set<Long> userTagIds = user.getParticipations().stream()
+                .flatMap(p -> p.getEvent().getTags().stream())
+                .map(Tag::getId)
+                .collect(Collectors.toSet());
+
+        if (!userTagIds.isEmpty()) {
+            events = sortByTagOverlap(events, userTagIds);
+        } else {
+            events = applySorting(events, sortBy);
+        }
 
         return events;
     }
@@ -115,10 +134,13 @@ public class EventService {
             List<Long> tagIds,
             String sortBy,
             String organizer,
-            LocalDate eventDate
+            LocalDate eventDate,
+            boolean inProgress
     ) {
 
-        List<Event> events = eventRepository.findAllByStatus(EventStatus.PLANNED);
+        List<Event> events = inProgress
+                ? eventRepository.findAllByStatusIn(List.of(IN_PROGRESS))
+                : eventRepository.findAllByStatusIn(List.of(PLANNED, IN_PROGRESS));
 
         if (title != null && !title.isBlank()) {
             events = events.stream()
@@ -150,6 +172,21 @@ public class EventService {
         events = applySorting(events, sortBy);
 
         return events;
+    }
+
+    private List<Event> sortByTagOverlap(List<Event> events, Set<Long> userTagIds) {
+        return events.stream()
+                .sorted(Comparator
+                        .<Event, Long>comparing(
+                                e -> e.getTags().stream()
+                                        .filter(t -> userTagIds.contains(t.getId()))
+                                        .count(),
+                                Comparator.reverseOrder())
+                        .thenComparing(
+                                e -> e.getParticipants() != null ? e.getParticipants().size() : 0,
+                                Comparator.reverseOrder())
+                        .thenComparing(Event::getCreatedAt, Comparator.reverseOrder()))
+                .toList();
     }
 
     private List<Event> applySorting(List<Event> events, String sortBy) {

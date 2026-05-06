@@ -61,6 +61,7 @@ public class EventController {
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String organizer,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate eventDate,
+            @RequestParam(required = false, defaultValue = "false") boolean inProgress,
             Model model,
             Principal principal
     ) {
@@ -71,30 +72,29 @@ public class EventController {
 
         if (isAuth) {
 
-            Long myId = userService.findByUsername(principal.getName()).getId();
+            User currentUser = userService.findByUsername(principal.getName());
 
             events = eventService.findFiltered(
                     title,
                     tagIds,
-                    myId,
+                    currentUser,
                     sortBy,
                     organizer,
-                    eventDate
+                    eventDate,
+                    inProgress
             );
 
             model.addAttribute(
                     "userEventIds",
-                    eventParticipantService.getUserParticipantsEvent(
-                            userService.findByUsername(principal.getName())
-                    )
+                    eventParticipantService.getUserParticipantsEvent(currentUser)
             );
 
-            model.addAttribute("userId", myId);
+            model.addAttribute("userId", currentUser.getId());
             model.addAttribute("username", principal.getName());
 
         } else {
 
-            events = eventService.findFiltered(title, tagIds, sortBy, organizer, eventDate);
+            events = eventService.findFiltered(title, tagIds, sortBy, organizer, eventDate, inProgress);
 
             model.addAttribute("userId", -1);
             model.addAttribute("username", "");
@@ -108,6 +108,7 @@ public class EventController {
         model.addAttribute("selectedSortBy", sortBy != null ? sortBy : "DATE_ASC");
         model.addAttribute("organizer", organizer);
         model.addAttribute("eventDate", eventDate);
+        model.addAttribute("inProgress", inProgress);
 
         return "eventsPage";
     }
@@ -207,6 +208,29 @@ public class EventController {
         return "redirect:/event/" + id;
     }
 
+    @PostMapping("/{id}/cancel")
+    public String cancelEvent(@PathVariable Long id, Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Event event = eventService.findById(id);
+
+        if (!event.getOrganizer().getUsername().equals(principal.getName())) {
+            return "redirect:/event/" + id;
+        }
+
+        if (!EventStatus.PLANNED.equals(event.getStatus())) {
+            return "redirect:/event/" + id;
+        }
+
+        event.setStatus(EventStatus.CANCELED);
+        eventService.save(event);
+
+        return "redirect:/event/" + id;
+    }
+
     @GetMapping("/create")
     public String createEventPage(
             @RequestParam(required = false) Long wishId,
@@ -219,6 +243,13 @@ public class EventController {
                 "minDateTime",
                 LocalDate.now().plusDays(1)
                         .atStartOfDay()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+        );
+        model.addAttribute(
+                "minEndDateTime",
+                LocalDate.now().plusDays(1)
+                        .atStartOfDay()
+                        .plusHours(1)
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
         );
 
@@ -255,6 +286,16 @@ public class EventController {
             );
         }
 
+        if (event.getEventDate() != null && event.getEventEndDate() != null &&
+                event.getEventEndDate().isBefore(event.getEventDate().plusHours(1))) {
+
+            bindingResult.rejectValue(
+                    "eventEndDate",
+                    "eventEndDate.tooSoon",
+                    "Дата окончания должна быть не раньше чем через час от начала"
+            );
+        }
+
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("tags", tagService.findAll());
@@ -262,6 +303,13 @@ public class EventController {
                     "minDateTime",
                     LocalDate.now().plusDays(1)
                             .atStartOfDay()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+            );
+            model.addAttribute(
+                    "minEndDateTime",
+                    LocalDate.now().plusDays(1)
+                            .atStartOfDay()
+                            .plusHours(1)
                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
             );
             if (wishId != null) {

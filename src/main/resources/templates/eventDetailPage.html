@@ -46,7 +46,8 @@
 <div class="detail-layout">
 
     <!-- ===== ЛЕВАЯ ЧАСТЬ — основная информация ===== -->
-    <div class="main-panel">
+    <div class="main-panel"
+         th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'panel-in-progress'">
 
         <!-- ===== Шапка карточки ===== -->
         <div class="event-header">
@@ -55,10 +56,28 @@
                 th:text="${event.title}">
             </h1>
 
-            <div class="status-badge"
-                 th:classappend="${event.status.name() == 'PLANNED'} ? 'status-planned' :
-                                 (${event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
-                <span th:text="${event.status.displayName}"></span>
+            <div class="event-header-right">
+
+                <div class="status-badge"
+                     th:classappend="${event.status.name() == 'PLANNED'}      ? 'status-planned' :
+                                     (${event.status.name() == 'IN_PROGRESS'} ? 'status-in-progress' :
+                                     (${event.status.name() == 'FINISHED'}    ? 'status-finished' : 'status-canceled'))">
+                    <span th:text="${event.status.displayName}"></span>
+                </div>
+
+                <form th:if="${isCurrentUserOrganizer && event.status.name() == 'PLANNED'}"
+                      th:action="@{/event/{id}/cancel(id=${event.id})}"
+                      method="post"
+                      id="cancelEventForm">
+
+                    <button type="button"
+                            class="cancel-event-btn"
+                            onclick="confirmCancelEvent()">
+                        Отменить мероприятие
+                    </button>
+
+                </form>
+
             </div>
 
         </div>
@@ -358,6 +377,12 @@
 </body>
 
 <script>
+    function confirmCancelEvent() {
+        if (confirm("Данное мероприятие нельзя будет запланировать снова, вы уверены?")) {
+            document.getElementById("cancelEventForm").submit();
+        }
+    }
+
     document.querySelectorAll(".participant-card").forEach(card => {
         card.style.cursor = "pointer";
         card.addEventListener("click", () => {

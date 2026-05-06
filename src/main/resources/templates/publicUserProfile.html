@@ -223,6 +223,7 @@
 
                 <div class="event-card"
                      th:each="p : ${plannedParticipations}"
+                     th:classappend="${p.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
                      th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
 
                     <p class="event-title"
@@ -272,6 +273,7 @@
 
                 <div class="event-card"
                      th:each="p : ${allParticipations}"
+                     th:classappend="${p.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
                      th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
 
                     <div class="card-header-row">
@@ -281,8 +283,9 @@
                         </p>
 
                         <div class="status-badge"
-                             th:classappend="${p.event.status.name() == 'PLANNED'} ? 'status-planned' :
-                                             (${p.event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                             th:classappend="${p.event.status.name() == 'PLANNED'}      ? 'status-planned' :
+                                             (${p.event.status.name() == 'IN_PROGRESS'} ? 'status-in-progress' :
+                                             (${p.event.status.name() == 'FINISHED'}    ? 'status-finished' : 'status-canceled'))">
                             <span th:text="${p.event.status.displayName}"></span>
                         </div>
 
@@ -332,6 +335,7 @@
 
                 <div class="event-card"
                      th:each="event : ${organizedEvents}"
+                     th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
                      th:attr="data-href=@{/event/{id}(id=${event.id})}">
 
                     <div class="card-header-row">
@@ -341,8 +345,9 @@
                         </p>
 
                         <div class="status-badge"
-                             th:classappend="${event.status.name() == 'PLANNED'} ? 'status-planned' :
-                                             (${event.status.name() == 'FINISHED'} ? 'status-finished' : 'status-canceled')">
+                             th:classappend="${event.status.name() == 'PLANNED'}      ? 'status-planned' :
+                                             (${event.status.name() == 'IN_PROGRESS'} ? 'status-in-progress' :
+                                             (${event.status.name() == 'FINISHED'}    ? 'status-finished' : 'status-canceled'))">
                             <span th:text="${event.status.displayName}"></span>
                         </div>
 

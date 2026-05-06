@@ -133,16 +133,36 @@
         <div class="input-block">
 
             <label>
-                Дата и время мероприятия
+                Дата и время начала
             </label>
 
             <input type="datetime-local"
+                   id="eventDateInput"
                    th:field="*{eventDate}"
                    th:attr="min=${minDateTime}">
 
             <p class="validation-error"
                th:if="${#fields.hasErrors('eventDate')}"
                th:errors="*{eventDate}">
+            </p>
+
+        </div>
+
+        <!-- ===== Дата окончания ===== -->
+        <div class="input-block">
+
+            <label>
+                Дата и время окончания
+            </label>
+
+            <input type="datetime-local"
+                   id="eventEndDateInput"
+                   th:field="*{eventEndDate}"
+                   th:attr="min=${minEndDateTime}">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('eventEndDate')}"
+               th:errors="*{eventEndDate}">
             </p>
 
         </div>
@@ -196,6 +216,22 @@
             details.style.maxHeight = expanded ? details.scrollHeight + "px" : "0";
         });
     }
+
+    const startInput = document.getElementById("eventDateInput");
+    const endInput   = document.getElementById("eventEndDateInput");
+
+    function updateEndMin() {
+        if (!startInput.value) return;
+        const start = new Date(startInput.value);
+        start.setHours(start.getHours() + 1);
+        const minEnd = start.toISOString().slice(0, 16);
+        endInput.min = minEnd;
+        if (endInput.value && endInput.value < minEnd) {
+            endInput.value = "";
+        }
+    }
+
+    startInput.addEventListener("change", updateEndMin);
 </script>
 
 </html>

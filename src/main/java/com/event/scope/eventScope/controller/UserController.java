@@ -1,5 +1,6 @@
 package com.event.scope.eventScope.controller;
 
+import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.EventParticipant;
 import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.model.OrganizerReview;
@@ -20,7 +21,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -43,8 +46,17 @@ public class UserController {
         model.addAttribute("userAvatar", user.getAvatarPath());
         model.addAttribute("username", user.getUsername());
         model.addAttribute("userRole", user.getRole());
-        model.addAttribute("userParticipantEvents", user.getParticipations());
-        model.addAttribute("participationsIsNull", user.getParticipations().isEmpty());
+        Map<EventStatus, Integer> participationOrder = Map.of(
+                EventStatus.IN_PROGRESS, 0,
+                EventStatus.PLANNED, 1,
+                EventStatus.FINISHED, 2,
+                EventStatus.CANCELED, 3
+        );
+        List<EventParticipant> sortedParticipations = user.getParticipations().stream()
+                .sorted(Comparator.comparingInt(p -> participationOrder.getOrDefault(p.getEvent().getStatus(), 4)))
+                .toList();
+        model.addAttribute("userParticipantEvents", sortedParticipations);
+        model.addAttribute("participationsIsNull", sortedParticipations.isEmpty());
 
 
         if (user.getRole().equals("ORGANIZER")) {
@@ -67,8 +79,18 @@ public class UserController {
             model.addAttribute("isOrganizer", true);
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());
-            model.addAttribute("organizedEventsIsNull", user.getOrganizedEvents().isEmpty());
-            model.addAttribute("organizedEvents", user.getOrganizedEvents());
+            Map<EventStatus, Integer> statusOrder = Map.of(
+                    EventStatus.IN_PROGRESS, 0,
+                    EventStatus.PLANNED, 1,
+                    EventStatus.FINISHED, 2,
+                    EventStatus.CANCELED, 3
+            );
+            List<Event> sortedOrganizedEvents = user.getOrganizedEvents().stream()
+                    .sorted(Comparator.comparingInt(e -> statusOrder.getOrDefault(e.getStatus(), 3)))
+                    .toList();
+
+            model.addAttribute("organizedEventsIsNull", sortedOrganizedEvents.isEmpty());
+            model.addAttribute("organizedEvents", sortedOrganizedEvents);
 
         } else {
             model.addAttribute("isOrganizer", false);
@@ -98,10 +120,20 @@ public class UserController {
 
         boolean isOrganizer = "ORGANIZER".equals(user.getRole());
 
-        List<EventParticipant> allParticipations = user.getParticipations();
+        Map<EventStatus, Integer> publicStatusOrder = Map.of(
+                EventStatus.IN_PROGRESS, 0,
+                EventStatus.PLANNED, 1,
+                EventStatus.FINISHED, 2,
+                EventStatus.CANCELED, 3
+        );
+
+        List<EventParticipant> allParticipations = user.getParticipations().stream()
+                .sorted(Comparator.comparingInt(p -> publicStatusOrder.getOrDefault(p.getEvent().getStatus(), 4)))
+                .toList();
 
         List<EventParticipant> plannedParticipations = allParticipations.stream()
-                .filter(p -> EventStatus.PLANNED.equals(p.getEvent().getStatus()))
+                .filter(p -> EventStatus.PLANNED.equals(p.getEvent().getStatus())
+                          || EventStatus.IN_PROGRESS.equals(p.getEvent().getStatus()))
                 .toList();
 
         model.addAttribute("profileUser", user);
@@ -116,9 +148,13 @@ public class UserController {
                     .average()
                     .orElse(0.0);
 
+            List<Event> sortedOrganizedEvents = user.getOrganizedEvents().stream()
+                    .sorted(Comparator.comparingInt(e -> publicStatusOrder.getOrDefault(e.getStatus(), 4)))
+                    .toList();
+
             model.addAttribute("organizerRating", String.format("%.1f", avgRating));
             model.addAttribute("organizerReviews", user.getReceivedReviews());
-            model.addAttribute("organizedEvents", user.getOrganizedEvents());
+            model.addAttribute("organizedEvents", sortedOrganizedEvents);
         }
 
         model.addAttribute("isAuth", principal != null);

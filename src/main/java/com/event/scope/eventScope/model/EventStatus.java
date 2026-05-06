@@ -2,6 +2,7 @@ package com.event.scope.eventScope.model;
 
 public enum EventStatus {
     PLANNED("Запланировано"),
+    IN_PROGRESS("Идёт сейчас"),
     FINISHED("Завершено"),
     CANCELED("Отменено");
 

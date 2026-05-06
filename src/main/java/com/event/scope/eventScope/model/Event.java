@@ -28,6 +28,10 @@ public class Event {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime eventDate;
 
+    @NotNull(message = "Дата окончания мероприятия обязательна")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime eventEndDate;
+
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
@@ -88,6 +92,14 @@ public class Event {
 
     public void setEventDate(LocalDateTime eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public LocalDateTime getEventEndDate() {
+        return eventEndDate;
+    }
+
+    public void setEventEndDate(LocalDateTime eventEndDate) {
+        this.eventEndDate = eventEndDate;
     }
 
     public LocalDateTime getCreatedAt() {

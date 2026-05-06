@@ -104,6 +104,47 @@ header p {
     box-shadow: 0 8px 22px rgba(0,0,0,0.08);
 }
 
+/* ===== Карточка «идёт сейчас» ===== */
+#item.item-in-progress {
+    border-color: #6EE7B7;
+    background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 60%);
+}
+
+/* ===== Строка заголовка с бейджем ===== */
+.card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* ===== Бейдж статуса ===== */
+.card-status-badge {
+    flex-shrink: 0;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-planned {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+.badge-in-progress {
+    background-color: #D1FAE5;
+    color: #059669;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+    50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);  }
+}
+
 /* ===== Заголовок ===== */
 #title {
     font-size: 22px;
@@ -500,6 +541,69 @@ header p {
 
 .detail-link:hover {
     color: #1D4ED8;
+}
+
+/* ===== Фильтр «Идут сейчас» ===== */
+
+.in-progress-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 14px;
+
+    border: 1.5px solid #D1D5DB;
+    border-radius: 12px;
+
+    background-color: #F9FAFB;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+
+    cursor: pointer;
+
+    transition:
+            border-color .2s ease,
+            background-color .2s ease,
+            color .2s ease;
+}
+
+.in-progress-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.in-progress-dot {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #D1D5DB;
+
+    transition: background-color .2s ease;
+}
+
+.in-progress-toggle:hover {
+    border-color: #6EE7B7;
+    background-color: #F0FDF4;
+    color: #059669;
+}
+
+.in-progress-toggle:hover .in-progress-dot {
+    background-color: #6EE7B7;
+}
+
+.in-progress-toggle-active {
+    border-color: #059669;
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.in-progress-toggle-active .in-progress-dot {
+    background-color: #059669;
+    animation: pulse-green-badge 2s ease-in-out infinite;
 }
 
 /* ===== Адаптив ===== */

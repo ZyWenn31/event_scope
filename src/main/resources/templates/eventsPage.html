@@ -25,11 +25,22 @@
 
         <div id="item"
              th:each="event : ${events}"
+             th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'item-in-progress'"
              th:attr="data-href=@{/event/{id}(id=${event.id})}">
 
-            <p id="title"
-               th:text="${event.title}">
-            </p>
+            <div class="card-header-row">
+
+                <p id="title"
+                   th:text="${event.title}">
+                </p>
+
+                <span class="card-status-badge"
+                      th:classappend="${event.status.name() == 'PLANNED'}     ? 'badge-planned' :
+                                      (${event.status.name() == 'IN_PROGRESS'} ? 'badge-in-progress' : '')"
+                      th:text="${event.status.displayName}">
+                </span>
+
+            </div>
 
             <p id="description"
                th:text="${event.description}">
@@ -43,12 +54,26 @@
 
                 <span class="meta-dot">·</span>
 
+                <span class="event-organizer-label">Начало в:</span>
+
                 <span class="event-meta-date"
                       th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}">
                 </span>
 
                 <span class="event-time-badge"
                       th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
+                </span>
+
+                <span class="meta-dot">·</span>
+
+                <span class="event-organizer-label">до</span>
+
+                <span class="event-meta-date"
+                      th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy')}">
+                </span>
+
+                <span class="event-time-badge"
+                      th:text="${#temporals.format(event.eventEndDate, 'HH:mm')}">
                 </span>
 
             </div>
@@ -147,6 +172,17 @@
                 </select>
 
             </div>
+
+            <!-- ===== Идут сейчас ===== -->
+            <label class="in-progress-toggle"
+                   th:classappend="${inProgress} ? 'in-progress-toggle-active'">
+                <input type="checkbox"
+                       name="inProgress"
+                       value="true"
+                       th:checked="${inProgress}">
+                <span class="in-progress-dot"></span>
+                Идут сейчас
+            </label>
 
             <!-- ===== Кнопка применить ===== -->
             <button type="submit" class="apply-btn">
@@ -252,5 +288,14 @@
         document.querySelectorAll(".detail-link").forEach(link => {
             link.addEventListener("click", e => e.stopPropagation());
         });
+
+        // ===== Чекбокс «Идут сейчас» =====
+        const inProgressCb = document.querySelector(".in-progress-toggle input[type='checkbox']");
+        if (inProgressCb) {
+            inProgressCb.addEventListener("change", () => {
+                inProgressCb.closest(".in-progress-toggle")
+                    .classList.toggle("in-progress-toggle-active", inProgressCb.checked);
+            });
+        }
     });
 </script>
