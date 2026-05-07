@@ -369,7 +369,7 @@ public class UserController {
 
         User user = userService.findByUsername(principal.getName());
 
-        String filename = user.getUsername() + ".png";
+        String filename = "avatar_" + user.getId() + ".png";
         Path savePath = Paths.get(
                 System.getProperty("user.dir"),
                 "src", "main", "resources", "static", "images", filename
