@@ -16,16 +16,23 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByStatus(EventStatus status);
     List<Event> findAllByStatusIn(List<EventStatus> statuses);
 
-    @Modifying
-    @Query("UPDATE Event e SET e.status = :finished WHERE e.status IN (:planned, :inProgress) AND e.eventEndDate IS NOT NULL AND e.eventEndDate < :now")
-    void markFinishedWhenEndDatePassed(
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Event e SET e.status = :finished WHERE e.status = :planned AND e.eventEndDate IS NOT NULL AND e.eventEndDate < :now")
+    void markPlannedFinished(
             @Param("finished") EventStatus finished,
             @Param("planned") EventStatus planned,
+            @Param("now") LocalDateTime now
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Event e SET e.status = :finished WHERE e.status = :inProgress AND e.eventEndDate IS NOT NULL AND e.eventEndDate < :now")
+    void markInProgressFinished(
+            @Param("finished") EventStatus finished,
             @Param("inProgress") EventStatus inProgress,
             @Param("now") LocalDateTime now
     );
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE Event e SET e.status = :inProgress WHERE e.status = :planned AND e.eventDate < :now AND (e.eventEndDate IS NULL OR e.eventEndDate >= :now)")
     void markInProgressWhenStarted(
             @Param("inProgress") EventStatus inProgress,

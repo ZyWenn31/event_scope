@@ -23,10 +23,8 @@ public class EventStatusScheduler {
     public void updateEventStatuses() {
         LocalDateTime now = LocalDateTime.now();
 
-        eventRepository.markFinishedWhenEndDatePassed(
-                EventStatus.FINISHED, EventStatus.PLANNED, EventStatus.IN_PROGRESS, now);
-
-        eventRepository.markInProgressWhenStarted(
-                EventStatus.IN_PROGRESS, EventStatus.PLANNED, now);
+        eventRepository.markPlannedFinished(EventStatus.FINISHED, EventStatus.PLANNED, now);
+        eventRepository.markInProgressFinished(EventStatus.FINISHED, EventStatus.IN_PROGRESS, now);
+        eventRepository.markInProgressWhenStarted(EventStatus.IN_PROGRESS, EventStatus.PLANNED, now);
     }
 }
