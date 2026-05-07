@@ -31,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/event")
@@ -149,6 +150,10 @@ public class EventController {
             model.addAttribute("wishDaysAgo", formatDaysAgo(wishDays));
         }
 
+        boolean canEdit = isCurrentUserOrganizer &&
+                EventStatus.PLANNED.equals(event.getStatus()) &&
+                event.getEventDate().isAfter(LocalDateTime.now().plusMinutes(30));
+
         model.addAttribute("event", event);
         model.addAttribute("createdDaysAgo", formatDaysAgo(days));
         model.addAttribute("participants", participants);
@@ -158,6 +163,7 @@ public class EventController {
         model.addAttribute("username", principal != null ? principal.getName() : "");
         model.addAttribute("canReview", canReview);
         model.addAttribute("alreadyReviewed", alreadyReviewed);
+        model.addAttribute("canEdit", canEdit);
 
         return "eventDetailPage";
     }
@@ -227,6 +233,135 @@ public class EventController {
 
         event.setStatus(EventStatus.CANCELED);
         eventService.save(event);
+
+        return "redirect:/event/" + id;
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editEventPage(
+            @PathVariable Long id,
+            Model model,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Event event = eventService.findById(id);
+
+        if (!event.getOrganizer().getUsername().equals(principal.getName())) {
+            return "redirect:/event/" + id;
+        }
+
+        if (!EventStatus.PLANNED.equals(event.getStatus()) ||
+                !event.getEventDate().isAfter(LocalDateTime.now().plusMinutes(30))) {
+            return "redirect:/event/" + id;
+        }
+
+        Set<Long> selectedTagIds = event.getTags() != null
+                ? event.getTags().stream().map(Tag::getId).collect(Collectors.toSet())
+                : new HashSet<>();
+
+        model.addAttribute("event", event);
+        model.addAttribute("tags", tagService.findAll());
+        model.addAttribute("selectedTagIds", selectedTagIds);
+        model.addAttribute(
+                "minDateTime",
+                LocalDate.now().plusDays(1)
+                        .atStartOfDay()
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+        );
+        model.addAttribute(
+                "minEndDateTime",
+                LocalDate.now().plusDays(1)
+                        .atStartOfDay()
+                        .plusHours(1)
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+        );
+
+        return "editEventPage";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editEvent(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("event") Event eventForm,
+            BindingResult bindingResult,
+            @RequestParam(required = false) List<Long> tagIds,
+            Principal principal,
+            Model model
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Event existing = eventService.findById(id);
+
+        if (!existing.getOrganizer().getUsername().equals(principal.getName())) {
+            return "redirect:/event/" + id;
+        }
+
+        if (!EventStatus.PLANNED.equals(existing.getStatus()) ||
+                !existing.getEventDate().isAfter(LocalDateTime.now().plusMinutes(30))) {
+            return "redirect:/event/" + id;
+        }
+
+        if (eventForm.getEventDate() != null &&
+                eventForm.getEventDate().toLocalDate()
+                        .isBefore(LocalDate.now().plusDays(1))) {
+
+            bindingResult.rejectValue(
+                    "eventDate",
+                    "eventDate.tooSoon",
+                    "Мероприятие можно запланировать не раньше завтрашнего дня"
+            );
+        }
+
+        if (eventForm.getEventDate() != null && eventForm.getEventEndDate() != null &&
+                eventForm.getEventEndDate().isBefore(eventForm.getEventDate().plusHours(1))) {
+
+            bindingResult.rejectValue(
+                    "eventEndDate",
+                    "eventEndDate.tooSoon",
+                    "Дата окончания должна быть не раньше чем через час от начала"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
+            eventForm.setId(id);
+            model.addAttribute("tags", tagService.findAll());
+            model.addAttribute("selectedTagIds",
+                    tagIds != null ? new HashSet<>(tagIds) : new HashSet<>());
+            model.addAttribute(
+                    "minDateTime",
+                    LocalDate.now().plusDays(1)
+                            .atStartOfDay()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+            );
+            model.addAttribute(
+                    "minEndDateTime",
+                    LocalDate.now().plusDays(1)
+                            .atStartOfDay()
+                            .plusHours(1)
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+            );
+            return "editEventPage";
+        }
+
+        existing.setTitle(eventForm.getTitle());
+        existing.setDescription(eventForm.getDescription());
+        existing.setEventDate(eventForm.getEventDate());
+        existing.setEventEndDate(eventForm.getEventEndDate());
+
+        Set<Tag> updatedTags = new HashSet<>();
+        if (tagIds != null) {
+            updatedTags = tagService.findAllByIds(tagIds);
+        }
+        existing.setTags(updatedTags);
+
+        eventService.save(existing);
 
         return "redirect:/event/" + id;
     }

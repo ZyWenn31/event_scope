@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Редактирование мероприятия</title>
+
+    <link rel="stylesheet"
+          href="/css/createEventPage.css">
+</head>
+
+<header>
+
+    <p>Event scope</p>
+
+    <div class="header-links">
+
+        <a href="/userProfile">
+            Личный кабинет
+        </a>
+
+        <a href="/event">
+            К мероприятиям
+        </a>
+
+        <a href="/wish">
+            К пожеланиям
+        </a>
+
+    </div>
+
+</header>
+
+<body>
+
+<div class="create-container">
+
+    <form th:action="@{/event/{id}/edit(id=${event.id})}"
+          method="post"
+          th:object="${event}"
+          novalidate>
+
+        <h1>
+            Редактирование мероприятия
+        </h1>
+
+        <!-- ===== Название ===== -->
+        <div class="input-block">
+
+            <label>
+                Название
+            </label>
+
+            <input type="text"
+                   th:field="*{title}"
+                   placeholder="Введите название мероприятия">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('title')}"
+               th:errors="*{title}">
+            </p>
+
+        </div>
+
+        <!-- ===== Описание ===== -->
+        <div class="input-block">
+
+            <label>
+                Описание
+            </label>
+
+            <textarea th:field="*{description}"
+                      placeholder="Расскажите подробнее о мероприятии"></textarea>
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}">
+            </p>
+
+        </div>
+
+        <!-- ===== Дата мероприятия ===== -->
+        <div class="input-block">
+
+            <label>
+                Дата и время начала
+            </label>
+
+            <input type="datetime-local"
+                   id="eventDateInput"
+                   th:field="*{eventDate}"
+                   th:attr="min=${minDateTime}">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('eventDate')}"
+               th:errors="*{eventDate}">
+            </p>
+
+        </div>
+
+        <!-- ===== Дата окончания ===== -->
+        <div class="input-block">
+
+            <label>
+                Дата и время окончания
+            </label>
+
+            <input type="datetime-local"
+                   id="eventEndDateInput"
+                   th:field="*{eventEndDate}"
+                   th:attr="min=${minEndDateTime}">
+
+            <p class="validation-error"
+               th:if="${#fields.hasErrors('eventEndDate')}"
+               th:errors="*{eventEndDate}">
+            </p>
+
+        </div>
+
+        <!-- ===== Теги ===== -->
+        <div class="tags-section">
+
+            <p class="tags-title">
+                Теги
+            </p>
+
+            <div class="tags-container">
+
+                <label class="tag-item"
+                       th:each="tag : ${tags}">
+
+                    <input type="checkbox"
+                           name="tagIds"
+                           th:value="${tag.id}"
+                           th:checked="${selectedTagIds != null && selectedTagIds.contains(tag.id)}">
+
+                    <span th:text="${tag.name}">
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Кнопки ===== -->
+        <div class="form-actions">
+
+            <a th:href="@{/event/{id}(id=${event.id})}"
+               class="cancel-edit-link">
+                Отмена
+            </a>
+
+            <button type="submit"
+                    class="submit-btn">
+                Сохранить изменения
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+<script>
+    const formEl = document.querySelector(".create-container form");
+
+    formEl.addEventListener("submit", () => {
+        sessionStorage.setItem("editEventScrollY", window.scrollY);
+        sessionStorage.setItem("editEventFormScrollY", formEl.scrollTop);
+    });
+
+    window.addEventListener("load", () => {
+        const winY = sessionStorage.getItem("editEventScrollY");
+        if (winY !== null) {
+            window.scrollTo(0, parseInt(winY, 10));
+            sessionStorage.removeItem("editEventScrollY");
+        }
+        const formY = sessionStorage.getItem("editEventFormScrollY");
+        if (formY !== null) {
+            formEl.scrollTop = parseInt(formY, 10);
+            sessionStorage.removeItem("editEventFormScrollY");
+        }
+    });
+
+    const startInput = document.getElementById("eventDateInput");
+    const endInput   = document.getElementById("eventEndDateInput");
+
+    function updateEndMin() {
+        if (!startInput.value) return;
+        const start = new Date(startInput.value);
+        start.setHours(start.getHours() + 1);
+        const minEnd = start.toISOString().slice(0, 16);
+        endInput.min = minEnd;
+        if (endInput.value && endInput.value < minEnd) {
+            endInput.value = "";
+        }
+    }
+
+    startInput.addEventListener("change", updateEndMin);
+</script>
+
+</html>

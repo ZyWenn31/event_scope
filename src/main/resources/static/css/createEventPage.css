@@ -323,6 +323,40 @@ header p {
     transform: translateY(0);
 }
 
+.form-actions {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.form-actions .submit-btn {
+    flex: 2;
+    width: auto;
+}
+
+.cancel-edit-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background-color: #FEE2E2;
+    color: #DC2626;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .15s ease;
+}
+
+.cancel-edit-link:hover {
+    background-color: #FECACA;
+    transform: translateY(-1px);
+}
+
 /* ===== Адаптив ===== */
 @media (max-width: 760px) {
     .create-container form {

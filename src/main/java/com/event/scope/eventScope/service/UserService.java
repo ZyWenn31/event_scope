@@ -74,6 +74,10 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    public boolean isEmailTakenByOther(String email, Long currentUserId) {
+        return userRepository.existsByEmailAndIdNot(email, currentUserId);
+    }
+
     public void setEmail(User user, String email) {
         user.setEmail(email);
         userRepository.save(user);

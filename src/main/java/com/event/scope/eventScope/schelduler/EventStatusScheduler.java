@@ -18,33 +18,33 @@ public class EventStatusScheduler {
         this.eventRepository = eventRepository;
     }
 
-    @Scheduled(cron = "0 * * * * *")
-    public void finishPastEvents() {
-        List<Event> inProgress = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS);
+//    @Scheduled(cron = "0 * * * * *")
+//    public void finishPastEvents() {
+//        List<Event> inProgress = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS);
+//
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        List<Event> toFinish = inProgress.stream()
+//                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
+//                .toList();
+//
+//        toFinish.forEach(e -> e.setStatus(EventStatus.FINISHED));
+//
+//        eventRepository.saveAll(toFinish);
+//    }
 
-        LocalDateTime now = LocalDateTime.now();
-
-        List<Event> toFinish = inProgress.stream()
-                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
-                .toList();
-
-        toFinish.forEach(e -> e.setStatus(EventStatus.FINISHED));
-
-        eventRepository.saveAll(toFinish);
-    }
-
-    @Scheduled(cron = "0 * * * * *")
-    public void markInProgressEvents() {
-        List<Event> planned = eventRepository.findAllByStatus(EventStatus.PLANNED);
-
-        LocalDateTime now = LocalDateTime.now();
-
-        List<Event> toStart = planned.stream()
-                .filter(e -> e.getEventDate().isBefore(now))
-                .toList();
-
-        toStart.forEach(e -> e.setStatus(EventStatus.IN_PROGRESS));
-
-        eventRepository.saveAll(toStart);
-    }
+//    @Scheduled(cron = "0 * * * * *")
+//    public void markInProgressEvents() {
+//        List<Event> planned = eventRepository.findAllByStatus(EventStatus.PLANNED);
+//
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        List<Event> toStart = planned.stream()
+//                .filter(e -> e.getEventDate().isBefore(now))
+//                .toList();
+//
+//        toStart.forEach(e -> e.setStatus(EventStatus.IN_PROGRESS));
+//
+//        eventRepository.saveAll(toStart);
+//    }
 }

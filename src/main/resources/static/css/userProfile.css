@@ -768,3 +768,47 @@ header p{
 
     transform: translateY(-1px);
 }
+
+/* ===== БЛОК РЕДАКТИРОВАНИЯ ПРОФИЛЯ ===== */
+
+.edit-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.edit-toggle-btn {
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    padding: 5px 14px;
+    background-color: white;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.edit-toggle-btn:hover {
+    background-color: #F3F4F6;
+    border-color: #9CA3AF;
+}
+
+.edit-field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6B7280;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.edit-stacked-form {
+    flex-direction: column;
+}
+
+.edit-divider {
+    border: none;
+    border-top: 1px solid #E5E7EB;
+    margin: 14px 0;
+}

@@ -91,6 +91,8 @@ public class UserController {
 
             model.addAttribute("organizedEventsIsNull", sortedOrganizedEvents.isEmpty());
             model.addAttribute("organizedEvents", sortedOrganizedEvents);
+            model.addAttribute("hasName", true);
+            model.addAttribute("hasEmail", true);
 
         } else {
             model.addAttribute("isOrganizer", false);
@@ -300,6 +302,54 @@ public class UserController {
         userService.setName(userService.findByUsername(principal.getName()), trimmed);
 
         return "redirect:/userProfile?nameSaved=true";
+    }
+
+    @PostMapping("/userProfile/editName")
+    public String editName(
+            @RequestParam String name,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String trimmed = name == null ? "" : name.trim();
+
+        if (trimmed.isBlank() || trimmed.length() < 5 || trimmed.length() > 60) {
+            return "redirect:/userProfile?editNameError=invalid";
+        }
+
+        userService.setName(userService.findByUsername(principal.getName()), trimmed);
+
+        return "redirect:/userProfile?nameSaved=true";
+    }
+
+    @PostMapping("/userProfile/editEmail")
+    public String editEmail(
+            @RequestParam String email,
+            Principal principal
+    ) {
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String trimmed = email == null ? "" : email.trim();
+
+        if (!trimmed.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            return "redirect:/userProfile?editEmailError=invalid";
+        }
+
+        User user = userService.findByUsername(principal.getName());
+
+        if (userService.isEmailTakenByOther(trimmed, user.getId())) {
+            return "redirect:/userProfile?editEmailError=taken";
+        }
+
+        userService.setEmail(user, trimmed);
+
+        return "redirect:/userProfile?emailSaved=true";
     }
 
     @PostMapping("/userProfile/uploadAvatar")

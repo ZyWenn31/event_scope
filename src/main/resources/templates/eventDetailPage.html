@@ -65,6 +65,12 @@
                     <span th:text="${event.status.displayName}"></span>
                 </div>
 
+                <a th:if="${canEdit}"
+                   th:href="@{/event/{id}/edit(id=${event.id})}"
+                   class="edit-event-btn">
+                    Редактировать информацию
+                </a>
+
                 <form th:if="${isCurrentUserOrganizer && event.status.name() == 'PLANNED'}"
                       th:action="@{/event/{id}/cancel(id=${event.id})}"
                       method="post"

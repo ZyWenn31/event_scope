@@ -801,6 +801,25 @@ header p {
     flex-shrink: 0;
 }
 
+.edit-event-btn {
+    display: inline-block;
+    border: 1.5px solid #2563EB;
+    border-radius: 12px;
+    padding: 10px 22px;
+    background-color: white;
+    color: #2563EB;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .15s ease;
+}
+
+.edit-event-btn:hover {
+    background-color: #EFF6FF;
+    transform: translateY(-1px);
+}
+
 .cancel-event-btn {
     border: none;
     border-radius: 12px;

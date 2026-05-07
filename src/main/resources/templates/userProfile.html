@@ -125,13 +125,13 @@
             <form method="post"
                   action="/userProfile/uploadAvatar"
                   enctype="multipart/form-data"
-                  class="avatar-upload-form">
+                  class="avatar-upload-form"
+                  novalidate>
 
                 <input type="file"
                        id="avatarInput"
                        name="avatar"
                        accept="image/*"
-                       required
                        style="display: none;">
 
                 <label for="avatarInput"
@@ -175,13 +175,14 @@
             </p>
 
             <form method="post" action="/userProfile/setName"
-                  class="email-connect-form">
+                  class="email-connect-form"
+                  novalidate>
 
                 <input type="text"
                        name="name"
                        class="email-connect-input"
                        placeholder="Иван Иванов"
-                       required>
+                       maxlength="60">
 
                 <button type="submit"
                         class="email-connect-btn">
@@ -213,16 +214,14 @@
             </p>
 
             <form method="post" action="/userProfile/setEmail"
-                  class="email-connect-form">
+                  class="email-connect-form"
+                  novalidate>
 
-                <input type="email"
+                <input type="text"
                        id="emailInput"
                        name="email"
                        class="email-connect-input"
-                       placeholder="example@mail.com"
-                       pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-                       title="Введите корректный адрес электронной почты"
-                       required>
+                       placeholder="example@mail.com">
 
                 <button type="submit"
                         class="email-connect-btn">
@@ -247,6 +246,108 @@
            class="email-saved-notice">
             Email успешно сохранён
         </p>
+
+        <!-- ===== БЛОК РЕДАКТИРОВАНИЯ ДАННЫХ ===== -->
+        <div th:if="${hasName || hasEmail}"
+             class="email-connect-card">
+
+            <div class="edit-profile-header">
+
+                <p class="block-title">Личные данные</p>
+
+                <button type="button"
+                        class="edit-toggle-btn"
+                        id="editProfileToggle">
+                    Редактировать
+                </button>
+
+            </div>
+
+            <div id="editProfileForm"
+                 th:style="${param.editNameError != null || param.editEmailError != null} ? '' : 'display:none'">
+
+                <div th:if="${hasName}">
+
+                    <form method="post"
+                          action="/userProfile/editName"
+                          class="email-connect-form edit-stacked-form"
+                          novalidate>
+
+                        <label class="edit-field-label">Имя</label>
+
+                        <input type="text"
+                               name="name"
+                               class="email-connect-input"
+                               th:value="${userName ?: ''}"
+                               placeholder="Иван Иванов"
+                               maxlength="60">
+
+                        <button type="submit"
+                                class="email-connect-btn">
+                            Сохранить имя
+                        </button>
+
+                    </form>
+
+                    <p th:if="${param.editNameError != null}"
+                       class="email-connect-error">
+                        Имя должно содержать от 5 до 60 символов
+                    </p>
+
+                </div>
+
+                <div th:if="${hasName && hasEmail}" class="edit-divider"></div>
+
+                <div th:if="${hasEmail}">
+
+                    <form method="post"
+                          action="/userProfile/editEmail"
+                          class="email-connect-form edit-stacked-form"
+                          novalidate>
+
+                        <label class="edit-field-label">Email</label>
+
+                        <input type="text"
+                               id="editEmailInput"
+                               name="email"
+                               class="email-connect-input"
+                               th:value="${userEmail ?: ''}"
+                               placeholder="example@mail.com">
+
+                        <button type="submit"
+                                class="email-connect-btn">
+                            Сохранить email
+                        </button>
+
+                    </form>
+
+                    <p th:if="${param.editEmailError != null && param.editEmailError[0] == 'taken'}"
+                       class="email-connect-error">
+                        Этот email уже используется
+                    </p>
+
+                    <p th:if="${param.editEmailError != null && param.editEmailError[0] == 'invalid'}"
+                       class="email-connect-error">
+                        Некорректный формат email
+                    </p>
+
+                </div>
+
+            </div>
+
+            <p th:if="${param.nameSaved != null}"
+               class="email-saved-notice"
+               style="margin-top: 8px;">
+                Имя успешно обновлено
+            </p>
+
+            <p th:if="${param.emailSaved != null}"
+               class="email-saved-notice"
+               style="margin-top: 8px;">
+                Email успешно обновлён
+            </p>
+
+        </div>
 
         <!-- ===== БЛОК РЕЙТИНГА ===== -->
         <div th:if="${isOrganizer}"
@@ -540,6 +641,43 @@
     if (emailInput) {
         emailInput.addEventListener("input", () => {
             emailInput.value = emailInput.value.replace(/[^a-zA-Z0-9._%+\-@]/g, "");
+        });
+    }
+
+    // ===== Переключение формы редактирования профиля =====
+    const editToggle = document.getElementById("editProfileToggle");
+    const editForm = document.getElementById("editProfileForm");
+    if (editToggle && editForm) {
+        editToggle.addEventListener("click", () => {
+            const isHidden = editForm.style.display === "none";
+            editForm.style.display = isHidden ? "" : "none";
+            editToggle.textContent = isHidden ? "Свернуть" : "Редактировать";
+        });
+        if (editForm.style.display !== "none") {
+            editToggle.textContent = "Свернуть";
+        }
+    }
+
+    // ===== Фильтрация символов в поле edit-email =====
+    const editEmailInput = document.getElementById("editEmailInput");
+    if (editEmailInput) {
+        editEmailInput.addEventListener("input", () => {
+            editEmailInput.value = editEmailInput.value.replace(/[^a-zA-Z0-9._%+\-@]/g, "");
+        });
+    }
+
+    // ===== Сохранение и восстановление позиции прокрутки сайдбара =====
+    const sidebar = document.querySelector(".profile-sidebar");
+    if (sidebar) {
+        const saved = sessionStorage.getItem("sidebarScrollY");
+        if (saved !== null) {
+            sidebar.scrollTop = parseInt(saved, 10);
+            sessionStorage.removeItem("sidebarScrollY");
+        }
+        sidebar.querySelectorAll("form").forEach(form => {
+            form.addEventListener("submit", () => {
+                sessionStorage.setItem("sidebarScrollY", sidebar.scrollTop);
+            });
         });
     }
 
