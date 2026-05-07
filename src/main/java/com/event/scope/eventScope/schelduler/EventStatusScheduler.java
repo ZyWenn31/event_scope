@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Component
 public class EventStatusScheduler {
@@ -24,25 +23,10 @@ public class EventStatusScheduler {
     public void updateEventStatuses() {
         LocalDateTime now = LocalDateTime.now();
 
-        List<Event> planned = eventRepository.findAllByStatus(EventStatus.PLANNED);
+        eventRepository.markFinishedWhenEndDatePassed(
+                EventStatus.FINISHED, EventStatus.PLANNED, EventStatus.IN_PROGRESS, now);
 
-        List<Event> toFinishFromPlanned = planned.stream()
-                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
-                .toList();
-        toFinishFromPlanned.forEach(e -> e.setStatus(EventStatus.FINISHED));
-        eventRepository.saveAll(toFinishFromPlanned);
-
-        List<Event> toStart = planned.stream()
-                .filter(e -> e.getEventEndDate() == null || !e.getEventEndDate().isBefore(now))
-                .filter(e -> e.getEventDate().isBefore(now))
-                .toList();
-        toStart.forEach(e -> e.setStatus(EventStatus.IN_PROGRESS));
-        eventRepository.saveAll(toStart);
-
-        List<Event> toFinish = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS).stream()
-                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
-                .toList();
-        toFinish.forEach(e -> e.setStatus(EventStatus.FINISHED));
-        eventRepository.saveAll(toFinish);
+        eventRepository.markInProgressWhenStarted(
+                EventStatus.IN_PROGRESS, EventStatus.PLANNED, now);
     }
 }
