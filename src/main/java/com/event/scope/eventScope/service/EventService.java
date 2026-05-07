@@ -121,7 +121,7 @@ public class EventService {
                 .collect(Collectors.toSet());
 
         if (!userTagIds.isEmpty()) {
-            events = sortByTagOverlap(events, userTagIds);
+            events = sortByTagOverlap(events, userTagIds, sortBy);
         } else {
             events = applySorting(events, sortBy);
         }
@@ -174,7 +174,11 @@ public class EventService {
         return events;
     }
 
-    private List<Event> sortByTagOverlap(List<Event> events, Set<Long> userTagIds) {
+    private List<Event> sortByTagOverlap(List<Event> events, Set<Long> userTagIds, String sortBy) {
+        Comparator<Event> dateComparator = "DATE_DESC".equals(sortBy)
+                ? Comparator.comparing(Event::getEventDate, Comparator.reverseOrder())
+                : Comparator.comparing(Event::getEventDate);
+
         return events.stream()
                 .sorted(Comparator
                         .<Event, Long>comparing(
@@ -182,20 +186,15 @@ public class EventService {
                                         .filter(t -> userTagIds.contains(t.getId()))
                                         .count(),
                                 Comparator.reverseOrder())
-                        .thenComparing(
-                                e -> e.getParticipants() != null ? e.getParticipants().size() : 0,
-                                Comparator.reverseOrder())
-                        .thenComparing(Event::getCreatedAt, Comparator.reverseOrder()))
+                        .thenComparing(dateComparator))
                 .toList();
     }
 
     private List<Event> applySorting(List<Event> events, String sortBy) {
-        return events.stream()
-                .sorted(Comparator
-                        .<Event, Integer>comparing(
-                                e -> e.getParticipants() != null ? e.getParticipants().size() : 0,
-                                Comparator.reverseOrder())
-                        .thenComparing(Event::getCreatedAt, Comparator.reverseOrder()))
-                .toList();
+        Comparator<Event> comparator = "DATE_DESC".equals(sortBy)
+                ? Comparator.comparing(Event::getEventDate, Comparator.reverseOrder())
+                : Comparator.comparing(Event::getEventDate);
+
+        return events.stream().sorted(comparator).toList();
     }
 }

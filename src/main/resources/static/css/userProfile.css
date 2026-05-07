@@ -406,6 +406,10 @@ header p{
     overflow: hidden;
 
     border-radius: 16px;
+
+    height: 140px;
+
+    transition: height .3s ease;
 }
 
 .slider-track {
@@ -457,6 +461,42 @@ header p{
     line-height: 1.5;
 
     color: #4B5563;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.review-comment.expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+}
+
+.review-expand-btn {
+    display: none;
+
+    background: none;
+    border: none;
+
+    color: #2563EB;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    align-self: flex-start;
+
+    transition: color .2s ease;
+}
+
+.review-expand-btn:hover {
+    color: #1D4ED8;
 }
 
 .slider-btn {

@@ -397,6 +397,11 @@
                                    th:text="${review.comment}">
                                 </p>
 
+                                <button class="review-expand-btn"
+                                        type="button">
+                                    Развернуть
+                                </button>
+
                             </div>
 
                         </div>
@@ -602,7 +607,9 @@
     if (track) {
 
         const slides = Array.from(track.querySelectorAll(".review-slide"));
+        const viewport = document.querySelector(".slider-viewport");
         const dotsContainer = document.querySelector(".slider-dots");
+        const COLLAPSED_HEIGHT = 140;
 
         let current = 0;
 
@@ -613,7 +620,17 @@
             dotsContainer.appendChild(dot);
         });
 
+        function collapseSlide(slide) {
+            const comment = slide.querySelector(".review-comment");
+            const btn = slide.querySelector(".review-expand-btn");
+            if (!comment) return;
+            comment.classList.remove("expanded");
+            btn.textContent = "Развернуть";
+            viewport.style.height = COLLAPSED_HEIGHT + "px";
+        }
+
         function goTo(index) {
+            collapseSlide(slides[current]);
             current = (index + slides.length) % slides.length;
             track.style.transform = `translateX(-${current * 100}%)`;
             document.querySelectorAll(".dot").forEach((d, i) => {
@@ -626,6 +643,28 @@
 
         document.querySelector(".slider-next")
             .addEventListener("click", () => goTo(current + 1));
+
+        slides.forEach(slide => {
+            const comment = slide.querySelector(".review-comment");
+            const btn = slide.querySelector(".review-expand-btn");
+            if (!comment || !btn) return;
+
+            if (comment.scrollHeight > comment.clientHeight) {
+                btn.style.display = "block";
+            }
+
+            btn.addEventListener("click", e => {
+                e.stopPropagation();
+                const isExpanded = comment.classList.contains("expanded");
+                if (!isExpanded) {
+                    comment.classList.add("expanded");
+                    btn.textContent = "Свернуть";
+                    viewport.style.height = slide.scrollHeight + "px";
+                } else {
+                    collapseSlide(slide);
+                }
+            });
+        });
     }
 
     // ===== Фильтр мероприятий по статусу =====
