@@ -483,6 +483,16 @@
 
                     </div>
 
+                    <div class="event-date"
+                         th:if="${participant.event.eventEndDate != null}">
+
+                        <p>Продлится до:</p>
+
+                        <p th:text="${#temporals.format(participant.event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
                     <div class="event-organizer">
 
                         <p>Организатор:</p>
@@ -542,6 +552,16 @@
                         <p>Дата мероприятия:</p>
 
                         <p th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy HH:mm')}">
+                        </p>
+
+                    </div>
+
+                    <div class="event-date"
+                         th:if="${event.eventEndDate != null}">
+
+                        <p>Продлится до:</p>
+
+                        <p th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
                         </p>
 
                     </div>

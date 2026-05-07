@@ -5,6 +5,7 @@ import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.repository.EventRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ public class EventStatusScheduler {
         this.eventRepository = eventRepository;
     }
 
+    @Transactional
     @Scheduled(cron = "0 * * * * *")
     public void finishPastEvents() {
         List<Event> inProgress = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS);
@@ -33,6 +35,7 @@ public class EventStatusScheduler {
         eventRepository.saveAll(toFinish);
     }
 
+    @Transactional
     @Scheduled(cron = "0 * * * * *")
     public void markInProgressEvents() {
         List<Event> planned = eventRepository.findAllByStatus(EventStatus.PLANNED);
