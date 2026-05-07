@@ -21,33 +21,28 @@ public class EventStatusScheduler {
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
-    public void finishPastEvents() {
-        List<Event> inProgress = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS);
-
+    public void updateEventStatuses() {
         LocalDateTime now = LocalDateTime.now();
 
-        List<Event> toFinish = inProgress.stream()
-                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
-                .toList();
-
-        toFinish.forEach(e -> e.setStatus(EventStatus.FINISHED));
-
-        eventRepository.saveAll(toFinish);
-    }
-
-    @Transactional
-    @Scheduled(cron = "0 * * * * *")
-    public void markInProgressEvents() {
         List<Event> planned = eventRepository.findAllByStatus(EventStatus.PLANNED);
 
-        LocalDateTime now = LocalDateTime.now();
+        List<Event> toFinishFromPlanned = planned.stream()
+                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
+                .toList();
+        toFinishFromPlanned.forEach(e -> e.setStatus(EventStatus.FINISHED));
+        eventRepository.saveAll(toFinishFromPlanned);
 
         List<Event> toStart = planned.stream()
+                .filter(e -> e.getEventEndDate() == null || !e.getEventEndDate().isBefore(now))
                 .filter(e -> e.getEventDate().isBefore(now))
                 .toList();
-
         toStart.forEach(e -> e.setStatus(EventStatus.IN_PROGRESS));
-
         eventRepository.saveAll(toStart);
+
+        List<Event> toFinish = eventRepository.findAllByStatus(EventStatus.IN_PROGRESS).stream()
+                .filter(e -> e.getEventEndDate() != null && e.getEventEndDate().isBefore(now))
+                .toList();
+        toFinish.forEach(e -> e.setStatus(EventStatus.FINISHED));
+        eventRepository.saveAll(toFinish);
     }
 }
