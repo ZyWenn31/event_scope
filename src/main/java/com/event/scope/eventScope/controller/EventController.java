@@ -28,9 +28,11 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Controller
@@ -55,6 +57,8 @@ public class EventController {
         this.wishLikeService = wishLikeService;
     }
 
+    private static final int PAGE_SIZE = 8;
+
     @GetMapping
     public String getAllEvents(
             @RequestParam(required = false) String title,
@@ -63,6 +67,7 @@ public class EventController {
             @RequestParam(required = false) String organizer,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate eventDate,
             @RequestParam(required = false, defaultValue = "false") boolean inProgress,
+            @RequestParam(defaultValue = "0") int page,
             Model model,
             Principal principal
     ) {
@@ -101,7 +106,18 @@ public class EventController {
             model.addAttribute("username", "");
         }
 
-        model.addAttribute("events", events);
+        int totalEvents = events.size();
+        int totalPages = totalEvents == 0 ? 1 : (int) Math.ceil((double) totalEvents / PAGE_SIZE);
+        int safePage = Math.max(0, Math.min(page, totalPages - 1));
+        List<Event> pagedEvents = events.subList(
+                safePage * PAGE_SIZE,
+                Math.min((safePage + 1) * PAGE_SIZE, totalEvents)
+        );
+
+        model.addAttribute("events", pagedEvents);
+        model.addAttribute("currentPage", safePage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageNumbers", buildPageNumbers(safePage, totalPages));
         model.addAttribute("title", title);
         model.addAttribute("selectedTags", tagIds);
         model.addAttribute("tags", tagService.findAll());
@@ -475,6 +491,28 @@ public class EventController {
         eventService.save(event);
 
         return "redirect:/event";
+    }
+
+    private List<Integer> buildPageNumbers(int current, int total) {
+        if (total <= 7) {
+            List<Integer> pages = new ArrayList<>();
+            for (int i = 0; i < total; i++) pages.add(i);
+            return pages;
+        }
+        TreeSet<Integer> shown = new TreeSet<>();
+        shown.add(0);
+        shown.add(total - 1);
+        for (int i = Math.max(0, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+            shown.add(i);
+        }
+        List<Integer> result = new ArrayList<>();
+        int prev = -2;
+        for (int p : shown) {
+            if (p - prev > 1) result.add(-1);
+            result.add(p);
+            prev = p;
+        }
+        return result;
     }
 
     private String formatDaysAgo(long days) {

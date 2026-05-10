@@ -20,6 +20,9 @@
 
 <div class="page-layout">
 
+    <!-- ===== Колонка событий ===== -->
+    <div class="events-column">
+
     <!-- ===== События ===== -->
     <div id="items">
 
@@ -113,6 +116,35 @@
         </div>
 
     </div>
+
+    <!-- ===== Пагинация ===== -->
+    <div class="pagination" th:if="${totalPages > 1}">
+
+        <button class="pagination-btn"
+                th:disabled="${currentPage == 0}"
+                th:onclick="|goToPage(${currentPage - 1})|">
+            &#8592;
+        </button>
+
+        <th:block th:each="p : ${pageNumbers}">
+            <span th:if="${p == -1}" class="pagination-ellipsis">…</span>
+            <button th:if="${p != -1}"
+                    class="pagination-btn"
+                    th:classappend="${p == currentPage} ? ' pagination-btn-active'"
+                    th:text="${p + 1}"
+                    th:onclick="|goToPage(${p})|">
+            </button>
+        </th:block>
+
+        <button class="pagination-btn"
+                th:disabled="${currentPage == totalPages - 1}"
+                th:onclick="|goToPage(${currentPage + 1})|">
+            &#8594;
+        </button>
+
+    </div>
+
+    </div><!-- /events-column -->
 
     <!-- ===== Фильтры ===== -->
     <aside class="filters">
@@ -217,6 +249,12 @@
 </html>
 
 <script>
+    function goToPage(pageNum) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("page", pageNum);
+        window.location.href = "/event?" + params.toString();
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
 
         // ===== Навигация по карточке =====

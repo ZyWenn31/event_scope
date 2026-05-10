@@ -87,6 +87,8 @@
     </form>
 </div>
 
+<div class="wishes-column">
+
 <div id="wishItems">
 
     <div class="wishItem" th:each="wish : ${wishes}">
@@ -151,9 +153,44 @@
 
 </div>
 
+    <!-- ===== Пагинация ===== -->
+    <div class="pagination" th:if="${totalPages > 1}">
+
+        <button class="pagination-btn"
+                th:disabled="${currentPage == 0}"
+                th:onclick="|goToPage(${currentPage - 1})|">
+            &#8592;
+        </button>
+
+        <th:block th:each="p : ${pageNumbers}">
+            <span th:if="${p == -1}" class="pagination-ellipsis">…</span>
+            <button th:if="${p != -1}"
+                    class="pagination-btn"
+                    th:classappend="${p == currentPage} ? ' pagination-btn-active'"
+                    th:text="${p + 1}"
+                    th:onclick="|goToPage(${p})|">
+            </button>
+        </th:block>
+
+        <button class="pagination-btn"
+                th:disabled="${currentPage == totalPages - 1}"
+                th:onclick="|goToPage(${currentPage + 1})|">
+            &#8594;
+        </button>
+
+    </div>
+
+</div><!-- /wishes-column -->
+
 </body>
 
 <script>
+    function goToPage(pageNum) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("page", pageNum);
+        window.location.href = "/wish?" + params.toString();
+    }
+
     document.querySelectorAll(".like-btn[data-wish-id]").forEach(btn => {
         btn.addEventListener("click", async () => {
             const wishId = btn.dataset.wishId;

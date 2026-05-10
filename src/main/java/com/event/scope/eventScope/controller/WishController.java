@@ -17,11 +17,13 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,11 +45,14 @@ public class WishController {
         this.wishLikeService = wishLikeService;
     }
 
+    private static final int PAGE_SIZE = 8;
+
     @GetMapping
     public String getAllWishes(
             @RequestParam(required = false) List<Long> tagIds,
             @RequestParam(required = false) LocalDate createdDate,
             @RequestParam(required = false, defaultValue = "false") boolean onlyMine,
+            @RequestParam(defaultValue = "0") int page,
             Model model,
             Principal principal
     ) {
@@ -65,7 +70,15 @@ public class WishController {
 
         User filterUser = (onlyMine && isAuth) ? currentUser : null;
 
-        List<Wish> wishes = wishService.findAllFiltered(tagIds, createdDate, filterUser);
+        List<Wish> allWishes = wishService.findAllFiltered(tagIds, createdDate, filterUser);
+
+        int totalWishes = allWishes.size();
+        int totalPages = totalWishes == 0 ? 1 : (int) Math.ceil((double) totalWishes / PAGE_SIZE);
+        int safePage = Math.max(0, Math.min(page, totalPages - 1));
+        List<Wish> wishes = allWishes.subList(
+                safePage * PAGE_SIZE,
+                Math.min((safePage + 1) * PAGE_SIZE, totalWishes)
+        );
 
         Map<Long, Long> likeCounts = new HashMap<>();
         Map<Long, String> daysAgoMap = new HashMap<>();
@@ -85,6 +98,9 @@ public class WishController {
         }
 
         model.addAttribute("wishes", wishes);
+        model.addAttribute("currentPage", safePage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageNumbers", buildPageNumbers(safePage, totalPages));
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("likeCounts", likeCounts);
         model.addAttribute("daysAgoMap", daysAgoMap);
@@ -161,6 +177,28 @@ public class WishController {
         model.addAttribute("username", principal.getName());
 
         return "redirect:/wish";
+    }
+
+    private List<Integer> buildPageNumbers(int current, int total) {
+        if (total <= 7) {
+            List<Integer> pages = new ArrayList<>();
+            for (int i = 0; i < total; i++) pages.add(i);
+            return pages;
+        }
+        TreeSet<Integer> shown = new TreeSet<>();
+        shown.add(0);
+        shown.add(total - 1);
+        for (int i = Math.max(0, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+            shown.add(i);
+        }
+        List<Integer> result = new ArrayList<>();
+        int prev = -2;
+        for (int p : shown) {
+            if (p - prev > 1) result.add(-1);
+            result.add(p);
+            prev = p;
+        }
+        return result;
     }
 
     private String formatDaysAgo(long days) {

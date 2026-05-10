@@ -491,7 +491,7 @@
                     <div class="event-date"
                          th:if="${participant.event.eventEndDate != null}">
 
-                        <p>Продлится до:</p>
+                        <p th:text="${participant.event.status.name() == 'FINISHED' || participant.event.status.name() == 'CANCELED'} ? 'Продлилось до:' : 'Продлится до:'"></p>
 
                         <p th:text="${#temporals.format(participant.event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
                         </p>
@@ -564,7 +564,7 @@
                     <div class="event-date"
                          th:if="${event.eventEndDate != null}">
 
-                        <p>Продлится до:</p>
+                        <p th:text="${event.status.name() == 'FINISHED' || event.status.name() == 'CANCELED'} ? 'Продлилось до:' : 'Продлится до:'"></p>
 
                         <p th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
                         </p>

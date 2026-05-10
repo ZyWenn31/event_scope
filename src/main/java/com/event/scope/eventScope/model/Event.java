@@ -32,6 +32,8 @@ public class Event {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime eventEndDate;
 
+    private String address;
+
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
@@ -100,6 +102,14 @@ public class Event {
 
     public void setEventEndDate(LocalDateTime eventEndDate) {
         this.eventEndDate = eventEndDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getCreatedAt() {
