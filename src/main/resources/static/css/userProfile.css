@@ -874,3 +874,112 @@ header p{
     border-top: 1px solid #E5E7EB;
     margin: 14px 0;
 }
+
+/* ===== Адаптив ===== */
+@media (max-width: 900px) {
+
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .profile-layout {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+    }
+
+    .events-section {
+        flex-direction: column;
+    }
+
+    .events-column {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 14px 20px;
+    }
+
+    .profile-layout {
+        padding: 14px;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    .header-links {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .header-links a {
+        font-size: 12px;
+    }
+
+    .create-event-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    body {
+        padding-top: 72px;
+    }
+
+    .profile-layout {
+        padding: 10px;
+        gap: 12px;
+    }
+
+    .profile-card,
+    .rating-card,
+    .email-connect-card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .username {
+        font-size: 20px;
+    }
+
+    .events-column {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .events-title {
+        font-size: 17px;
+    }
+
+    .event-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .event-title {
+        font-size: 16px;
+    }
+
+    .status-filter label {
+        font-size: 12px;
+        padding: 6px 6px;
+    }
+}

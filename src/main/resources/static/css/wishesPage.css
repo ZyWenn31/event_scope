@@ -597,3 +597,67 @@ header p {
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 14px 20px;
+    }
+
+    body {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px 14px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    .header-links {
+        gap: 8px;
+    }
+
+    .header-links a {
+        font-size: 12px;
+    }
+
+    body {
+        margin-top: 72px;
+        padding: 10px;
+    }
+
+    .wishItem {
+        padding: 16px;
+        border-radius: 14px;
+        gap: 10px;
+    }
+
+    .wishTitle {
+        font-size: 18px;
+    }
+
+    .wishDescription {
+        font-size: 14px;
+    }
+
+    .wish-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .wish-actions {
+        flex-wrap: wrap;
+    }
+
+    .filters form {
+        gap: 14px;
+        padding: 16px;
+    }
+}

@@ -408,3 +408,70 @@ header p {
         padding: 24px;
     }
 }
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 14px 20px;
+    }
+
+    .create-container {
+        height: auto;
+        overflow: visible;
+    }
+
+    body {
+        height: auto;
+        overflow: auto;
+    }
+}
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px 14px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    .header-links {
+        gap: 8px;
+    }
+
+    .header-links a {
+        font-size: 12px;
+    }
+
+    body {
+        padding-top: 72px;
+    }
+
+    .create-container {
+        padding: 10px;
+    }
+
+    .create-container form {
+        padding: 18px 14px;
+        border-radius: 16px;
+        gap: 18px;
+    }
+
+    .create-container h1 {
+        font-size: 18px;
+    }
+
+    .map-container {
+        height: 240px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-edit-link {
+        flex: auto;
+        width: 100%;
+    }
+}

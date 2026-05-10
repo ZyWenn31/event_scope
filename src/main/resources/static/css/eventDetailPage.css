@@ -880,3 +880,83 @@ header p {
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 14px 20px;
+    }
+
+    .detail-layout {
+        padding: 6px 16px 16px;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px 14px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    .header-links {
+        gap: 8px;
+    }
+
+    .header-links a {
+        font-size: 12px;
+    }
+
+    body {
+        padding-top: 72px;
+    }
+
+    .back-btn {
+        margin: 4px 12px 2px;
+        padding: 6px 14px;
+        font-size: 13px;
+    }
+
+    .detail-layout {
+        padding: 4px 10px 10px;
+        gap: 12px;
+    }
+
+    .main-panel {
+        padding: 16px;
+        border-radius: 16px;
+        gap: 12px;
+    }
+
+    .event-title {
+        font-size: 20px;
+    }
+
+    .content-grid {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .content-col-right {
+        flex: auto;
+    }
+
+    .detail-map-container {
+        height: 220px;
+    }
+
+    .participants-panel {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .edit-event-btn,
+    .cancel-event-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
