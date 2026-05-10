@@ -34,7 +34,7 @@
 
     <form action="/wish" method="get">
 
-        <!-- ===== Только мои ===== -->
+
         <div class="filter-block" th:if="${isAuth}">
             <label class="only-mine-item">
                 <input name="onlyMine"
@@ -45,7 +45,7 @@
             </label>
         </div>
 
-        <!-- ===== Дата ===== -->
+
         <div class="filter-block">
 
             <label class="filter-label">Дата создания</label>
@@ -57,7 +57,7 @@
 
         </div>
 
-        <!-- ===== Теги ===== -->
+
         <div class="filter-block">
 
             <p class="filter-label">Теги</p>
@@ -80,7 +80,7 @@
 
         </div>
 
-        <!-- ===== Кнопка ===== -->
+
         <button type="submit">
             Применить
         </button>
@@ -154,7 +154,7 @@
 
     </div>
 
-    <!-- ===== Пагинация ===== -->
+
     <div class="pagination" th:if="${totalPages > 1}">
 
         <button class="pagination-btn"
@@ -181,7 +181,7 @@
 
     </div>
 
-</div><!-- /wishes-column -->
+</div>
 
 </body>
 

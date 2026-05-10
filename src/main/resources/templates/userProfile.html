@@ -60,7 +60,7 @@
 
 <div class="profile-layout">
 
-    <!-- ===== ЛЕВАЯ ПАНЕЛЬ ===== -->
+
     <div class="profile-sidebar">
 
         <div class="profile-card">
@@ -117,7 +117,7 @@
 
         </div>
 
-        <!-- ===== БЛОК АВАТАРА ===== -->
+
         <div class="email-connect-card" style="text-align: center;">
 
             <p class="block-title">Фото профиля</p>
@@ -164,7 +164,7 @@
 
         </div>
 
-        <!-- ===== БЛОК ИМЕНИ ===== -->
+
         <div class="email-connect-card"
              th:if="${!isOrganizer && !hasName}">
 
@@ -203,7 +203,7 @@
             Имя успешно сохранено
         </p>
 
-        <!-- ===== БЛОК EMAIL ===== -->
+
         <div class="email-connect-card"
              th:if="${!isOrganizer && !hasEmail}">
 
@@ -247,7 +247,7 @@
             Email успешно сохранён
         </p>
 
-        <!-- ===== БЛОК РЕДАКТИРОВАНИЯ ДАННЫХ ===== -->
+
         <div class="email-connect-card"
              th:if="${hasName || hasEmail}">
 
@@ -349,7 +349,7 @@
 
         </div>
 
-        <!-- ===== БЛОК РЕЙТИНГА ===== -->
+
         <div class="rating-card"
              th:if="${isOrganizer}">
 
@@ -431,10 +431,10 @@
 
     </div>
 
-    <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
+
     <div class="events-section">
 
-        <!-- ===== УЧАСТИЯ ===== -->
+
         <div class="events-column">
 
             <p class="events-title">
@@ -531,7 +531,7 @@
 
         </div>
 
-        <!-- ===== ОРГАНИЗОВАННЫЕ ===== -->
+
         <div class="events-column"
              th:if="${isOrganizer}">
 
@@ -613,7 +613,6 @@
 </body>
 
 <script>
-    // ===== Навигация по карточке =====
     document.querySelectorAll(".event-card").forEach(card => {
         card.style.cursor = "pointer";
         card.addEventListener("click", () => {
@@ -621,7 +620,6 @@
         });
     });
 
-    // ===== Слайдер отзывов =====
     const track = document.querySelector(".slider-track");
 
     if (track) {
@@ -687,7 +685,6 @@
         });
     }
 
-    // ===== Фильтр мероприятий по статусу =====
     document.querySelectorAll("input[name='participation-filter']").forEach(radio => {
         radio.addEventListener("change", () => {
             const value = radio.value;
@@ -706,7 +703,6 @@
         });
     });
 
-    // ===== Выбор файла аватара =====
     const avatarInput = document.getElementById("avatarInput");
     if (avatarInput) {
         avatarInput.addEventListener("change", () => {
@@ -715,7 +711,6 @@
         });
     }
 
-    // ===== Фильтрация символов в поле email =====
     const emailInput = document.getElementById("emailInput");
     if (emailInput) {
         emailInput.addEventListener("input", () => {
@@ -723,7 +718,6 @@
         });
     }
 
-    // ===== Переключение формы редактирования профиля =====
     const editToggle = document.getElementById("editProfileToggle");
     const editForm = document.getElementById("editProfileForm");
     if (editToggle && editForm) {
@@ -737,7 +731,6 @@
         }
     }
 
-    // ===== Фильтрация символов в поле edit-email =====
     const editEmailInput = document.getElementById("editEmailInput");
     if (editEmailInput) {
         editEmailInput.addEventListener("input", () => {
@@ -745,7 +738,6 @@
         });
     }
 
-    // ===== Сохранение и восстановление позиции прокрутки сайдбара =====
     const sidebar = document.querySelector(".profile-sidebar");
     if (sidebar) {
         const saved = sessionStorage.getItem("sidebarScrollY");
@@ -760,7 +752,6 @@
         });
     }
 
-    // ===== Кнопка отмены участия (остановить всплытие) =====
     document.querySelectorAll(".cancel-participation-btn").forEach(btn => {
         btn.addEventListener("click", async (e) => {
             e.stopPropagation();

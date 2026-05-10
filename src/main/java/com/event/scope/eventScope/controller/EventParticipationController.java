@@ -16,7 +16,7 @@ public class EventParticipationController {
         this.eventParticipantService = eventParticipantService;
     }
 
-    // Присоединиться к событию
+    
     @PostMapping("/join")
     public ResponseEntity<Void> joinEvent(
             @RequestParam Long eventId,
@@ -26,7 +26,7 @@ public class EventParticipationController {
         return ResponseEntity.ok().build();
     }
 
-    // Отменить участие
+    
     @PostMapping("/leave")
     public ResponseEntity<Void> leaveEvent(
             @RequestParam Long eventId,

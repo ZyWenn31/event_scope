@@ -36,31 +36,31 @@ public class User {
 
     private String avatarPath;
 
-    // События, которые пользователь создал (если организатор)
+    
     @OneToMany(mappedBy = "organizer")
     private List<Event> organizedEvents;
 
-    // События, в которых участвует
+    
     @OneToMany(mappedBy = "user")
     private List<EventParticipant> participations;
 
-    // Отзывы пользователя на события
+    
     @OneToMany(mappedBy = "user")
     private List<EventReview> eventReviews;
 
-    // Отзывы пользователя на организаторов
+    
     @OneToMany(mappedBy = "user")
     private List<OrganizerReview> organizerReviews;
 
-    // Отзывы, полученные как организатор
+    
     @OneToMany(mappedBy = "organizer")
     private List<OrganizerReview> receivedReviews;
 
-    // Telegram аккаунт
+    
     @OneToOne(mappedBy = "user")
     private TelegramAccount telegramAccount;
 
-    // Пожелания
+    
     @OneToMany(mappedBy = "user")
     private List<Wish> wishes;
 

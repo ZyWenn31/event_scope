@@ -1,4 +1,4 @@
-/* ===== Общие стили ===== */
+
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +14,7 @@ body {
     padding: 20px;
 }
 
-/* ===== Header ===== */
+
 header {
     position: fixed;
 
@@ -60,7 +60,7 @@ header p {
     color: white;
 }
 
-/* ===== Layout ===== */
+
 .page-layout {
     width: 100%;
 
@@ -71,7 +71,7 @@ header p {
     gap: 22px;
 }
 
-/* ===== Колонка событий ===== */
+
 .events-column {
     width: 65%;
 
@@ -81,7 +81,7 @@ header p {
     gap: 18px;
 }
 
-/* ===== Карточки ===== */
+
 #items {
     display: flex;
     flex-direction: column;
@@ -89,7 +89,7 @@ header p {
     gap: 18px;
 }
 
-/* ===== Пагинация ===== */
+
 .pagination {
     display: flex;
     align-items: center;
@@ -179,13 +179,13 @@ header p {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== Карточка «идёт сейчас» ===== */
+
 #item.item-in-progress {
     border-color: #6EE7B7;
     background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 60%);
 }
 
-/* ===== Строка заголовка с бейджем ===== */
+
 .card-header-row {
     display: flex;
     align-items: flex-start;
@@ -193,7 +193,7 @@ header p {
     gap: 12px;
 }
 
-/* ===== Бейдж статуса ===== */
+
 .card-status-badge {
     flex-shrink: 0;
     padding: 4px 12px;
@@ -224,21 +224,21 @@ header p {
     }
 }
 
-/* ===== Заголовок ===== */
+
 #title {
     font-size: 22px;
     font-weight: 500;
     color: #111827;
 }
 
-/* ===== Описание ===== */
+
 #description {
     font-size: 16px;
     line-height: 1.5;
     color: #4B5563;
 }
 
-/* ===== Мета-строка ===== */
+
 .event-meta {
     display: flex;
     align-items: center;
@@ -277,7 +277,7 @@ header p {
     letter-spacing: 0.03em;
 }
 
-/* ===== Адрес ===== */
+
 .event-address {
     display: flex;
     align-items: center;
@@ -305,7 +305,7 @@ header p {
     font-style: italic;
 }
 
-/* ===== Футер карточки ===== */
+
 .event-footer {
     display: flex;
     align-items: center;
@@ -315,7 +315,7 @@ header p {
     border-top: 1px solid #F3F4F6;
 }
 
-/* ===== Действия ===== */
+
 .event-actions {
     display: flex;
     align-items: center;
@@ -323,7 +323,7 @@ header p {
     flex-shrink: 0;
 }
 
-/* ===== Теги ===== */
+
 .event-tags {
     display: flex;
     flex-wrap: wrap;
@@ -344,7 +344,7 @@ header p {
     transition: all .2s ease;
 }
 
-/* ===== Кнопка участия ===== */
+
 .participation-container {
     display: flex;
     align-items: center;
@@ -377,7 +377,7 @@ header p {
     font-weight: 600;
 }
 
-/* ===== Правая панель ===== */
+
 .filters {
     width: 300px;
 
@@ -390,14 +390,14 @@ header p {
     flex-shrink: 0;
 }
 
-/* ===== Форма ===== */
+
 .filters form {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-/* ===== Поиск ===== */
+
 .search-block {
     background-color: #D1D5DB;
 
@@ -443,7 +443,7 @@ header p {
     color: white;
 }
 
-/* ===== Секция фильтра ===== */
+
 .filter-section {
     display: flex;
     flex-direction: column;
@@ -458,7 +458,7 @@ header p {
     letter-spacing: 0.04em;
 }
 
-/* ===== Радио-кнопки статуса ===== */
+
 .filter-radio-group {
     display: flex;
     flex-direction: column;
@@ -499,7 +499,7 @@ header p {
     font-weight: 600;
 }
 
-/* ===== Поле даты ===== */
+
 .date-input {
     width: 100%;
 
@@ -523,7 +523,7 @@ header p {
     border-color: #2563EB;
 }
 
-/* ===== Сортировка ===== */
+
 .sort-select {
     width: 100%;
 
@@ -549,7 +549,7 @@ header p {
     border-color: #2563EB;
 }
 
-/* ===== Кнопка применить ===== */
+
 .apply-btn {
     width: 100%;
 
@@ -575,7 +575,7 @@ header p {
     transform: translateY(-1px);
 }
 
-/* ===== Checkbox ===== */
+
 .filter-checkboxes {
     display: flex;
     flex-direction: column;
@@ -595,7 +595,7 @@ header p {
     height: 18px;
 }
 
-/* ===== Теги фильтра ===== */
+
 .tags-filter {
     display: flex;
     flex-wrap: wrap;
@@ -635,7 +635,7 @@ header p {
     background-color: #c4cce4;
 }
 
-/* ===== Ссылка «Подробнее» ===== */
+
 .detail-link {
     display: inline-block;
 
@@ -653,7 +653,7 @@ header p {
     color: #1D4ED8;
 }
 
-/* ===== Фильтр «Идут сейчас» ===== */
+
 
 .in-progress-toggle {
     display: flex;
@@ -715,7 +715,7 @@ header p {
     animation: pulse-green-badge 2s ease-in-out infinite;
 }
 
-/* ===== Адаптив ===== */
+
 @media (max-width: 1100px) {
 
     .page-layout {
@@ -748,7 +748,7 @@ header p {
 
 @media (max-width: 480px) {
 
-    /* Хедер */
+
     header {
         padding: 10px 16px;
         gap: 12px;
@@ -769,7 +769,7 @@ header p {
         font-size: 12px;
     }
 
-    /* Body */
+
     body {
         margin-top: 0;
         padding-top: 68px;
@@ -778,7 +778,7 @@ header p {
         padding-bottom: 20px;
     }
 
-    /* Карточки */
+
     #item {
         padding: 16px;
         border-radius: 20px;
@@ -842,13 +842,13 @@ header p {
         align-items: center;
     }
 
-    /* Пагинация */
+
     .pagination-btn {
         min-width: 34px;
         height: 34px;
     }
 
-    /* Фильтры */
+
     .filters form {
         gap: 16px;
         padding: 16px;

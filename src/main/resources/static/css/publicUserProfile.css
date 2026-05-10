@@ -1,4 +1,4 @@
-/* ===== Сброс ===== */
+
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@ body {
     padding-top: 85px;
 }
 
-/* ===== Header ===== */
+
 header {
     position: fixed;
 
@@ -64,7 +64,7 @@ header p {
     color: white;
 }
 
-/* ===== Основной layout ===== */
+
 .profile-layout {
     height: calc(100vh - 120px);
 
@@ -75,7 +75,7 @@ header p {
     padding: 24px;
 }
 
-/* ===== Левая панель ===== */
+
 .profile-sidebar {
     width: 360px;
     flex-shrink: 0;
@@ -88,7 +88,7 @@ header p {
     overflow-y: auto;
 }
 
-/* ===== Карточки панели ===== */
+
 .profile-card,
 .rating-card {
     background-color: white;
@@ -100,7 +100,7 @@ header p {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
-/* ===== Бейдж роли ===== */
+
 .role-badge {
     display: inline-flex;
     align-items: center;
@@ -123,7 +123,7 @@ header p {
     color: #6B7280;
 }
 
-/* ===== Аватар ===== */
+
 .avatar-block {
     margin-top: 22px;
 
@@ -144,7 +144,7 @@ header p {
     background-color: #E5E7EB;
 }
 
-/* ===== Информация пользователя ===== */
+
 .user-info {
     margin-top: 20px;
 
@@ -168,7 +168,7 @@ header p {
     color: #6B7280;
 }
 
-/* ===== Рейтинг ===== */
+
 .block-title {
     font-size: 17px;
     font-weight: 700;
@@ -206,7 +206,7 @@ header p {
     color: #9CA3AF;
 }
 
-/* ===== Слайдер ===== */
+
 .reviews-section {
     display: flex;
     flex-direction: column;
@@ -344,7 +344,7 @@ header p {
     color: #9CA3AF;
 }
 
-/* ===== Кнопки слайдера ===== */
+
 .slider-btn {
     width: 34px;
     height: 34px;
@@ -376,7 +376,7 @@ header p {
     transform: scale(1.08);
 }
 
-/* ===== Точки слайдера ===== */
+
 .slider-dots {
     display: flex;
     justify-content: center;
@@ -401,7 +401,7 @@ header p {
     background-color: #2563EB;
 }
 
-/* ===== Нет отзывов ===== */
+
 .no-reviews {
     font-size: 14px;
 
@@ -412,7 +412,7 @@ header p {
     padding: 16px 0;
 }
 
-/* ===== Правая секция ===== */
+
 .events-section {
     flex: 1;
 
@@ -423,7 +423,7 @@ header p {
     overflow: hidden;
 }
 
-/* ===== Колонка событий ===== */
+
 .events-column {
     flex: 1;
 
@@ -452,7 +452,7 @@ header p {
     flex-shrink: 0;
 }
 
-/* ===== Скролл списка ===== */
+
 .events-scroll {
     overflow-y: auto;
 
@@ -464,7 +464,7 @@ header p {
     padding-right: 4px;
 }
 
-/* ===== Пустое состояние ===== */
+
 .empty-state {
     font-size: 14px;
 
@@ -475,7 +475,7 @@ header p {
     padding: 28px 0;
 }
 
-/* ===== Карточка события ===== */
+
 .event-card {
     background-color: #F9FAFB;
 
@@ -502,7 +502,7 @@ header p {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== Заголовок карточки ===== */
+
 .card-header-row {
     display: flex;
     justify-content: space-between;
@@ -518,7 +518,7 @@ header p {
     color: #111827;
 }
 
-/* ===== Статус ===== */
+
 .status-badge {
     flex-shrink: 0;
 
@@ -565,7 +565,7 @@ header p {
     background: linear-gradient(135deg, #F0FDF4 0%, #F9FAFB 60%);
 }
 
-/* ===== Описание ===== */
+
 .event-description {
     font-size: 13px;
     line-height: 1.5;
@@ -579,7 +579,7 @@ header p {
     overflow: hidden;
 }
 
-/* ===== Дата ===== */
+
 .event-date-row {
     display: flex;
 
@@ -602,7 +602,7 @@ header p {
     font-style: italic;
 }
 
-/* ===== Теги ===== */
+
 .event-tags {
     display: flex;
     flex-wrap: wrap;
@@ -622,7 +622,7 @@ header p {
     font-weight: 600;
 }
 
-/* ===== Кнопка назад ===== */
+
 
 .back-btn {
     display: inline-flex;
@@ -656,7 +656,7 @@ header p {
     transform: translateY(-1px);
 }
 
-/* ===== Форма отзыва на организатора ===== */
+
 
 .org-review-form-card,
 .org-review-done-card {
@@ -685,7 +685,7 @@ header p {
     gap: 14px;
 }
 
-/* --- Звёздный рейтинг --- */
+
 
 .star-rating {
     display: flex;
@@ -716,7 +716,7 @@ header p {
     color: #F59E0B;
 }
 
-/* --- Комментарий --- */
+
 
 .org-review-textarea {
     resize: vertical;
@@ -742,7 +742,7 @@ header p {
     border-color: #2563EB;
 }
 
-/* --- Кнопка отправки --- */
+
 
 .org-review-submit-btn {
     align-self: flex-start;
@@ -771,7 +771,7 @@ header p {
     transform: translateY(-1px);
 }
 
-/* --- Уже оставлен отзыв --- */
+
 
 .org-review-done-card {
     display: flex;
@@ -804,7 +804,7 @@ header p {
     font-weight: 700;
 }
 
-/* ===== Адаптив ===== */
+
 @media (max-width: 1100px) {
 
     body {
@@ -895,7 +895,7 @@ header p {
         gap: 12px;
     }
 
-    /* Карточки боковой панели */
+
     .profile-card,
     .rating-card {
         padding: 18px 16px;
@@ -903,7 +903,7 @@ header p {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
     }
 
-    /* Форма отзыва */
+
     .org-review-form-card,
     .org-review-done-card {
         padding: 18px 16px;
@@ -911,7 +911,7 @@ header p {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
     }
 
-    /* Аватар */
+
     .avatar-block {
         margin-top: 14px;
     }
@@ -922,7 +922,7 @@ header p {
         border-width: 3px;
     }
 
-    /* Информация пользователя */
+
     .user-info {
         margin-top: 14px;
         gap: 6px;
@@ -941,7 +941,7 @@ header p {
         padding: 5px 12px;
     }
 
-    /* Рейтинг */
+
     .block-title {
         font-size: 16px;
         margin-bottom: 12px;
@@ -963,7 +963,7 @@ header p {
         font-size: 14px;
     }
 
-    /* Слайдер отзывов */
+
     .slider-viewport {
         height: 130px;
     }
@@ -986,7 +986,7 @@ header p {
         font-size: 13px;
     }
 
-    /* Форма отзыва на организатора */
+
     .org-review-form-title {
         font-size: 15px;
         margin-bottom: 12px;
@@ -1014,7 +1014,7 @@ header p {
         padding: 0 22px;
     }
 
-    /* Колонка событий */
+
     .events-column {
         padding: 16px;
         border-radius: 20px;
@@ -1026,7 +1026,7 @@ header p {
         margin-bottom: 14px;
     }
 
-    /* Карточки событий */
+
     .event-card {
         padding: 14px;
         border-radius: 16px;

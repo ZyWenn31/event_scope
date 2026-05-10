@@ -21,10 +21,10 @@
 
 <div class="page-layout">
 
-    <!-- ===== Колонка событий ===== -->
+
     <div class="events-column">
 
-        <!-- ===== События ===== -->
+
         <div id="items">
 
             <div id="item"
@@ -50,7 +50,7 @@
                    th:text="${event.description}">
                 </p>
 
-                <!-- ===== Мета: организатор + дата ===== -->
+
                 <div class="event-meta">
 
                     <span class="event-organizer-label">Организатор:</span>
@@ -82,7 +82,7 @@
 
                 </div>
 
-                <!-- ===== Адрес ===== -->
+
                 <div class="event-address">
                     <span class="event-address-icon">📍</span>
                     <span class="event-address-text"
@@ -95,7 +95,7 @@
                 </span>
                 </div>
 
-                <!-- ===== Футер: теги + действия ===== -->
+
                 <div class="event-footer">
 
                     <div class="event-tags">
@@ -131,7 +131,7 @@
 
         </div>
 
-        <!-- ===== Пагинация ===== -->
+
         <div class="pagination" th:if="${totalPages > 1}">
 
             <button class="pagination-btn"
@@ -158,19 +158,19 @@
 
         </div>
 
-    </div><!-- /events-column -->
+    </div>
 
-    <!-- ===== Фильтры ===== -->
+
     <aside class="filters">
 
         <form action="/event" method="get">
 
-            <!-- ===== Кнопка применить ===== -->
+
             <button class="apply-btn" type="submit">
                 Применить
             </button>
 
-            <!-- ===== Поиск по названию ===== -->
+
             <div class="search-block">
 
                 <input name="title"
@@ -180,7 +180,7 @@
 
             </div>
 
-            <!-- ===== Поиск по организатору ===== -->
+
             <div class="search-block">
 
                 <input name="organizer"
@@ -190,7 +190,7 @@
 
             </div>
 
-            <!-- ===== Поиск по адресу ===== -->
+
             <div class="search-block">
 
                 <input name="address"
@@ -200,7 +200,7 @@
 
             </div>
 
-            <!-- ===== Дата ===== -->
+
             <div class="filter-section">
 
                 <p class="filter-label">Дата проведения</p>
@@ -212,7 +212,7 @@
 
             </div>
 
-            <!-- ===== Сортировка ===== -->
+
             <div class="filter-section">
 
                 <p class="filter-label">Сортировка</p>
@@ -234,7 +234,7 @@
 
             </div>
 
-            <!-- ===== Идут сейчас ===== -->
+
             <label class="in-progress-toggle"
                    th:classappend="${inProgress} ? 'in-progress-toggle-active'">
                 <input name="inProgress"
@@ -245,7 +245,7 @@
                 Идут сейчас
             </label>
 
-            <!-- ===== Теги ===== -->
+
             <div class="tags-filter">
 
                 <label class="tag-filter-item"
@@ -346,12 +346,10 @@
                 });
             });
 
-        // ===== Ссылка «Подробнее» (остановить всплытие) =====
         document.querySelectorAll(".detail-link").forEach(link => {
             link.addEventListener("click", e => e.stopPropagation());
         });
 
-        // ===== Чекбокс «Идут сейчас» =====
         const inProgressCb = document.querySelector(".in-progress-toggle input[type='checkbox']");
         if (inProgressCb) {
             inProgressCb.addEventListener("change", () => {

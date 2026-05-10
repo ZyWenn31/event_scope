@@ -30,19 +30,19 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        // публичные страницы
+                        
                         .requestMatchers("/", "/event", "/login", "/register", "/css/**", "/go", "/registration", "/wish").permitAll()
 
-                        // только авторизованные пользователи
+                        
                         .requestMatchers("/userProfile/**").permitAll()
 
-                        // всё остальное требует авторизации
+                        
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form
-                        .loginPage("/login")              // кастомная страница
-                        .loginProcessingUrl("/login")     // куда отправляется POST
+                        .loginPage("/login")              
+                        .loginProcessingUrl("/login")     
                         .defaultSuccessUrl("/event", true)
                         .failureUrl("/login?error")
                         .permitAll()

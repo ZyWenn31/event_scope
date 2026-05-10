@@ -51,11 +51,11 @@
 
 <div class="detail-layout">
 
-    <!-- ===== ЛЕВАЯ ЧАСТЬ — основная информация ===== -->
+
     <div class="main-panel"
          th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'panel-in-progress'">
 
-        <!-- ===== Шапка карточки ===== -->
+
         <div class="event-header">
 
             <h1 class="event-title"
@@ -94,7 +94,7 @@
 
         </div>
 
-        <!-- ===== Пожелание-источник ===== -->
+
         <div class="source-wish-banner"
              id="sourceWishBanner"
              th:if="${event.wish != null}">
@@ -141,10 +141,10 @@
 
         </div>
 
-        <!-- ===== Основная сетка ===== -->
+
         <div class="content-grid">
 
-            <!-- Левая колонка -->
+
             <div class="content-col">
 
                 <div class="info-block">
@@ -176,7 +176,7 @@
 
             </div>
 
-            <!-- Правая колонка -->
+
             <div class="content-col content-col-right">
 
                 <div class="info-block">
@@ -217,7 +217,7 @@
 
         </div>
 
-        <!-- ===== Адрес ===== -->
+
         <div class="info-block"
              th:if="${event.address != null && !#strings.isEmpty(event.address)}">
 
@@ -231,7 +231,7 @@
 
         </div>
 
-        <!-- ===== Теги ===== -->
+
         <div class="info-block"
              th:if="${event.tags != null && !event.tags.isEmpty()}">
 
@@ -248,7 +248,7 @@
 
         </div>
 
-        <!-- ===== Форма отзыва ===== -->
+
         <div class="review-form-block"
              th:if="${canReview}">
 
@@ -293,7 +293,7 @@
 
         </div>
 
-        <!-- ===== Уже оставлен отзыв ===== -->
+
         <div class="review-done-block"
              th:if="${alreadyReviewed}">
 
@@ -303,7 +303,7 @@
 
         </div>
 
-        <!-- ===== Отзывы на мероприятие ===== -->
+
         <div class="event-reviews-block"
              th:if="${event.status.name() == 'FINISHED'}">
 
@@ -350,7 +350,7 @@
 
     </div>
 
-    <!-- ===== ПРАВАЯ ЧАСТЬ — участники ===== -->
+
     <div class="participants-panel">
 
         <div class="participants-header">

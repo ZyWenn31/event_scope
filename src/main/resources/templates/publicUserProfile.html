@@ -39,10 +39,10 @@
 
 <div class="profile-layout">
 
-    <!-- ===== ЛЕВАЯ ПАНЕЛЬ ===== -->
+
     <div class="profile-sidebar">
 
-        <!-- ===== Карточка пользователя ===== -->
+
         <div class="profile-card">
 
             <div class="role-badge"
@@ -70,7 +70,7 @@
 
         </div>
 
-        <!-- ===== Рейтинг и отзывы (только организатор) ===== -->
+
         <div class="rating-card"
              th:if="${isOrganizer}">
 
@@ -84,7 +84,7 @@
                 <span class="rating-max">/ 5</span>
             </div>
 
-            <!-- ===== Слайдер отзывов ===== -->
+
             <div class="reviews-section"
                  th:if="${!organizerReviews.isEmpty()}">
 
@@ -155,7 +155,7 @@
 
         </div>
 
-        <!-- ===== Форма отзыва на организатора ===== -->
+
         <div class="org-review-form-card"
              th:if="${canReviewOrganizer}">
 
@@ -200,7 +200,7 @@
 
         </div>
 
-        <!-- ===== Уже оставлен отзыв ===== -->
+
         <div class="org-review-done-card"
              th:if="${alreadyReviewedOrganizer}">
 
@@ -212,10 +212,10 @@
 
     </div>
 
-    <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
+
     <div class="events-section">
 
-        <!-- ===== Все мероприятия ===== -->
+
         <div class="events-column">
 
             <p class="column-title">Все мероприятия</p>
@@ -298,7 +298,7 @@
 
         </div>
 
-        <!-- ===== Организованные события ===== -->
+
         <div class="events-column"
              th:if="${isOrganizer}">
 
@@ -399,7 +399,6 @@
 </body>
 
 <script>
-    // ===== Навигация по карточкам =====
     document.querySelectorAll(".event-card").forEach(card => {
         card.style.cursor = "pointer";
         card.addEventListener("click", () => {
@@ -407,7 +406,6 @@
         });
     });
 
-    // ===== Слайдер отзывов =====
     const track = document.querySelector(".slider-track");
 
     if (track) {
