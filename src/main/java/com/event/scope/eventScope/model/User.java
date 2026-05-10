@@ -56,11 +56,6 @@ public class User {
     @OneToMany(mappedBy = "organizer")
     private List<OrganizerReview> receivedReviews;
 
-    
-    @OneToOne(mappedBy = "user")
-    private TelegramAccount telegramAccount;
-
-    
     @OneToMany(mappedBy = "user")
     private List<Wish> wishes;
 
@@ -166,14 +161,6 @@ public class User {
 
     public void setReceivedReviews(List<OrganizerReview> receivedReviews) {
         this.receivedReviews = receivedReviews;
-    }
-
-    public TelegramAccount getTelegramAccount() {
-        return telegramAccount;
-    }
-
-    public void setTelegramAccount(TelegramAccount telegramAccount) {
-        this.telegramAccount = telegramAccount;
     }
 
     public List<Wish> getWishes() {

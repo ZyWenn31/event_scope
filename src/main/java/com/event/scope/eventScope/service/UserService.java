@@ -47,8 +47,7 @@ public class UserService {
         existing.setName(user.getName());
         existing.setEnabled(user.isEnabled());
         existing.setOrganizedEvents(user.getOrganizedEvents());
-        existing.setTelegramAccount(user.getTelegramAccount());
-        existing.setParticipation(user.getParticipations());
+existing.setParticipation(user.getParticipations());
         existing.setRole(user.getRole());
         existing.setPassword(user.getPassword());
         existing.setUsername(user.getUsername());

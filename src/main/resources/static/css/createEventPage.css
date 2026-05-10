@@ -358,6 +358,18 @@ header p {
 }
 
 
+/* ===== Строка с датами ===== */
+.date-row {
+    display: flex;
+    gap: 16px;
+}
+
+.date-row .input-block {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ===== Адрес + карта ===== */
 .map-search-row {
     display: flex;
     gap: 8px;
@@ -474,6 +486,11 @@ header p {
 
     .input-block textarea {
         font-size: 15px;
+    }
+
+    .date-row {
+        flex-direction: column;
+        gap: 0;
     }
 
     .map-search-row {

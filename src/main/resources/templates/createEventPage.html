@@ -134,40 +134,43 @@
         </div>
 
 
-        <div class="input-block">
+        <div class="date-row">
 
-            <label>
-                Дата и время начала
-            </label>
+            <div class="input-block">
 
-            <input id="eventDateInput"
-                   th:attr="min=${minDateTime}"
-                   th:field="*{eventDate}"
-                   type="datetime-local">
+                <label>
+                    Дата и время начала
+                </label>
 
-            <p class="validation-error"
-               th:errors="*{eventDate}"
-               th:if="${#fields.hasErrors('eventDate')}">
-            </p>
+                <input id="eventDateInput"
+                       th:attr="min=${minDateTime}"
+                       th:field="*{eventDate}"
+                       type="datetime-local">
 
-        </div>
+                <p class="validation-error"
+                   th:errors="*{eventDate}"
+                   th:if="${#fields.hasErrors('eventDate')}">
+                </p>
 
+            </div>
 
-        <div class="input-block">
+            <div class="input-block">
 
-            <label>
-                Дата и время окончания
-            </label>
+                <label>
+                    Дата и время окончания
+                </label>
 
-            <input id="eventEndDateInput"
-                   th:attr="min=${minEndDateTime}"
-                   th:field="*{eventEndDate}"
-                   type="datetime-local">
+                <input id="eventEndDateInput"
+                       th:attr="min=${minEndDateTime}"
+                       th:field="*{eventEndDate}"
+                       type="datetime-local">
 
-            <p class="validation-error"
-               th:errors="*{eventEndDate}"
-               th:if="${#fields.hasErrors('eventEndDate')}">
-            </p>
+                <p class="validation-error"
+                   th:errors="*{eventEndDate}"
+                   th:if="${#fields.hasErrors('eventEndDate')}">
+                </p>
+
+            </div>
 
         </div>
 
@@ -257,7 +260,7 @@
             const addressInput = document.getElementById("addressInput");
 
             const map = new ymaps.Map("yandex-map", {
-                center: [55.7558, 37.6173],
+                center: [59.9386, 30.3141],
                 zoom: 11,
                 controls: ["zoomControl"]
             });
