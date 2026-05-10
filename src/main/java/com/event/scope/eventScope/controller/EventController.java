@@ -1,45 +1,28 @@
 package com.event.scope.eventScope.controller;
 
 
-import com.event.scope.eventScope.model.Event;
-import com.event.scope.eventScope.model.EventReview;
-import com.event.scope.eventScope.model.EventStatus;
-import com.event.scope.eventScope.model.Tag;
-import com.event.scope.eventScope.model.User;
-import com.event.scope.eventScope.model.Wish;
-import com.event.scope.eventScope.service.EventParticipantService;
-import com.event.scope.eventScope.service.EventReviewService;
-import com.event.scope.eventScope.service.EventService;
-import com.event.scope.eventScope.service.TagService;
-import com.event.scope.eventScope.service.UserService;
-import com.event.scope.eventScope.service.WishLikeService;
-import com.event.scope.eventScope.service.WishService;
+import com.event.scope.eventScope.model.*;
+import com.event.scope.eventScope.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.event.scope.eventScope.model.EventParticipant;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/event")
 public class EventController {
 
+    private static final int PAGE_SIZE = 8;
     private final EventService eventService;
     private final UserService userService;
     private final EventParticipantService eventParticipantService;
@@ -47,8 +30,6 @@ public class EventController {
     private final EventReviewService eventReviewService;
     private final WishService wishService;
     private final WishLikeService wishLikeService;
-
-
     @Value("${yandex.maps.api-key}")
     private String yandexMapsApiKey;
 
@@ -61,8 +42,6 @@ public class EventController {
         this.wishService = wishService;
         this.wishLikeService = wishLikeService;
     }
-
-    private static final int PAGE_SIZE = 8;
 
     @GetMapping
     public String getAllEvents(

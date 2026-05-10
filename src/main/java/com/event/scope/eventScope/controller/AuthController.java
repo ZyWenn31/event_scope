@@ -18,7 +18,7 @@ public class AuthController {
     private final UserRegistrationValidator userRegistrationValidator;
     private final RegistrationService registrationService;
 
-    public AuthController(UserRegistrationValidator userRegistrationValidator,RegistrationService registrationService) {
+    public AuthController(UserRegistrationValidator userRegistrationValidator, RegistrationService registrationService) {
         this.userRegistrationValidator = userRegistrationValidator;
         this.registrationService = registrationService;
     }
@@ -41,8 +41,8 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user")@Valid User user,
-                               BindingResult bindingResult){
+    public String registration(@ModelAttribute("user") @Valid User user,
+                               BindingResult bindingResult) {
 
         userRegistrationValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {

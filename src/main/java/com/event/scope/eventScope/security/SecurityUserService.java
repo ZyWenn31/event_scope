@@ -24,18 +24,18 @@ public class SecurityUserService implements UserDetailsService {
         User user = userRepository
                 .findByUsername(username)
                 .orElseThrow(
-                        () -> new UsernameNotFoundException("User with name " + username +" not found"));
+                        () -> new UsernameNotFoundException("User with name " + username + " not found"));
 
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole()))
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
         );
     }
 
     public void createNewUser(User user) throws Exception {
-        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new Exception("User with this username already exist");
         }
         user.setRole("ROLE_USER");

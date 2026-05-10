@@ -7,8 +7,8 @@
 
     <title th:text="${profileUser.username}">Профиль</title>
 
-    <link rel="stylesheet"
-          href="/css/publicUserProfile.css">
+    <link href="/css/publicUserProfile.css"
+          rel="stylesheet">
 </head>
 
 <header>
@@ -21,13 +21,13 @@
 
         <a href="/wish">К пожеланиям</a>
 
-        <a th:if="${isAuth}"
-           href="/userProfile"
+        <a href="/userProfile"
+           th:if="${isAuth}"
            th:text="${currentUsername}">
             Личный кабинет
         </a>
 
-        <a th:if="${!isAuth}" href="/login">Войти</a>
+        <a href="/login" th:if="${!isAuth}">Войти</a>
 
     </div>
 
@@ -51,8 +51,8 @@
             </div>
 
             <div class="avatar-block">
-                <img th:src="${profileUser.avatarPath}"
-                     alt="avatar">
+                <img alt="avatar"
+                     th:src="${profileUser.avatarPath}">
             </div>
 
             <div class="user-info">
@@ -85,8 +85,8 @@
             </div>
 
             <!-- ===== Слайдер отзывов ===== -->
-            <div th:if="${!organizerReviews.isEmpty()}"
-                 class="reviews-section">
+            <div class="reviews-section"
+                 th:if="${!organizerReviews.isEmpty()}">
 
                 <p class="reviews-title">Отзывы</p>
 
@@ -148,8 +148,8 @@
 
             </div>
 
-            <p th:if="${organizerReviews.isEmpty()}"
-               class="no-reviews">
+            <p class="no-reviews"
+               th:if="${organizerReviews.isEmpty()}">
                 Отзывов пока нет
             </p>
 
@@ -161,38 +161,38 @@
 
             <p class="org-review-form-title">Оставить отзыв</p>
 
-            <form th:action="@{/userProfile/{username}/review(username=${profileUser.username})}"
+            <form class="org-review-form"
                   method="post"
-                  class="org-review-form">
+                  th:action="@{/userProfile/{username}/review(username=${profileUser.username})}">
 
                 <div class="star-rating">
 
-                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <input id="star5" name="rating" required type="radio" value="5">
                     <label for="star5">★</label>
 
-                    <input type="radio" id="star4" name="rating" value="4">
+                    <input id="star4" name="rating" type="radio" value="4">
                     <label for="star4">★</label>
 
-                    <input type="radio" id="star3" name="rating" value="3">
+                    <input id="star3" name="rating" type="radio" value="3">
                     <label for="star3">★</label>
 
-                    <input type="radio" id="star2" name="rating" value="2">
+                    <input id="star2" name="rating" type="radio" value="2">
                     <label for="star2">★</label>
 
-                    <input type="radio" id="star1" name="rating" value="1">
+                    <input id="star1" name="rating" type="radio" value="1">
                     <label for="star1">★</label>
 
                 </div>
 
                 <textarea class="org-review-textarea"
+                          maxlength="1000"
                           name="comment"
                           placeholder="Ваш комментарий (необязательно)"
-                          maxlength="1000"
                           rows="3">
                 </textarea>
 
-                <button type="submit"
-                        class="org-review-submit-btn">
+                <button class="org-review-submit-btn"
+                        type="submit">
                     Отправить отзыв
                 </button>
 
@@ -222,15 +222,15 @@
 
             <div class="events-scroll">
 
-                <div th:if="${allParticipations.isEmpty()}"
-                     class="empty-state">
+                <div class="empty-state"
+                     th:if="${allParticipations.isEmpty()}">
                     Пользователь ещё не участвовал в мероприятиях
                 </div>
 
                 <div class="event-card"
-                     th:each="p : ${allParticipations}"
+                     th:attr="data-href=@{/event/{id}(id=${p.event.id})}"
                      th:classappend="${p.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
-                     th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
+                     th:each="p : ${allParticipations}">
 
                     <div class="card-header-row">
 
@@ -306,15 +306,15 @@
 
             <div class="events-scroll">
 
-                <div th:if="${organizedEvents.isEmpty()}"
-                     class="empty-state">
+                <div class="empty-state"
+                     th:if="${organizedEvents.isEmpty()}">
                     Нет организованных мероприятий
                 </div>
 
                 <div class="event-card"
-                     th:each="event : ${organizedEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${event.id})}"
                      th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
-                     th:attr="data-href=@{/event/{id}(id=${event.id})}">
+                     th:each="event : ${organizedEvents}">
 
                     <div class="card-header-row">
 

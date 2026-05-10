@@ -60,9 +60,27 @@ body {
     background-color: rgba(255, 255, 255, 0.08);
 }
 
-.c1 { width: 360px; height: 360px; bottom: -100px; right: -100px; }
-.c2 { width: 220px; height: 220px; top: -70px;  right:   30px; }
-.c3 { width: 150px; height: 150px; top:  50%;   left:   -55px; transform: translateY(-50%); }
+.c1 {
+    width: 360px;
+    height: 360px;
+    bottom: -100px;
+    right: -100px;
+}
+
+.c2 {
+    width: 220px;
+    height: 220px;
+    top: -70px;
+    right: 30px;
+}
+
+.c3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: -55px;
+    transform: translateY(-50%);
+}
 
 /* ===== Правая сторона с формой ===== */
 .auth-form-side {
@@ -225,14 +243,53 @@ body {
 
 /* ===== Адаптив ===== */
 @media (max-width: 700px) {
-    .auth-brand { display: none; }
-    .auth-form-side { padding: 24px; }
+    .auth-brand {
+        display: none;
+    }
+
+    .auth-form-side {
+        padding: 24px;
+    }
 }
 
 @media (max-width: 480px) {
-    body { overflow: auto; height: auto; }
-    .auth-wrapper { height: auto; min-height: 100vh; }
-    .auth-form-side { padding: 16px; align-items: flex-start; padding-top: 32px; }
-    .auth-card { padding: 24px 18px; border-radius: 16px; gap: 18px; }
-    .auth-card h2 { font-size: 22px; }
+    body {
+        overflow: auto;
+        height: auto;
+    }
+
+    .auth-wrapper {
+        height: auto;
+        min-height: 100svh;
+    }
+
+    .auth-form-side {
+        padding: 0;
+        background-color: white;
+        align-items: stretch;
+    }
+
+    .auth-card {
+        width: 100%;
+        min-height: 100svh;
+        border-radius: 0;
+        padding: 56px 24px 32px;
+        box-shadow: none;
+        justify-content: center;
+    }
+
+    .auth-card h2 {
+        font-size: 26px;
+    }
+
+    .input-block input {
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .submit-btn {
+        height: 52px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
 }

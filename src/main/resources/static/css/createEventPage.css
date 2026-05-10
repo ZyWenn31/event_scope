@@ -402,17 +402,15 @@ header p {
 }
 
 /* ===== Адаптив ===== */
-@media (max-width: 760px) {
-    .create-container form {
-        width: 100%;
-        padding: 24px;
-    }
-}
-
 @media (max-width: 768px) {
 
     header {
-        padding: 14px 20px;
+        padding: 14px 24px;
+    }
+
+    body {
+        height: auto;
+        overflow: auto;
     }
 
     .create-container {
@@ -420,24 +418,28 @@ header p {
         overflow: visible;
     }
 
-    body {
-        height: auto;
-        overflow: auto;
+    .create-container form {
+        width: 100%;
+        padding: 24px;
     }
 }
 
 @media (max-width: 480px) {
 
     header {
-        padding: 10px 14px;
+        padding: 10px 16px;
+        gap: 12px;
     }
 
     header p {
         font-size: 17px;
+        white-space: nowrap;
     }
 
     .header-links {
         gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .header-links a {
@@ -445,25 +447,62 @@ header p {
     }
 
     body {
-        padding-top: 72px;
+        padding-top: 68px;
+        padding-left: 12px;
+        padding-right: 12px;
+        margin-top: 0;
     }
 
     .create-container {
-        padding: 10px;
+        padding: 0;
     }
 
     .create-container form {
-        padding: 18px 14px;
-        border-radius: 16px;
-        gap: 18px;
+        padding: 20px 16px;
+        border-radius: 20px;
+        gap: 20px;
     }
 
     .create-container h1 {
-        font-size: 18px;
+        font-size: 20px;
+    }
+
+    .input-block input {
+        height: 48px;
+        font-size: 16px;
+    }
+
+    .input-block textarea {
+        font-size: 15px;
+    }
+
+    .map-search-row {
+        flex-direction: column;
+    }
+
+    .map-search-btn {
+        height: 46px;
+        border-radius: 12px;
     }
 
     .map-container {
-        height: 240px;
+        height: 220px;
+        border-radius: 14px;
+    }
+
+    .tags-container {
+        gap: 8px;
+    }
+
+    .tag-item span {
+        padding: 7px 14px;
+        font-size: 13px;
+    }
+
+    .submit-btn {
+        height: 50px;
+        font-size: 15px;
+        border-radius: 14px;
     }
 
     .form-actions {
@@ -473,5 +512,7 @@ header p {
     .cancel-edit-link {
         flex: auto;
         width: 100%;
+        height: 50px;
+        border-radius: 14px;
     }
 }

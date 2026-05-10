@@ -19,7 +19,7 @@ public class TelegramAccountService {
         return telegramAccountRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Telegram account with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Telegram account with id " + id + "not found"));
     }
 
     public List<TelegramAccount> findAll() {
@@ -38,7 +38,7 @@ public class TelegramAccountService {
         TelegramAccount existing = telegramAccountRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Telegram account with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Telegram account with id " + id + "not found"));
 
         existing.setUser(telegramAccount.getUser());
         existing.setLinkedAt(telegramAccount.getLinkedAt());

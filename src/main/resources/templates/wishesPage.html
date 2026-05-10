@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Пожелания пользователей</title>
-    <link rel="stylesheet" href="/css/wishesPage.css">
+    <link href="/css/wishesPage.css" rel="stylesheet">
 </head>
 
 <header>
@@ -11,17 +12,17 @@
 
     <div class="header-links">
 
-        <a th:if="${isAuth}" href="/wish/create">
+        <a href="/wish/create" th:if="${isAuth}">
             Добавить пожелание
         </a>
 
         <a href="/event">К мероприятиям</a>
 
-        <a th:if="${isAuth}" href="/userProfile" th:text="${username}">
+        <a href="/userProfile" th:if="${isAuth}" th:text="${username}">
             Личный кабинет
         </a>
 
-        <a th:if="${!isAuth}" href="/login">
+        <a href="/login" th:if="${!isAuth}">
             Вход
         </a>
     </div>
@@ -31,15 +32,15 @@
 
 <div class="filters">
 
-    <form method="get" action="/wish">
+    <form action="/wish" method="get">
 
         <!-- ===== Только мои ===== -->
         <div class="filter-block" th:if="${isAuth}">
             <label class="only-mine-item">
-                <input type="checkbox"
-                       name="onlyMine"
-                       value="true"
-                       th:checked="${onlyMine}">
+                <input name="onlyMine"
+                       th:checked="${onlyMine}"
+                       type="checkbox"
+                       value="true">
                 <span>Только мои пожелания</span>
             </label>
         </div>
@@ -49,10 +50,10 @@
 
             <label class="filter-label">Дата создания</label>
 
-            <input type="date"
-                   class="date-input"
+            <input class="date-input"
                    name="createdDate"
-                   th:value="${selectedDate}">
+                   th:value="${selectedDate}"
+                   type="date">
 
         </div>
 
@@ -66,10 +67,10 @@
                 <label class="tag-filter-item"
                        th:each="tag : ${tags}">
 
-                    <input type="checkbox"
-                           name="tagIds"
+                    <input name="tagIds"
+                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}"
                            th:value="${tag.id}"
-                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}">
+                           type="checkbox">
 
                     <span th:text="${tag.name}"></span>
 
@@ -89,69 +90,69 @@
 
 <div class="wishes-column">
 
-<div id="wishItems">
+    <div id="wishItems">
 
-    <div class="wishItem" th:each="wish : ${wishes}">
+        <div class="wishItem" th:each="wish : ${wishes}">
 
-        <p class="wishTitle" th:text="${wish.title}"></p>
+            <p class="wishTitle" th:text="${wish.title}"></p>
 
-        <p class="wishDescription" th:text="${wish.description}"></p>
+            <p class="wishDescription" th:text="${wish.description}"></p>
 
-        <div class="wish-meta">
-            <span class="wish-author" th:text="${wish.user.username}"></span>
-            <span class="wish-dot">·</span>
-            <span class="wish-date" th:text="${daysAgoMap[wish.id]}"></span>
-        </div>
-
-        <div class="wish-events-strip"
-             th:if="${wish.events != null && !wish.events.isEmpty()}">
-            <span class="wish-events-label">События</span>
-            <div class="wish-events-scroll">
-                <a class="wish-event-chip"
-                   th:each="event : ${wish.events}"
-                   th:href="@{/event/{id}(id=${event.id})}"
-                   th:text="${event.title}"
-                   th:classappend="${event.status.name() == 'FINISHED'} ? ' chip-finished' : (${event.status.name() == 'CANCELED'} ? ' chip-canceled' : '')">
-                </a>
+            <div class="wish-meta">
+                <span class="wish-author" th:text="${wish.user.username}"></span>
+                <span class="wish-dot">·</span>
+                <span class="wish-date" th:text="${daysAgoMap[wish.id]}"></span>
             </div>
-        </div>
 
-        <div class="wish-footer">
+            <div class="wish-events-strip"
+                 th:if="${wish.events != null && !wish.events.isEmpty()}">
+                <span class="wish-events-label">События</span>
+                <div class="wish-events-scroll">
+                    <a class="wish-event-chip"
+                       th:classappend="${event.status.name() == 'FINISHED'} ? ' chip-finished' : (${event.status.name() == 'CANCELED'} ? ' chip-canceled' : '')"
+                       th:each="event : ${wish.events}"
+                       th:href="@{/event/{id}(id=${event.id})}"
+                       th:text="${event.title}">
+                    </a>
+                </div>
+            </div>
 
-            <div class="wishTags">
+            <div class="wish-footer">
+
+                <div class="wishTags">
                 <span class="tag"
                       th:each="tag : ${wish.tags}"
                       th:text="${tag.name}">
                 </span>
-            </div>
+                </div>
 
-            <div class="wish-actions">
+                <div class="wish-actions">
 
-                <a th:if="${isOrganizer}"
-                   class="create-from-wish-btn"
-                   th:href="@{/event/create(wishId=${wish.id})}">
-                    + Создать мероприятие
-                </a>
+                    <a class="create-from-wish-btn"
+                       th:href="@{/event/create(wishId=${wish.id})}"
+                       th:if="${isOrganizer}">
+                        + Создать мероприятие
+                    </a>
 
-                <button th:if="${isAuth}"
-                        class="like-btn"
-                        th:classappend="${likedWishIds.contains(wish.id)} ? ' liked'"
-                        th:attr="data-wish-id=${wish.id}">
-                    ♥ <span class="like-count" th:text="${likeCounts[wish.id] ?: 0}"></span>
-                </button>
+                    <button class="like-btn"
+                            th:attr="data-wish-id=${wish.id}"
+                            th:classappend="${likedWishIds.contains(wish.id)} ? ' liked'"
+                            th:if="${isAuth}">
+                        ♥ <span class="like-count" th:text="${likeCounts[wish.id] ?: 0}"></span>
+                    </button>
 
-                <span th:if="${!isAuth}"
-                      class="like-btn like-btn-readonly">
+                    <span class="like-btn like-btn-readonly"
+                          th:if="${!isAuth}">
                     ♥ <span class="like-count" th:text="${likeCounts[wish.id] ?: 0}"></span>
                 </span>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
 
     <!-- ===== Пагинация ===== -->
     <div class="pagination" th:if="${totalPages > 1}">
@@ -163,12 +164,12 @@
         </button>
 
         <th:block th:each="p : ${pageNumbers}">
-            <span th:if="${p == -1}" class="pagination-ellipsis">…</span>
-            <button th:if="${p != -1}"
-                    class="pagination-btn"
+            <span class="pagination-ellipsis" th:if="${p == -1}">…</span>
+            <button class="pagination-btn"
                     th:classappend="${p == currentPage} ? ' pagination-btn-active'"
-                    th:text="${p + 1}"
-                    th:onclick="|goToPage(${p})|">
+                    th:if="${p != -1}"
+                    th:onclick="|goToPage(${p})|"
+                    th:text="${p + 1}">
             </button>
         </th:block>
 
@@ -194,7 +195,7 @@
     document.querySelectorAll(".like-btn[data-wish-id]").forEach(btn => {
         btn.addEventListener("click", async () => {
             const wishId = btn.dataset.wishId;
-            const res = await fetch(`/wish/like?wishId=${wishId}`, { method: "POST" });
+            const res = await fetch(`/wish/like?wishId=${wishId}`, {method: "POST"});
             if (!res.ok) return;
             const data = await res.json();
             btn.querySelector(".like-count").textContent = data.count;

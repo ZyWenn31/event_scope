@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface WishLikeRepository extends JpaRepository<WishLike, Long> {
     boolean existsByUserAndWish(User user, Wish wish);
+
     Optional<WishLike> findByUserAndWish(User user, Wish wish);
+
     long countByWish(Wish wish);
 }

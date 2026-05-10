@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class EventParticipantService {
     private final EventParticipantRepository eventParticipantRepository;
     private final UserRepository userRepository;
-    private final EventRepository  eventRepository;
+    private final EventRepository eventRepository;
 
 
     public EventParticipantService(EventParticipantRepository eventParticipantRepository, UserRepository userRepository, EventRepository eventRepository) {
@@ -92,7 +92,7 @@ public class EventParticipantService {
         return eventParticipantRepository.findAllByEvent(event);
     }
 
-    public Set<Long> getUserParticipantsEvent(User user){
+    public Set<Long> getUserParticipantsEvent(User user) {
         Set<Long> userEventIds = new HashSet<>();
 
         if (user != null) {

@@ -1,6 +1,5 @@
 package com.event.scope.eventScope.schelduler;
 
-import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.EventStatus;
 import com.event.scope.eventScope.repository.EventRepository;
 import org.springframework.scheduling.annotation.Scheduled;

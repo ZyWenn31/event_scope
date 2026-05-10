@@ -20,7 +20,7 @@ public class OrganizerReviewService {
         return organizerReviewRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Organizer review with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Organizer review with id " + id + "not found"));
     }
 
     public List<OrganizerReview> findAll() {
@@ -43,7 +43,7 @@ public class OrganizerReviewService {
         OrganizerReview existing = organizerReviewRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Organizer review with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Organizer review with id " + id + "not found"));
 
 
         existing.setOrganizer(organizerReview.getOrganizer());

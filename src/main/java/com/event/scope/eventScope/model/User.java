@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "t_user",
-        uniqueConstraints = { @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email") })
+        uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")})
 public class User {
 
     @Id

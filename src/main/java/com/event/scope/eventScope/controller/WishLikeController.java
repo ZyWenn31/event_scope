@@ -21,8 +21,8 @@ public class WishLikeController {
     private final UserService userService;
 
     public WishLikeController(WishLikeService wishLikeService,
-                               WishService wishService,
-                               UserService userService) {
+                              WishService wishService,
+                              UserService userService) {
         this.wishLikeService = wishLikeService;
         this.wishService = wishService;
         this.userService = userService;

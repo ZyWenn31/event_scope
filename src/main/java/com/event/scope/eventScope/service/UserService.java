@@ -19,7 +19,7 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("User with id " + id +" not found"));
+                        () -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     public List<User> findAll() {
@@ -38,7 +38,7 @@ public class UserService {
         User existing = userRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("User with id " + id +" not found"));
+                        () -> new EntityNotFoundException("User with id " + id + " not found"));
 
 
         existing.setOrganizerReviews(user.getOrganizerReviews());
@@ -61,7 +61,7 @@ public class UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("User with username " + username +" not found")
+                        () -> new EntityNotFoundException("User with username " + username + " not found")
                 );
     }
 

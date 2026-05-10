@@ -13,12 +13,17 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
 
     // --- без фильтра по пользователю ---
     List<Wish> findDistinctByTags_IdIn(List<Long> tagIds);
+
     List<Wish> findAllByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
     List<Wish> findDistinctByTags_IdInAndCreatedAtBetween(List<Long> tagIds, LocalDateTime start, LocalDateTime end);
 
     // --- только пожелания конкретного пользователя ---
     List<Wish> findAllByUser(User user);
+
     List<Wish> findDistinctByUserAndTags_IdIn(User user, List<Long> tagIds);
+
     List<Wish> findAllByUserAndCreatedAtBetween(User user, LocalDateTime start, LocalDateTime end);
+
     List<Wish> findDistinctByUserAndTags_IdInAndCreatedAtBetween(User user, List<Long> tagIds, LocalDateTime start, LocalDateTime end);
 }

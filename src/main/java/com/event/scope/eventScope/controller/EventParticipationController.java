@@ -1,11 +1,12 @@
 package com.event.scope.eventScope.controller;
 
-import com.event.scope.eventScope.model.EventParticipant;
 import com.event.scope.eventScope.service.EventParticipantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EventParticipationController {

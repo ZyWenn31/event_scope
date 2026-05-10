@@ -30,7 +30,7 @@ public class EventService {
         return eventRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Event with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Event with id " + id + "not found"));
     }
 
     public List<Event> findAll() {
@@ -52,7 +52,7 @@ public class EventService {
         Event existing = eventRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Event with id " + id +"not found"));
+                        () -> new EntityNotFoundException("Event with id " + id + "not found"));
 
         existing.setCreatedAt(event.getCreatedAt());
         existing.setDescription(event.getDescription());

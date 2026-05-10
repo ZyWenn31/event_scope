@@ -1,10 +1,6 @@
 package com.event.scope.eventScope.controller;
 
-import com.event.scope.eventScope.model.Event;
-import com.event.scope.eventScope.model.EventParticipant;
-import com.event.scope.eventScope.model.EventStatus;
-import com.event.scope.eventScope.model.OrganizerReview;
-import com.event.scope.eventScope.model.User;
+import com.event.scope.eventScope.model.*;
 import com.event.scope.eventScope.service.OrganizerReviewService;
 import com.event.scope.eventScope.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -38,7 +34,7 @@ public class UserController {
     @GetMapping("/userProfile")
     public String userProfile(Principal principal, Model model) {
 
-        if  (principal == null) {
+        if (principal == null) {
             return "redirect:/login";
         }
 

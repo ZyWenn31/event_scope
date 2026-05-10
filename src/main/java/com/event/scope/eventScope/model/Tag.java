@@ -1,6 +1,7 @@
 package com.event.scope.eventScope.model;
 
 import jakarta.persistence.*;
+
 import java.util.Set;
 
 @Entity

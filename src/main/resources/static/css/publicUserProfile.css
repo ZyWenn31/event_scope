@@ -366,9 +366,8 @@ header p {
     align-items: center;
     justify-content: center;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    transform .15s ease;
 }
 
 .slider-btn:hover {
@@ -493,9 +492,8 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            transform .2s ease,
-            box-shadow .2s ease;
+    transition: transform .2s ease,
+    box-shadow .2s ease;
 }
 
 .event-card:hover {
@@ -554,8 +552,12 @@ header p {
 }
 
 @keyframes pulse-green-badge {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
-    50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);  }
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);
+    }
 }
 
 .event-card.card-in-progress {
@@ -644,9 +646,8 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    transform .15s ease;
 }
 
 .back-btn:hover {
@@ -760,9 +761,8 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    transform .15s ease;
 }
 
 .org-review-submit-btn:hover {
@@ -814,12 +814,14 @@ header p {
 
     .profile-layout {
         height: auto;
-
         flex-direction: column;
+        padding: 16px;
+        gap: 16px;
     }
 
     .profile-sidebar {
         width: 100%;
+        overflow: visible;
     }
 
     .events-section {
@@ -837,7 +839,7 @@ header p {
 @media (max-width: 768px) {
 
     header {
-        padding: 14px 20px;
+        padding: 14px 24px;
     }
 
     .profile-layout {
@@ -846,20 +848,22 @@ header p {
     }
 
     .back-btn {
-        margin: 6px 14px 0;
+        margin: 6px 16px 0;
     }
 }
 
 @media (max-width: 480px) {
 
     header {
-        padding: 10px 14px;
-        flex-wrap: wrap;
+        padding: 10px 16px;
         gap: 8px;
+        align-items: flex-start;
     }
 
     header p {
         font-size: 17px;
+        white-space: nowrap;
+        padding-top: 2px;
     }
 
     .header-links {
@@ -873,57 +877,187 @@ header p {
     }
 
     body {
-        padding-top: 72px;
+        padding-top: 0;
     }
 
     .back-btn {
-        margin: 4px 10px 0;
-        padding: 4px 14px;
+        margin: 4px 12px 0;
+        padding: 6px 16px;
         font-size: 13px;
+        border-radius: 10px;
+        min-height: 36px;
     }
 
     .profile-layout {
         height: auto;
-        padding: 10px;
+        padding: 10px 12px 20px;
+        padding-top: 72px;
         gap: 12px;
     }
 
+    /* Карточки боковой панели */
     .profile-card,
-    .rating-card,
+    .rating-card {
+        padding: 18px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Форма отзыва */
     .org-review-form-card,
     .org-review-done-card {
-        padding: 16px;
-        border-radius: 16px;
+        padding: 18px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Аватар */
+    .avatar-block {
+        margin-top: 14px;
+    }
+
+    .avatar-block img {
+        width: 96px;
+        height: 96px;
+        border-width: 3px;
+    }
+
+    /* Информация пользователя */
+    .user-info {
+        margin-top: 14px;
+        gap: 6px;
     }
 
     .profile-username {
-        font-size: 18px;
+        font-size: 20px;
     }
 
-    .events-column {
-        padding: 16px;
-        border-radius: 16px;
+    .profile-name {
+        font-size: 14px;
     }
 
-    .column-title {
+    .role-badge {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+
+    /* Рейтинг */
+    .block-title {
         font-size: 16px;
         margin-bottom: 12px;
     }
 
-    .event-card {
-        padding: 14px;
-        border-radius: 14px;
-    }
-
-    .event-title {
-        font-size: 14px;
-    }
-
-    .event-description {
-        font-size: 12px;
+    .rating-display {
+        margin-bottom: 16px;
     }
 
     .rating-number {
-        font-size: 34px;
+        font-size: 36px;
+    }
+
+    .rating-star {
+        font-size: 26px;
+    }
+
+    .rating-max {
+        font-size: 14px;
+    }
+
+    /* Слайдер отзывов */
+    .slider-viewport {
+        height: 130px;
+    }
+
+    .review-slide {
+        padding: 14px;
+        gap: 8px;
+    }
+
+    .reviewer-name {
+        font-size: 13px;
+    }
+
+    .review-stars {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .review-comment {
+        font-size: 13px;
+    }
+
+    /* Форма отзыва на организатора */
+    .org-review-form-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+
+    .org-review-form {
+        gap: 12px;
+    }
+
+    .star-rating label {
+        font-size: 28px;
+    }
+
+    .org-review-textarea {
+        font-size: 15px;
+        min-height: 90px;
+        border-radius: 10px;
+    }
+
+    .org-review-submit-btn {
+        align-self: stretch;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 12px;
+        padding: 0 22px;
+    }
+
+    /* Колонка событий */
+    .events-column {
+        padding: 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    .column-title {
+        font-size: 17px;
+        margin-bottom: 14px;
+    }
+
+    /* Карточки событий */
+    .event-card {
+        padding: 14px;
+        border-radius: 16px;
+        gap: 8px;
+    }
+
+    .card-header-row {
+        gap: 8px;
+    }
+
+    .event-title {
+        font-size: 15px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 3px 10px;
+    }
+
+    .event-description {
+        font-size: 13px;
+    }
+
+    .event-date-row {
+        font-size: 12px;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .event-tag {
+        font-size: 11px;
+        padding: 3px 10px;
     }
 }

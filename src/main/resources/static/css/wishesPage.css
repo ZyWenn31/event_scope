@@ -110,11 +110,10 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            border-color .18s ease,
-            background-color .18s ease,
-            color .18s ease,
-            transform .12s ease;
+    transition: border-color .18s ease,
+    background-color .18s ease,
+    color .18s ease,
+    transform .12s ease;
 }
 
 .pagination-btn:hover:not(:disabled) {
@@ -166,9 +165,8 @@ header p {
 
     gap: 12px;
 
-    transition:
-            transform .2s ease,
-            box-shadow .2s ease;
+    transition: transform .2s ease,
+    box-shadow .2s ease;
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -395,10 +393,9 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease,
-            box-shadow .2s ease;
+    transition: background-color .2s ease,
+    transform .15s ease,
+    box-shadow .2s ease;
 }
 
 .filters button:hover {
@@ -434,10 +431,9 @@ header p {
     font-weight: 600;
     text-decoration: none;
 
-    transition:
-            background-color .2s ease,
-            border-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    border-color .2s ease,
+    transform .15s ease;
 }
 
 .create-from-wish-btn:hover {
@@ -555,11 +551,10 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            color .2s ease,
-            border-color .2s ease,
-            background-color .2s ease,
-            transform .15s ease;
+    transition: color .2s ease,
+    border-color .2s ease,
+    background-color .2s ease,
+    transform .15s ease;
 }
 
 .like-btn:hover {
@@ -601,26 +596,31 @@ header p {
 @media (max-width: 768px) {
 
     header {
-        padding: 14px 20px;
+        padding: 14px 24px;
     }
 
     body {
-        padding: 12px;
+        padding: 14px;
+        margin-top: 76px;
     }
 }
 
 @media (max-width: 480px) {
 
     header {
-        padding: 10px 14px;
+        padding: 10px 16px;
+        gap: 12px;
     }
 
     header p {
         font-size: 17px;
+        white-space: nowrap;
     }
 
     .header-links {
         gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .header-links a {
@@ -628,13 +628,16 @@ header p {
     }
 
     body {
-        margin-top: 72px;
-        padding: 10px;
+        margin-top: 0;
+        padding-top: 68px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 20px;
     }
 
     .wishItem {
         padding: 16px;
-        border-radius: 14px;
+        border-radius: 18px;
         gap: 10px;
     }
 
@@ -646,18 +649,42 @@ header p {
         font-size: 14px;
     }
 
+    .wish-meta {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
     .wish-footer {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 10px;
     }
 
     .wish-actions {
         flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .create-from-wish-btn,
+    .like-btn {
+        min-height: 40px;
+        font-size: 13px;
     }
 
     .filters form {
         gap: 14px;
         padding: 16px;
+        border-radius: 16px;
+    }
+
+    .filters button {
+        height: 46px;
+        font-size: 15px;
+        border-radius: 12px;
+    }
+
+    .pagination-btn {
+        min-width: 34px;
+        height: 34px;
     }
 }

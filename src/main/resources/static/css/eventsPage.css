@@ -118,11 +118,10 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            border-color .18s ease,
-            background-color .18s ease,
-            color .18s ease,
-            transform .12s ease;
+    transition: border-color .18s ease,
+    background-color .18s ease,
+    color .18s ease,
+    transform .12s ease;
 }
 
 .pagination-btn:hover:not(:disabled) {
@@ -170,15 +169,14 @@ header p {
 
     gap: 10px;
 
-    transition:
-            transform .2s ease,
-            box-shadow .2s ease;
+    transition: transform .2s ease,
+    box-shadow .2s ease;
 }
 
 #item:hover {
     transform: translateY(-2px);
 
-    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== Карточка «идёт сейчас» ===== */
@@ -218,8 +216,12 @@ header p {
 }
 
 @keyframes pulse-green {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
-    50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);  }
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);
+    }
 }
 
 /* ===== Заголовок ===== */
@@ -671,10 +673,9 @@ header p {
 
     cursor: pointer;
 
-    transition:
-            border-color .2s ease,
-            background-color .2s ease,
-            color .2s ease;
+    transition: border-color .2s ease,
+    background-color .2s ease,
+    color .2s ease;
 }
 
 .in-progress-toggle input[type="checkbox"] {
@@ -736,54 +737,67 @@ header p {
 @media (max-width: 768px) {
 
     header {
-        padding: 14px 20px;
+        padding: 14px 24px;
     }
 
     body {
-        padding: 12px;
+        padding: 14px;
+        margin-top: 76px;
     }
 }
 
 @media (max-width: 480px) {
 
+    /* Хедер */
     header {
-        padding: 10px 14px;
+        padding: 10px 16px;
+        gap: 12px;
     }
 
     header p {
         font-size: 17px;
+        white-space: nowrap;
     }
 
     .header-links {
         gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .header-links a {
         font-size: 12px;
     }
 
+    /* Body */
     body {
-        margin-top: 72px;
-        padding: 10px;
+        margin-top: 0;
+        padding-top: 68px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 20px;
     }
 
+    /* Карточки */
     #item {
-        padding: 14px 16px;
+        padding: 16px;
         border-radius: 20px;
-        gap: 8px;
+        gap: 10px;
     }
 
     #title {
-        font-size: 18px;
+        font-size: 17px;
     }
 
     #description {
         font-size: 14px;
+        line-height: 1.5;
     }
 
     .event-meta {
-        font-size: 12px;
+        flex-wrap: wrap;
         gap: 4px;
+        font-size: 13px;
     }
 
     .event-time-badge {
@@ -791,21 +805,75 @@ header p {
         padding: 2px 8px;
     }
 
+    .event-address {
+        font-size: 13px;
+    }
+
+    .event-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .event-tags {
+        gap: 6px;
+    }
+
     .event-tag {
         padding: 6px 12px;
         font-size: 12px;
     }
 
-    .participation-btn {
-        font-size: 13px;
-        padding: 8px 14px;
+    .event-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
 
+    .participation-btn {
+        min-height: 40px;
+        font-size: 13px;
+        padding: 8px 16px;
+        border-radius: 12px;
+    }
+
+    .detail-link {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Пагинация */
+    .pagination-btn {
+        min-width: 34px;
+        height: 34px;
+    }
+
+    /* Фильтры */
     .filters form {
         gap: 16px;
+        padding: 16px;
+        border-radius: 16px;
     }
 
     .apply-btn {
-        padding: 10px;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 12px;
+    }
+
+    .search-block input {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    .sort-select,
+    .date-input {
+        height: 44px;
+        font-size: 15px;
+    }
+
+    .in-progress-toggle {
+        padding: 12px 14px;
+        font-size: 14px;
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByStatus(EventStatus status);
+
     List<Event> findAllByStatusIn(List<EventStatus> statuses);
 
     @Modifying(clearAutomatically = true)

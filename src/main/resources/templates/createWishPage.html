@@ -4,11 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Создание пожелания</title>
 
-    <link rel="stylesheet"
-          href="/css/createWishPage.css">
+    <link href="/css/createWishPage.css"
+          rel="stylesheet">
 </head>
 
 <header>
@@ -37,8 +38,8 @@
 
 <div class="create-container">
 
-    <form th:action="@{/wish/create}"
-          method="post"
+    <form method="post"
+          th:action="@{/wish/create}"
           th:object="${wish}">
 
         <h1>
@@ -52,13 +53,13 @@
                 Название
             </label>
 
-            <input type="text"
+            <input placeholder="Введите примерное название мероприятия"
                    th:field="*{title}"
-                   placeholder="Введите примерное название мероприятия">
+                   type="text">
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('title')}"
-               th:errors="*{title}">
+               th:errors="*{title}"
+               th:if="${#fields.hasErrors('title')}">
             </p>
 
         </div>
@@ -70,12 +71,12 @@
                 Описание
             </label>
 
-            <textarea th:field="*{description}"
-                      placeholder="Опишите мероприятие, которое хотели бы посетить"></textarea>
+            <textarea placeholder="Опишите мероприятие, которое хотели бы посетить"
+                      th:field="*{description}"></textarea>
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('description')}"
-               th:errors="*{description}">
+               th:errors="*{description}"
+               th:if="${#fields.hasErrors('description')}">
             </p>
 
         </div>
@@ -92,9 +93,9 @@
                 <label class="tag-item"
                        th:each="tag : ${tags}">
 
-                    <input type="checkbox"
-                           name="tagIds"
-                           th:value="${tag.id}">
+                    <input name="tagIds"
+                           th:value="${tag.id}"
+                           type="checkbox">
 
                     <span th:text="${tag.name}">
                     </span>
@@ -106,8 +107,8 @@
         </div>
 
         <!-- ===== Кнопка ===== -->
-        <button type="submit"
-                class="submit-btn">
+        <button class="submit-btn"
+                type="submit">
 
             Опубликовать
 

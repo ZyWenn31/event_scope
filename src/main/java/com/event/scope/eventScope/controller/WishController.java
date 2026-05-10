@@ -17,18 +17,13 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/wish")
 public class WishController {
+    private static final int PAGE_SIZE = 8;
     private final WishService wishService;
     private final TagService tagService;
     private final UserService userService;
@@ -44,8 +39,6 @@ public class WishController {
         this.userService = userService;
         this.wishLikeService = wishLikeService;
     }
-
-    private static final int PAGE_SIZE = 8;
 
     @GetMapping
     public String getAllWishes(
@@ -124,7 +117,6 @@ public class WishController {
 
         model.addAttribute("tags",
                 tagService.findAll());
-
 
 
         return "createWishPage";

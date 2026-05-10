@@ -2,8 +2,9 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Вход — EventScope</title>
-    <link rel="stylesheet" href="/css/login.css">
+    <link href="/css/login.css" rel="stylesheet">
 </head>
 <body>
 
@@ -28,31 +29,37 @@
 
             <h2>Вход в аккаунт</h2>
 
-            <div th:if="${errorMessage}" class="error-msg">
+            <div class="error-msg" th:if="${errorMessage}">
                 <p th:text="${errorMessage}"></p>
             </div>
 
-            <form th:action="@{/login}" method="post">
+            <form method="post" th:action="@{/login}">
 
                 <div class="input-block">
                     <label>Логин</label>
-                    <input type="text" name="username" required placeholder="Введите логин">
+                    <input name="username" placeholder="Введите логин" required type="text">
                 </div>
 
                 <div class="input-block">
                     <label>Пароль</label>
                     <div class="input-wrapper">
-                        <input type="password" id="password" name="password" required placeholder="Введите пароль">
-                        <button type="button" class="toggle-password" onclick="togglePassword('password', this)" aria-label="Показать пароль">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        <input id="password" name="password" placeholder="Введите пароль" required type="password">
+                        <button aria-label="Показать пароль" class="toggle-password"
+                                onclick="togglePassword('password', this)"
+                                type="button">
+                            <svg fill="none" stroke="currentColor" stroke-width="2"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
                             </svg>
                         </button>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn">Войти</button>
+                <button class="submit-btn" type="submit">Войти</button>
 
             </form>
 

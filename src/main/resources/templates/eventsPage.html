@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>EventScope</title>
-    <link rel="stylesheet" href="/css/eventsPage.css">
+    <link href="/css/eventsPage.css" rel="stylesheet">
 </head>
 
 <header>
     <p>Event scope</p>
 
     <div class="header-links">
-        <a th:if="${!isAuth}" href="/login">Вход</a>
+        <a href="/login" th:if="${!isAuth}">Вход</a>
         <a href="/wish">К пожеланиям</a>
-        <a th:if="${isAuth}" href="/userProfile" th:text="${username}">Личный кабинет</a>
+        <a href="/userProfile" th:if="${isAuth}" th:text="${username}">Личный кабинет</a>
     </div>
 </header>
 
@@ -23,104 +24,106 @@
     <!-- ===== Колонка событий ===== -->
     <div class="events-column">
 
-    <!-- ===== События ===== -->
-    <div id="items">
+        <!-- ===== События ===== -->
+        <div id="items">
 
-        <div id="item"
-             th:each="event : ${events}"
-             th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'item-in-progress'"
-             th:attr="data-href=@{/event/{id}(id=${event.id})}">
+            <div id="item"
+                 th:attr="data-href=@{/event/{id}(id=${event.id})}"
+                 th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'item-in-progress'"
+                 th:each="event : ${events}">
 
-            <div class="card-header-row">
+                <div class="card-header-row">
 
-                <p id="title"
-                   th:text="${event.title}">
+                    <p id="title"
+                       th:text="${event.title}">
+                    </p>
+
+                    <span class="card-status-badge"
+                          th:classappend="${event.status.name() == 'PLANNED'}     ? 'badge-planned' :
+                                      (${event.status.name() == 'IN_PROGRESS'} ? 'badge-in-progress' : '')"
+                          th:text="${event.status.displayName}">
+                </span>
+
+                </div>
+
+                <p id="description"
+                   th:text="${event.description}">
                 </p>
 
-                <span class="card-status-badge"
-                      th:classappend="${event.status.name() == 'PLANNED'}     ? 'badge-planned' :
-                                      (${event.status.name() == 'IN_PROGRESS'} ? 'badge-in-progress' : '')"
-                      th:text="${event.status.displayName}">
-                </span>
-
-            </div>
-
-            <p id="description"
-               th:text="${event.description}">
-            </p>
-
                 <!-- ===== Мета: организатор + дата ===== -->
-            <div class="event-meta">
+                <div class="event-meta">
 
-                <span class="event-organizer-label">Организатор:</span>
-                <span class="event-organizer-name" th:text="${event.organizer.name}"></span>
+                    <span class="event-organizer-label">Организатор:</span>
+                    <span class="event-organizer-name" th:text="${event.organizer.name}"></span>
 
-                <span class="meta-dot">·</span>
+                    <span class="meta-dot">·</span>
 
-                <span class="event-organizer-label">Начало в:</span>
+                    <span class="event-organizer-label">Начало в:</span>
 
-                <span class="event-meta-date"
-                      th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}">
+                    <span class="event-meta-date"
+                          th:text="${#temporals.format(event.eventDate, 'dd.MM.yyyy')}">
                 </span>
 
-                <span class="event-time-badge"
-                      th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
+                    <span class="event-time-badge"
+                          th:text="${#temporals.format(event.eventDate, 'HH:mm')}">
                 </span>
 
-                <span class="meta-dot">·</span>
+                    <span class="meta-dot">·</span>
 
-                <span class="event-organizer-label">до</span>
+                    <span class="event-organizer-label">до</span>
 
-                <span class="event-meta-date"
-                      th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy')}">
+                    <span class="event-meta-date"
+                          th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy')}">
                 </span>
 
-                <span class="event-time-badge"
-                      th:text="${#temporals.format(event.eventEndDate, 'HH:mm')}">
+                    <span class="event-time-badge"
+                          th:text="${#temporals.format(event.eventEndDate, 'HH:mm')}">
                 </span>
 
-            </div>
+                </div>
 
-            <!-- ===== Адрес ===== -->
-            <div class="event-address">
-                <span class="event-address-icon">📍</span>
-                <span th:if="${event.address != null && !#strings.isEmpty(event.address)}"
-                      class="event-address-text"
-                      th:text="${event.address}">
+                <!-- ===== Адрес ===== -->
+                <div class="event-address">
+                    <span class="event-address-icon">📍</span>
+                    <span class="event-address-text"
+                          th:if="${event.address != null && !#strings.isEmpty(event.address)}"
+                          th:text="${event.address}">
                 </span>
-                <span th:if="${event.address == null || #strings.isEmpty(event.address)}"
-                      class="event-address-empty">
+                    <span class="event-address-empty"
+                          th:if="${event.address == null || #strings.isEmpty(event.address)}">
                     Адрес не указан
                 </span>
-            </div>
+                </div>
 
-            <!-- ===== Футер: теги + действия ===== -->
-            <div class="event-footer">
+                <!-- ===== Футер: теги + действия ===== -->
+                <div class="event-footer">
 
-                <div class="event-tags">
+                    <div class="event-tags">
                     <span class="event-tag"
                           th:each="tag : ${event.tags}"
                           th:text="${tag.name}">
                     </span>
-                </div>
-
-                <div class="event-actions">
-
-                    <div th:if="${isAuth}" class="participation-container">
-                        <button class="participation-btn"
-                                th:attr="data-event-id=${event.id}"
-                                th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
-                        </button>
-                        <span class="going-label"
-                              th:style="${userEventIds.contains(event.id)} ? 'display:inline-flex' : 'display:none'">
-                            ✔ Иду
-                        </span>
                     </div>
 
-                    <a class="detail-link"
-                       th:href="@{/event/{id}(id=${event.id})}">
-                        Подробнее
-                    </a>
+                    <div class="event-actions">
+
+                        <div class="participation-container" th:if="${isAuth}">
+                            <button class="participation-btn"
+                                    th:attr="data-event-id=${event.id}"
+                                    th:text="${userEventIds.contains(event.id) ? 'Отменить участие' : 'Я пойду'}">
+                            </button>
+                            <span class="going-label"
+                                  th:style="${userEventIds.contains(event.id)} ? 'display:inline-flex' : 'display:none'">
+                            ✔ Иду
+                        </span>
+                        </div>
+
+                        <a class="detail-link"
+                           th:href="@{/event/{id}(id=${event.id})}">
+                            Подробнее
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -128,74 +131,72 @@
 
         </div>
 
-    </div>
+        <!-- ===== Пагинация ===== -->
+        <div class="pagination" th:if="${totalPages > 1}">
 
-    <!-- ===== Пагинация ===== -->
-    <div class="pagination" th:if="${totalPages > 1}">
-
-        <button class="pagination-btn"
-                th:disabled="${currentPage == 0}"
-                th:onclick="|goToPage(${currentPage - 1})|">
-            &#8592;
-        </button>
-
-        <th:block th:each="p : ${pageNumbers}">
-            <span th:if="${p == -1}" class="pagination-ellipsis">…</span>
-            <button th:if="${p != -1}"
-                    class="pagination-btn"
-                    th:classappend="${p == currentPage} ? ' pagination-btn-active'"
-                    th:text="${p + 1}"
-                    th:onclick="|goToPage(${p})|">
+            <button class="pagination-btn"
+                    th:disabled="${currentPage == 0}"
+                    th:onclick="|goToPage(${currentPage - 1})|">
+                &#8592;
             </button>
-        </th:block>
 
-        <button class="pagination-btn"
-                th:disabled="${currentPage == totalPages - 1}"
-                th:onclick="|goToPage(${currentPage + 1})|">
-            &#8594;
-        </button>
+            <th:block th:each="p : ${pageNumbers}">
+                <span class="pagination-ellipsis" th:if="${p == -1}">…</span>
+                <button class="pagination-btn"
+                        th:classappend="${p == currentPage} ? ' pagination-btn-active'"
+                        th:if="${p != -1}"
+                        th:onclick="|goToPage(${p})|"
+                        th:text="${p + 1}">
+                </button>
+            </th:block>
 
-    </div>
+            <button class="pagination-btn"
+                    th:disabled="${currentPage == totalPages - 1}"
+                    th:onclick="|goToPage(${currentPage + 1})|">
+                &#8594;
+            </button>
+
+        </div>
 
     </div><!-- /events-column -->
 
     <!-- ===== Фильтры ===== -->
     <aside class="filters">
 
-        <form method="get" action="/event">
+        <form action="/event" method="get">
 
             <!-- ===== Кнопка применить ===== -->
-            <button type="submit" class="apply-btn">
+            <button class="apply-btn" type="submit">
                 Применить
             </button>
 
             <!-- ===== Поиск по названию ===== -->
             <div class="search-block">
 
-                <input type="text"
-                       name="title"
+                <input name="title"
                        placeholder="Поиск по названию..."
-                       th:value="${title}">
+                       th:value="${title}"
+                       type="text">
 
             </div>
 
             <!-- ===== Поиск по организатору ===== -->
             <div class="search-block">
 
-                <input type="text"
-                       name="organizer"
+                <input name="organizer"
                        placeholder="Организатор..."
-                       th:value="${organizer}">
+                       th:value="${organizer}"
+                       type="text">
 
             </div>
 
             <!-- ===== Поиск по адресу ===== -->
             <div class="search-block">
 
-                <input type="text"
-                       name="address"
+                <input name="address"
                        placeholder="Адрес..."
-                       th:value="${address}">
+                       th:value="${address}"
+                       type="text">
 
             </div>
 
@@ -204,10 +205,10 @@
 
                 <p class="filter-label">Дата проведения</p>
 
-                <input type="date"
-                       class="date-input"
+                <input class="date-input"
                        name="eventDate"
-                       th:value="${eventDate != null ? #temporals.format(eventDate, 'yyyy-MM-dd') : ''}">
+                       th:value="${eventDate != null ? #temporals.format(eventDate, 'yyyy-MM-dd') : ''}"
+                       type="date">
 
             </div>
 
@@ -219,13 +220,13 @@
                 <select class="sort-select"
                         name="sortBy">
 
-                    <option value="DATE_ASC"
-                            th:selected="${selectedSortBy == 'DATE_ASC'}">
+                    <option th:selected="${selectedSortBy == 'DATE_ASC'}"
+                            value="DATE_ASC">
                         Сначала ближайшие
                     </option>
 
-                    <option value="DATE_DESC"
-                            th:selected="${selectedSortBy == 'DATE_DESC'}">
+                    <option th:selected="${selectedSortBy == 'DATE_DESC'}"
+                            value="DATE_DESC">
                         Сначала дальние
                     </option>
 
@@ -236,10 +237,10 @@
             <!-- ===== Идут сейчас ===== -->
             <label class="in-progress-toggle"
                    th:classappend="${inProgress} ? 'in-progress-toggle-active'">
-                <input type="checkbox"
-                       name="inProgress"
-                       value="true"
-                       th:checked="${inProgress}">
+                <input name="inProgress"
+                       th:checked="${inProgress}"
+                       type="checkbox"
+                       value="true">
                 <span class="in-progress-dot"></span>
                 Идут сейчас
             </label>
@@ -250,10 +251,10 @@
                 <label class="tag-filter-item"
                        th:each="tag : ${tags}">
 
-                    <input type="checkbox"
-                           name="tagIds"
+                    <input name="tagIds"
+                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}"
                            th:value="${tag.id}"
-                           th:checked="${selectedTags != null && selectedTags.contains(tag.id)}">
+                           type="checkbox">
 
                     <span th:text="${tag.name}">
                     </span>

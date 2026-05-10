@@ -7,8 +7,8 @@
 
     <title>Личный кабинет</title>
 
-    <link rel="stylesheet"
-          href="/css/userProfile.css">
+    <link href="/css/userProfile.css"
+          rel="stylesheet">
 </head>
 
 <header>
@@ -17,26 +17,26 @@
 
     <div class="header-links">
 
-        <a th:if="${!isOrganizer}" href="/makeMeOrganizer">
+        <a href="/makeMeOrganizer" th:if="${!isOrganizer}">
             Стать организатором
         </a>
 
-        <span th:if="${param.orgError != null && param.orgError[0] == 'both'}"
-              class="header-notice header-notice-error">
+        <span class="header-notice header-notice-error"
+              th:if="${param.orgError != null && param.orgError[0] == 'both'}">
             Заполните имя и email в профиле
         </span>
 
-        <span th:if="${param.orgError != null && param.orgError[0] == 'name'}"
-              class="header-notice header-notice-error">
+        <span class="header-notice header-notice-error"
+              th:if="${param.orgError != null && param.orgError[0] == 'name'}">
             Заполните имя в профиле
         </span>
 
-        <span th:if="${param.orgError != null && param.orgError[0] == 'email'}"
-              class="header-notice header-notice-error">
+        <span class="header-notice header-notice-error"
+              th:if="${param.orgError != null && param.orgError[0] == 'email'}">
             Заполните email в профиле
         </span>
 
-        <a th:if="${isOrganizer}" href="/event/create" class="create-event-btn">
+        <a class="create-event-btn" href="/event/create" th:if="${isOrganizer}">
             + Запланировать мероприятие
         </a>
 
@@ -79,8 +79,8 @@
 
             <div class="avatar-block">
 
-                <img th:src="${userAvatar}"
-                     alt="avatar">
+                <img alt="avatar"
+                     th:src="${userAvatar}">
 
             </div>
 
@@ -90,8 +90,8 @@
                    th:text="${username}">
                 </p>
 
-                <div th:if="${isOrganizer}"
-                     class="organizer-info">
+                <div class="organizer-info"
+                     th:if="${isOrganizer}">
 
                     <p class="real-name"
                        th:text="${userName}">
@@ -103,13 +103,13 @@
 
                 </div>
 
-                <p th:if="${!isOrganizer && hasName}"
-                   class="real-name"
+                <p class="real-name"
+                   th:if="${!isOrganizer && hasName}"
                    th:text="${userName}">
                 </p>
 
-                <p th:if="${!isOrganizer && hasEmail}"
-                   class="email"
+                <p class="email"
+                   th:if="${!isOrganizer && hasEmail}"
                    th:text="${userEmail}">
                 </p>
 
@@ -122,20 +122,20 @@
 
             <p class="block-title">Фото профиля</p>
 
-            <form method="post"
-                  action="/userProfile/uploadAvatar"
-                  enctype="multipart/form-data"
+            <form action="/userProfile/uploadAvatar"
                   class="avatar-upload-form"
+                  enctype="multipart/form-data"
+                  method="post"
                   novalidate>
 
-                <input type="file"
+                <input accept="image/*"
                        id="avatarInput"
                        name="avatar"
-                       accept="image/*"
-                       style="display: none;">
+                       style="display: none;"
+                       type="file">
 
-                <label for="avatarInput"
-                       class="avatar-file-label">
+                <label class="avatar-file-label"
+                       for="avatarInput">
                     &#128247; Выберите новый аватар
                 </label>
 
@@ -144,29 +144,29 @@
                     Файл не выбран
                 </p>
 
-                <button type="submit"
-                        class="email-connect-btn avatar-submit-btn">
+                <button class="email-connect-btn avatar-submit-btn"
+                        type="submit">
                     Загрузить
                 </button>
 
             </form>
 
-            <p th:if="${param.avatarError != null}"
-               class="email-connect-error">
+            <p class="email-connect-error"
+               th:if="${param.avatarError != null}">
                 Выберите файл изображения
             </p>
 
-            <p th:if="${param.avatarSaved != null}"
-               class="email-saved-notice"
-               style="margin-top: 8px;">
+            <p class="email-saved-notice"
+               style="margin-top: 8px;"
+               th:if="${param.avatarSaved != null}">
                 Фото обновлено
             </p>
 
         </div>
 
         <!-- ===== БЛОК ИМЕНИ ===== -->
-        <div th:if="${!isOrganizer && !hasName}"
-             class="email-connect-card">
+        <div class="email-connect-card"
+             th:if="${!isOrganizer && !hasName}">
 
             <p class="block-title">Укажите имя</p>
 
@@ -174,38 +174,38 @@
                 Имя будет отображаться в профиле и мероприятиях
             </p>
 
-            <form method="post" action="/userProfile/setName"
-                  class="email-connect-form"
+            <form action="/userProfile/setName" class="email-connect-form"
+                  method="post"
                   novalidate>
 
-                <input type="text"
+                <input class="email-connect-input"
+                       maxlength="60"
                        name="name"
-                       class="email-connect-input"
                        placeholder="Иван Иванов"
-                       maxlength="60">
+                       type="text">
 
-                <button type="submit"
-                        class="email-connect-btn">
+                <button class="email-connect-btn"
+                        type="submit">
                     Сохранить
                 </button>
 
             </form>
 
-            <p th:if="${param.nameError != null}"
-               class="email-connect-error">
+            <p class="email-connect-error"
+               th:if="${param.nameError != null}">
                 Имя должно содержать от 5 до 60 символов
             </p>
 
         </div>
 
-        <p th:if="${!isOrganizer && hasName && param.nameSaved != null}"
-           class="email-saved-notice">
+        <p class="email-saved-notice"
+           th:if="${!isOrganizer && hasName && param.nameSaved != null}">
             Имя успешно сохранено
         </p>
 
         <!-- ===== БЛОК EMAIL ===== -->
-        <div th:if="${!isOrganizer && !hasEmail}"
-             class="email-connect-card">
+        <div class="email-connect-card"
+             th:if="${!isOrganizer && !hasEmail}">
 
             <p class="block-title">Укажите email</p>
 
@@ -213,51 +213,51 @@
                 Email нужен для получения роли организатора
             </p>
 
-            <form method="post" action="/userProfile/setEmail"
-                  class="email-connect-form"
+            <form action="/userProfile/setEmail" class="email-connect-form"
+                  method="post"
                   novalidate>
 
-                <input type="text"
+                <input class="email-connect-input"
                        id="emailInput"
                        name="email"
-                       class="email-connect-input"
-                       placeholder="example@mail.com">
+                       placeholder="example@mail.com"
+                       type="text">
 
-                <button type="submit"
-                        class="email-connect-btn">
+                <button class="email-connect-btn"
+                        type="submit">
                     Подключить
                 </button>
 
             </form>
 
-            <p th:if="${param.emailError != null && param.emailError[0] == 'taken'}"
-               class="email-connect-error">
+            <p class="email-connect-error"
+               th:if="${param.emailError != null && param.emailError[0] == 'taken'}">
                 Этот email уже используется
             </p>
 
-            <p th:if="${param.emailError != null && param.emailError[0] == 'invalid'}"
-               class="email-connect-error">
+            <p class="email-connect-error"
+               th:if="${param.emailError != null && param.emailError[0] == 'invalid'}">
                 Некорректный формат email
             </p>
 
         </div>
 
-        <p th:if="${!isOrganizer && hasEmail && param.emailSaved != null}"
-           class="email-saved-notice">
+        <p class="email-saved-notice"
+           th:if="${!isOrganizer && hasEmail && param.emailSaved != null}">
             Email успешно сохранён
         </p>
 
         <!-- ===== БЛОК РЕДАКТИРОВАНИЯ ДАННЫХ ===== -->
-        <div th:if="${hasName || hasEmail}"
-             class="email-connect-card">
+        <div class="email-connect-card"
+             th:if="${hasName || hasEmail}">
 
             <div class="edit-profile-header">
 
                 <p class="block-title">Личные данные</p>
 
-                <button type="button"
-                        class="edit-toggle-btn"
-                        id="editProfileToggle">
+                <button class="edit-toggle-btn"
+                        id="editProfileToggle"
+                        type="button">
                     Редактировать
                 </button>
 
@@ -268,66 +268,66 @@
 
                 <div th:if="${hasName}">
 
-                    <form method="post"
-                          action="/userProfile/editName"
+                    <form action="/userProfile/editName"
                           class="email-connect-form edit-stacked-form"
+                          method="post"
                           novalidate>
 
                         <label class="edit-field-label">Имя</label>
 
-                        <input type="text"
+                        <input class="email-connect-input"
+                               maxlength="60"
                                name="name"
-                               class="email-connect-input"
-                               th:value="${userName ?: ''}"
                                placeholder="Иван Иванов"
-                               maxlength="60">
+                               th:value="${userName ?: ''}"
+                               type="text">
 
-                        <button type="submit"
-                                class="email-connect-btn">
+                        <button class="email-connect-btn"
+                                type="submit">
                             Сохранить имя
                         </button>
 
                     </form>
 
-                    <p th:if="${param.editNameError != null}"
-                       class="email-connect-error">
+                    <p class="email-connect-error"
+                       th:if="${param.editNameError != null}">
                         Имя должно содержать от 5 до 60 символов
                     </p>
 
                 </div>
 
-                <div th:if="${hasName && hasEmail}" class="edit-divider"></div>
+                <div class="edit-divider" th:if="${hasName && hasEmail}"></div>
 
                 <div th:if="${hasEmail}">
 
-                    <form method="post"
-                          action="/userProfile/editEmail"
+                    <form action="/userProfile/editEmail"
                           class="email-connect-form edit-stacked-form"
+                          method="post"
                           novalidate>
 
                         <label class="edit-field-label">Email</label>
 
-                        <input type="text"
+                        <input class="email-connect-input"
                                id="editEmailInput"
                                name="email"
-                               class="email-connect-input"
+                               placeholder="example@mail.com"
                                th:value="${userEmail ?: ''}"
-                               placeholder="example@mail.com">
+                               type="text">
 
-                        <button type="submit"
-                                class="email-connect-btn">
+                        <button class="email-connect-btn"
+                                type="submit">
                             Сохранить email
                         </button>
 
                     </form>
 
-                    <p th:if="${param.editEmailError != null && param.editEmailError[0] == 'taken'}"
-                       class="email-connect-error">
+                    <p class="email-connect-error"
+                       th:if="${param.editEmailError != null && param.editEmailError[0] == 'taken'}">
                         Этот email уже используется
                     </p>
 
-                    <p th:if="${param.editEmailError != null && param.editEmailError[0] == 'invalid'}"
-                       class="email-connect-error">
+                    <p class="email-connect-error"
+                       th:if="${param.editEmailError != null && param.editEmailError[0] == 'invalid'}">
                         Некорректный формат email
                     </p>
 
@@ -335,23 +335,23 @@
 
             </div>
 
-            <p th:if="${param.nameSaved != null}"
-               class="email-saved-notice"
-               style="margin-top: 8px;">
+            <p class="email-saved-notice"
+               style="margin-top: 8px;"
+               th:if="${param.nameSaved != null}">
                 Имя успешно обновлено
             </p>
 
-            <p th:if="${param.emailSaved != null}"
-               class="email-saved-notice"
-               style="margin-top: 8px;">
+            <p class="email-saved-notice"
+               style="margin-top: 8px;"
+               th:if="${param.emailSaved != null}">
                 Email успешно обновлён
             </p>
 
         </div>
 
         <!-- ===== БЛОК РЕЙТИНГА ===== -->
-        <div th:if="${isOrganizer}"
-             class="rating-card">
+        <div class="rating-card"
+             th:if="${isOrganizer}">
 
             <p class="block-title">
                 Рейтинг организатора
@@ -366,8 +366,8 @@
 
             </div>
 
-            <div th:if="${!organizerReviews.isEmpty()}"
-                 class="reviews-block">
+            <div class="reviews-block"
+                 th:if="${!organizerReviews.isEmpty()}">
 
                 <p class="reviews-title">Отзывы</p>
 
@@ -422,8 +422,8 @@
 
             </div>
 
-            <p th:if="${organizerReviews.isEmpty()}"
-               class="no-reviews">
+            <p class="no-reviews"
+               th:if="${organizerReviews.isEmpty()}">
                 Отзывов пока нет
             </p>
 
@@ -443,16 +443,16 @@
 
             <div class="status-filter">
 
-                <input type="radio" id="filter-all" name="participation-filter" value="all" checked>
+                <input checked id="filter-all" name="participation-filter" type="radio" value="all">
                 <label for="filter-all">Все</label>
 
-                <input type="radio" id="filter-in-progress" name="participation-filter" value="in_progress">
+                <input id="filter-in-progress" name="participation-filter" type="radio" value="in_progress">
                 <label for="filter-in-progress">Сейчас</label>
 
-                <input type="radio" id="filter-planned" name="participation-filter" value="planned">
+                <input id="filter-planned" name="participation-filter" type="radio" value="planned">
                 <label for="filter-planned">Запланированные</label>
 
-                <input type="radio" id="filter-finished" name="participation-filter" value="finished">
+                <input id="filter-finished" name="participation-filter" type="radio" value="finished">
                 <label for="filter-finished">Завершённые</label>
 
             </div>
@@ -460,9 +460,9 @@
             <div class="events-scroll" id="participation-scroll">
 
                 <div class="event-card"
-                     th:each="participant : ${userParticipantEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${participant.event.id})},data-status=${participant.event.status.name()}"
                      th:classappend="${participant.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
-                     th:attr="data-href=@{/event/{id}(id=${participant.event.id})},data-status=${participant.event.status.name()}">
+                     th:each="participant : ${userParticipantEvents}">
 
                     <p class="event-title"
                        th:text="${participant.event.title}">
@@ -505,8 +505,9 @@
                         <p>📍 Адрес:</p>
                         <p th:if="${participant.event.address != null && !#strings.isEmpty(participant.event.address)}"
                            th:text="${participant.event.address}"></p>
-                        <p th:if="${participant.event.address == null || #strings.isEmpty(participant.event.address)}"
-                           class="event-no-address">Адрес не указан</p>
+                        <p class="event-no-address"
+                           th:if="${participant.event.address == null || #strings.isEmpty(participant.event.address)}">
+                            Адрес не указан</p>
                     </div>
 
                     <div class="event-organizer">
@@ -519,8 +520,8 @@
                     </div>
 
                     <button class="cancel-participation-btn"
-                            th:if="${participant.event.status.name() == 'PLANNED'}"
-                            th:attr="data-event-id=${participant.event.id}">
+                            th:attr="data-event-id=${participant.event.id}"
+                            th:if="${participant.event.status.name() == 'PLANNED'}">
                         Отменить участие
                     </button>
 
@@ -531,8 +532,8 @@
         </div>
 
         <!-- ===== ОРГАНИЗОВАННЫЕ ===== -->
-        <div th:if="${isOrganizer}"
-             class="events-column">
+        <div class="events-column"
+             th:if="${isOrganizer}">
 
             <p class="events-title">
                 Организованные мероприятия
@@ -541,9 +542,9 @@
             <div class="events-scroll">
 
                 <div class="event-card"
-                     th:each="event : ${organizedEvents}"
+                     th:attr="data-href=@{/event/{id}(id=${event.id})}"
                      th:classappend="${event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
-                     th:attr="data-href=@{/event/{id}(id=${event.id})}">
+                     th:each="event : ${organizedEvents}">
 
                     <p class="event-title"
                        th:text="${event.title}">
@@ -586,8 +587,8 @@
                         <p>📍 Адрес:</p>
                         <p th:if="${event.address != null && !#strings.isEmpty(event.address)}"
                            th:text="${event.address}"></p>
-                        <p th:if="${event.address == null || #strings.isEmpty(event.address)}"
-                           class="event-no-address">Адрес не указан</p>
+                        <p class="event-no-address"
+                           th:if="${event.address == null || #strings.isEmpty(event.address)}">Адрес не указан</p>
                     </div>
 
                     <div class="event-rating">
@@ -764,7 +765,7 @@
         btn.addEventListener("click", async (e) => {
             e.stopPropagation();
             const eventId = btn.dataset.eventId;
-            const response = await fetch(`/leave?eventId=${eventId}`, { method: "POST" });
+            const response = await fetch(`/leave?eventId=${eventId}`, {method: "POST"});
             if (response.ok) {
                 btn.closest(".event-card").remove();
             }

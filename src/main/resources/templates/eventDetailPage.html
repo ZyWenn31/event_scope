@@ -4,11 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title th:text="${event.title}">Мероприятие</title>
 
-    <link rel="stylesheet"
-          href="/css/eventDetailPage.css">
+    <link href="/css/eventDetailPage.css"
+          rel="stylesheet">
 
     <script th:if="${event.address != null && !#strings.isEmpty(event.address)}"
             th:src="|https://api-maps.yandex.ru/2.1/?apikey=${yandexMapsApiKey}&lang=ru_RU|"
@@ -30,13 +31,13 @@
             К пожеланиям
         </a>
 
-        <a th:if="${isAuth}"
-           href="/userProfile"
+        <a href="/userProfile"
+           th:if="${isAuth}"
            th:text="${username}">
             Личный кабинет
         </a>
 
-        <a th:if="${!isAuth}" href="/login">
+        <a href="/login" th:if="${!isAuth}">
             Войти
         </a>
 
@@ -70,20 +71,20 @@
                     <span th:text="${event.status.displayName}"></span>
                 </div>
 
-                <a th:if="${canEdit}"
+                <a class="edit-event-btn"
                    th:href="@{/event/{id}/edit(id=${event.id})}"
-                   class="edit-event-btn">
+                   th:if="${canEdit}">
                     Редактировать информацию
                 </a>
 
-                <form th:if="${isCurrentUserOrganizer && event.status.name() == 'PLANNED'}"
-                      th:action="@{/event/{id}/cancel(id=${event.id})}"
+                <form id="cancelEventForm"
                       method="post"
-                      id="cancelEventForm">
+                      th:action="@{/event/{id}/cancel(id=${event.id})}"
+                      th:if="${isCurrentUserOrganizer && event.status.name() == 'PLANNED'}">
 
-                    <button type="button"
-                            class="cancel-event-btn"
-                            onclick="confirmCancelEvent()">
+                    <button class="cancel-event-btn"
+                            onclick="confirmCancelEvent()"
+                            type="button">
                         Отменить мероприятие
                     </button>
 
@@ -95,8 +96,8 @@
 
         <!-- ===== Пожелание-источник ===== -->
         <div class="source-wish-banner"
-             th:if="${event.wish != null}"
-             id="sourceWishBanner">
+             id="sourceWishBanner"
+             th:if="${event.wish != null}">
 
             <div class="source-wish-header">
                 <div>
@@ -150,14 +151,14 @@
 
                     <p class="info-label">Организатор</p>
 
-                    <div th:if="${isCurrentUserOrganizer}"
-                         class="organizer-you">
+                    <div class="organizer-you"
+                         th:if="${isCurrentUserOrganizer}">
                         Вы организатор
                     </div>
 
-                    <a th:if="${!isCurrentUserOrganizer}"
-                       class="organizer-link"
+                    <a class="organizer-link"
                        th:href="@{/userProfile/{username}(username=${event.organizer.username})}"
+                       th:if="${!isCurrentUserOrganizer}"
                        th:text="${event.organizer.name}">
                     </a>
 
@@ -226,7 +227,7 @@
                th:text="${event.address}">
             </p>
 
-            <div id="detail-map" class="detail-map-container"></div>
+            <div class="detail-map-container" id="detail-map"></div>
 
         </div>
 
@@ -253,38 +254,38 @@
 
             <p class="info-label">Оставить отзыв</p>
 
-            <form th:action="@{/event/{id}/review(id=${event.id})}"
+            <form class="review-form"
                   method="post"
-                  class="review-form">
+                  th:action="@{/event/{id}/review(id=${event.id})}">
 
                 <div class="star-rating">
 
-                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <input id="star5" name="rating" required type="radio" value="5">
                     <label for="star5">★</label>
 
-                    <input type="radio" id="star4" name="rating" value="4">
+                    <input id="star4" name="rating" type="radio" value="4">
                     <label for="star4">★</label>
 
-                    <input type="radio" id="star3" name="rating" value="3">
+                    <input id="star3" name="rating" type="radio" value="3">
                     <label for="star3">★</label>
 
-                    <input type="radio" id="star2" name="rating" value="2">
+                    <input id="star2" name="rating" type="radio" value="2">
                     <label for="star2">★</label>
 
-                    <input type="radio" id="star1" name="rating" value="1">
+                    <input id="star1" name="rating" type="radio" value="1">
                     <label for="star1">★</label>
 
                 </div>
 
                 <textarea class="review-textarea"
+                          maxlength="1000"
                           name="comment"
                           placeholder="Ваш комментарий (необязательно)"
-                          maxlength="1000"
                           rows="3">
                 </textarea>
 
-                <button type="submit"
-                        class="review-submit-btn">
+                <button class="review-submit-btn"
+                        type="submit">
                     Отправить отзыв
                 </button>
 
@@ -308,8 +309,8 @@
 
             <p class="event-reviews-title">Отзывы</p>
 
-            <div th:if="${event.reviews.isEmpty()}"
-                 class="event-reviews-empty">
+            <div class="event-reviews-empty"
+                 th:if="${event.reviews.isEmpty()}">
                 Отзывов пока нет
             </div>
 
@@ -364,19 +365,19 @@
 
         <div class="participants-scroll">
 
-            <div th:if="${participants.isEmpty()}"
-                 class="no-participants">
+            <div class="no-participants"
+                 th:if="${participants.isEmpty()}">
                 Пока никто не записался
             </div>
 
             <div class="participant-card"
-                 th:each="p : ${participants}"
-                 th:attr="data-href=@{/userProfile/{username}(username=${p.user.username})}">
+                 th:attr="data-href=@{/userProfile/{username}(username=${p.user.username})}"
+                 th:each="p : ${participants}">
 
-                <img class="participant-avatar"
-                     th:src="${p.user.avatarPath}"
+                <img alt="avatar"
+                     class="participant-avatar"
                      th:onerror="this.src='/css/default-avatar.png'"
-                     alt="avatar">
+                     th:src="${p.user.avatarPath}">
 
                 <div class="participant-info">
 
@@ -410,7 +411,7 @@
             const address = addressEl.textContent.trim();
             if (!address) return;
 
-            ymaps.geocode(address, { results: 1 }).then(function (res) {
+            ymaps.geocode(address, {results: 1}).then(function (res) {
                 const obj = res.geoObjects.get(0);
                 if (!obj) return;
                 const coords = obj.geometry.getCoordinates();
@@ -422,8 +423,8 @@
                 });
 
                 map.geoObjects.add(new ymaps.Placemark(coords,
-                    { balloonContent: address },
-                    { preset: "islands#redDotIcon" }
+                    {balloonContent: address},
+                    {preset: "islands#redDotIcon"}
                 ));
             });
         });

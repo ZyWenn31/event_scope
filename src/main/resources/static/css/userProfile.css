@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,7 +6,7 @@
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
-body{
+body {
     height: 100vh;
     overflow: hidden;
 
@@ -17,7 +17,7 @@ body{
 
 /* ===== HEADER ===== */
 
-header{
+header {
     position: fixed;
 
     top: 0;
@@ -36,20 +36,20 @@ header{
     padding: 20px 40px;
 }
 
-header p{
+header p {
     color: white;
 
     font-size: 24px;
     font-weight: 600;
 }
 
-.header-links{
+.header-links {
     display: flex;
     align-items: center;
     gap: 22px;
 }
 
-.header-links a{
+.header-links a {
     color: #DBEAFE;
 
     text-decoration: none;
@@ -60,7 +60,7 @@ header p{
     transition: .2s ease;
 }
 
-.header-links a:hover{
+.header-links a:hover {
     color: white;
 }
 
@@ -90,7 +90,7 @@ header p{
     font-weight: 600;
     padding: 5px 14px;
     border-radius: 999px;
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(255, 255, 255, 0.15);
     color: white;
 }
 
@@ -106,7 +106,7 @@ header p{
 
 /* ===== ОСНОВНОЙ LAYOUT ===== */
 
-.profile-layout{
+.profile-layout {
     height: calc(100vh - 85px);
 
     display: flex;
@@ -118,7 +118,7 @@ header p{
 
 /* ===== ЛЕВАЯ ЧАСТЬ ===== */
 
-.profile-sidebar{
+.profile-sidebar {
     width: 360px;
 
     display: flex;
@@ -139,7 +139,7 @@ header p{
 
     padding: 24px;
 
-    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
 /* ===== БЛОК EMAIL ===== */
@@ -266,7 +266,7 @@ header p{
 
 /* ===== РОЛЬ ===== */
 
-.user-role{
+.user-role {
     width: fit-content;
 
     background-color: #DBEAFE;
@@ -283,14 +283,14 @@ header p{
 
 /* ===== АВАТАР ===== */
 
-.avatar-block{
+.avatar-block {
     margin-top: 22px;
 
     display: flex;
     justify-content: center;
 }
 
-.avatar-block img{
+.avatar-block img {
     width: 140px;
     height: 140px;
 
@@ -303,7 +303,7 @@ header p{
 
 /* ===== ИНФОРМАЦИЯ ===== */
 
-.user-main-info{
+.user-main-info {
     margin-top: 22px;
 
     display: flex;
@@ -314,14 +314,14 @@ header p{
     gap: 12px;
 }
 
-.username{
+.username {
     font-size: 24px;
     font-weight: 700;
 
     color: #111827;
 }
 
-.organizer-info{
+.organizer-info {
     display: flex;
     flex-direction: column;
 
@@ -330,13 +330,13 @@ header p{
     align-items: center;
 }
 
-.real-name{
+.real-name {
     color: #374151;
 
     font-size: 16px;
 }
 
-.email{
+.email {
     color: #6B7280;
 
     font-size: 14px;
@@ -344,14 +344,14 @@ header p{
 
 /* ===== РЕЙТИНГ ===== */
 
-.block-title{
+.block-title {
     font-size: 18px;
     font-weight: 700;
 
     color: #111827;
 }
 
-.rating-value{
+.rating-value {
     margin-top: 18px;
 
     display: flex;
@@ -360,14 +360,14 @@ header p{
     gap: 6px;
 }
 
-.rating-value span{
+.rating-value span {
     font-size: 42px;
     font-weight: 700;
 
     color: #2563EB;
 }
 
-.rating-value p{
+.rating-value p {
     color: #6B7280;
 }
 
@@ -536,9 +536,8 @@ header p{
     align-items: center;
     justify-content: center;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    transform .15s ease;
 }
 
 .slider-btn:hover {
@@ -583,7 +582,7 @@ header p{
 
 /* ===== ПРАВАЯ ЧАСТЬ ===== */
 
-.events-section{
+.events-section {
     flex: 1;
 
     display: flex;
@@ -593,7 +592,7 @@ header p{
 
 /* ===== КОЛОНКА ===== */
 
-.events-column{
+.events-column {
     flex: 1;
 
     background-color: white;
@@ -602,13 +601,13 @@ header p{
 
     padding: 24px;
 
-    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 
     display: flex;
     flex-direction: column;
 }
 
-.events-title{
+.events-title {
     font-size: 20px;
     font-weight: 700;
 
@@ -653,9 +652,8 @@ header p{
 
     cursor: pointer;
 
-    transition:
-            background-color .18s ease,
-            color .18s ease;
+    transition: background-color .18s ease,
+    color .18s ease;
 }
 
 .status-filter input[type="radio"]:checked + label {
@@ -678,7 +676,7 @@ header p{
 
 /* ===== ПРОКРУТКА ===== */
 
-.events-scroll{
+.events-scroll {
     overflow-y: auto;
 
     display: flex;
@@ -691,7 +689,7 @@ header p{
 
 /* ===== КАРТОЧКА ===== */
 
-.event-card{
+.event-card {
     background-color: #F9FAFB;
 
     border: 1px solid #E5E7EB;
@@ -708,20 +706,20 @@ header p{
     transition: .2s ease;
 }
 
-.event-card:hover{
+.event-card:hover {
     transform: translateY(-2px);
 
-    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
 }
 
-.event-title{
+.event-title {
     font-size: 18px;
     font-weight: 700;
 
     color: #111827;
 }
 
-.event-description{
+.event-description {
     color: #6B7280;
 
     font-size: 14px;
@@ -729,7 +727,7 @@ header p{
     line-height: 1.5;
 }
 
-.event-status p{
+.event-status p {
     width: fit-content;
 
     padding: 5px 12px;
@@ -762,8 +760,12 @@ header p{
 }
 
 @keyframes pulse-green-badge {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
-    50%       { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);  }
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.0);
+    }
 }
 
 .event-card.card-in-progress {
@@ -773,7 +775,7 @@ header p{
 
 .event-date,
 .event-organizer,
-.event-rating{
+.event-rating {
     display: flex;
 
     gap: 6px;
@@ -783,7 +785,7 @@ header p{
 
 .event-date p:first-child,
 .event-organizer p:first-child,
-.event-rating p:first-child{
+.event-rating p:first-child {
     color: #6B7280;
 }
 
@@ -795,7 +797,7 @@ header p{
 
 .event-date p:last-child,
 .event-organizer p:last-child,
-.event-rating p:last-child{
+.event-rating p:last-child {
     color: #111827;
 
     font-weight: 500;
@@ -820,9 +822,8 @@ header p{
 
     cursor: pointer;
 
-    transition:
-            background-color .2s ease,
-            transform .15s ease;
+    transition: background-color .2s ease,
+    transform .15s ease;
 }
 
 .cancel-participation-btn:hover {
@@ -876,6 +877,13 @@ header p{
 }
 
 /* ===== Адаптив ===== */
+@media (max-width: 1100px) {
+
+    .profile-sidebar {
+        width: 300px;
+    }
+}
+
 @media (max-width: 900px) {
 
     body {
@@ -886,10 +894,13 @@ header p{
     .profile-layout {
         height: auto;
         flex-direction: column;
+        padding: 16px;
+        gap: 16px;
     }
 
     .profile-sidebar {
         width: 100%;
+        overflow: visible;
     }
 
     .events-section {
@@ -897,32 +908,40 @@ header p{
     }
 
     .events-column {
-        min-height: 300px;
+        min-height: 320px;
     }
 }
 
 @media (max-width: 768px) {
 
     header {
-        padding: 14px 20px;
+        padding: 14px 24px;
     }
 
     .profile-layout {
         padding: 14px;
         gap: 14px;
     }
+
+    .profile-card,
+    .rating-card,
+    .email-connect-card {
+        padding: 20px;
+    }
 }
 
 @media (max-width: 480px) {
 
     header {
-        padding: 10px 14px;
-        flex-wrap: wrap;
+        padding: 10px 16px;
         gap: 8px;
+        align-items: flex-start;
     }
 
     header p {
         font-size: 17px;
+        white-space: nowrap;
+        padding-top: 2px;
     }
 
     .header-links {
@@ -936,50 +955,178 @@ header p{
     }
 
     .create-event-btn {
-        padding: 6px 10px;
+        padding: 5px 10px;
         font-size: 11px;
+        border-radius: 8px;
+    }
+
+    .header-notice {
+        font-size: 11px;
+        padding: 4px 10px;
     }
 
     body {
-        padding-top: 72px;
+        padding-top: 0;
     }
 
     .profile-layout {
-        padding: 10px;
+        padding: 12px;
+        padding-top: 72px;
         gap: 12px;
     }
 
+    /* Карточки */
     .profile-card,
     .rating-card,
     .email-connect-card {
-        padding: 16px;
-        border-radius: 16px;
+        padding: 18px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Аватар */
+    .avatar-block img {
+        width: 100px;
+        height: 100px;
+        border-width: 3px;
+    }
+
+    .avatar-block {
+        margin-top: 14px;
+    }
+
+    .user-main-info {
+        margin-top: 14px;
+        gap: 8px;
     }
 
     .username {
-        font-size: 20px;
+        font-size: 22px;
     }
 
-    .events-column {
-        padding: 16px;
-        border-radius: 16px;
+    .real-name {
+        font-size: 15px;
     }
 
-    .events-title {
-        font-size: 17px;
+    .email {
+        font-size: 13px;
     }
 
-    .event-card {
-        padding: 14px;
-        border-radius: 14px;
+    .user-role {
+        font-size: 12px;
+        padding: 6px 12px;
     }
 
-    .event-title {
+    /* Рейтинг */
+    .block-title {
         font-size: 16px;
     }
 
+    .rating-value {
+        margin-top: 12px;
+    }
+
+    .rating-value span {
+        font-size: 36px;
+    }
+
+    /* Отзывы */
+    .reviews-block {
+        margin-top: 18px;
+    }
+
+    .slider-viewport {
+        height: 130px;
+    }
+
+    .review-slide {
+        padding: 14px;
+    }
+
+    /* Email/Avatar форма */
+    .email-connect-form {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .email-connect-btn {
+        width: 100%;
+        height: 44px;
+        border-radius: 10px;
+    }
+
+    .email-connect-input {
+        height: 44px;
+        font-size: 15px;
+        border-radius: 10px;
+    }
+
+    .avatar-file-label {
+        padding: 16px;
+        font-size: 14px;
+    }
+
+    /* Колонки событий */
+    .events-column {
+        padding: 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    .events-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    /* Фильтр статуса */
+    .status-filter {
+        margin-bottom: 14px;
+        padding: 3px;
+    }
+
     .status-filter label {
+        font-size: 11px;
+        padding: 7px 4px;
+        border-radius: 8px;
+    }
+
+    /* Карточки событий */
+    .event-card {
+        padding: 14px;
+        border-radius: 16px;
+        gap: 10px;
+    }
+
+    .event-title {
+        font-size: 15px;
+    }
+
+    .event-description {
+        font-size: 13px;
+    }
+
+    .event-date,
+    .event-organizer,
+    .event-rating {
+        font-size: 13px;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .cancel-participation-btn {
+        min-height: 40px;
+        padding: 8px 16px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    /* Редактирование профиля */
+    .edit-toggle-btn {
+        min-height: 36px;
+        padding: 6px 12px;
+    }
+
+    .edit-field-label {
         font-size: 12px;
-        padding: 6px 6px;
     }
 }

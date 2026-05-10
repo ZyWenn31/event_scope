@@ -31,7 +31,7 @@ public class WishService {
                         () -> new EntityNotFoundException("Wish with id " + id + " not found"));
     }
 
-    public List<Wish> findAll(){
+    public List<Wish> findAll() {
         return wishRepository.findAll();
     }
 

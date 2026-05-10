@@ -1,6 +1,5 @@
 package com.event.scope.eventScope.service;
 
-import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.Tag;
 import com.event.scope.eventScope.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +20,7 @@ public class TagService {
     public Tag findById(Long id) {
         return tagRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tag with id " + id +"not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Tag with id " + id + "not found"));
     }
 
     public List<Tag> findAll() {
@@ -39,7 +38,7 @@ public class TagService {
     public Tag update(Tag tag, Long id) {
         Tag existing = tagRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tag with id " + id +"not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Tag with id " + id + "not found"));
 
         existing.setName(tag.getName());
         existing.setEvents(tag.getEvents());

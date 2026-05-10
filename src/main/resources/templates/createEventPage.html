@@ -4,11 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Создание мероприятия</title>
 
-    <link rel="stylesheet"
-          href="/css/createEventPage.css">
+    <link href="/css/createEventPage.css"
+          rel="stylesheet">
 
     <script th:src="|https://api-maps.yandex.ru/2.1/?apikey=${yandexMapsApiKey}&lang=ru_RU|"
             type="text/javascript"></script>
@@ -40,8 +41,8 @@
 
 <div class="create-container">
 
-    <form th:action="@{/event/create}"
-          method="post"
+    <form method="post"
+          th:action="@{/event/create}"
           th:object="${event}">
 
         <h1>
@@ -49,11 +50,11 @@
         </h1>
 
         <!-- ===== Пожелание-источник ===== -->
-        <div th:if="${sourceWish}"
-             class="source-wish-banner"
-             id="sourceWishBanner">
+        <div class="source-wish-banner"
+             id="sourceWishBanner"
+             th:if="${sourceWish}">
 
-            <input type="hidden" name="wishId" th:value="${wishId}">
+            <input name="wishId" th:value="${wishId}" type="hidden">
 
             <div class="source-wish-header">
                 <div>
@@ -104,13 +105,13 @@
                 Название
             </label>
 
-            <input type="text"
+            <input placeholder="Введите название мероприятия"
                    th:field="*{title}"
-                   placeholder="Введите название мероприятия">
+                   type="text">
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('title')}"
-               th:errors="*{title}">
+               th:errors="*{title}"
+               th:if="${#fields.hasErrors('title')}">
             </p>
 
         </div>
@@ -122,12 +123,12 @@
                 Описание
             </label>
 
-            <textarea th:field="*{description}"
-                      placeholder="Расскажите подробнее о мероприятии"></textarea>
+            <textarea placeholder="Расскажите подробнее о мероприятии"
+                      th:field="*{description}"></textarea>
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('description')}"
-               th:errors="*{description}">
+               th:errors="*{description}"
+               th:if="${#fields.hasErrors('description')}">
             </p>
 
         </div>
@@ -139,14 +140,14 @@
                 Дата и время начала
             </label>
 
-            <input type="datetime-local"
-                   id="eventDateInput"
+            <input id="eventDateInput"
+                   th:attr="min=${minDateTime}"
                    th:field="*{eventDate}"
-                   th:attr="min=${minDateTime}">
+                   type="datetime-local">
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('eventDate')}"
-               th:errors="*{eventDate}">
+               th:errors="*{eventDate}"
+               th:if="${#fields.hasErrors('eventDate')}">
             </p>
 
         </div>
@@ -158,14 +159,14 @@
                 Дата и время окончания
             </label>
 
-            <input type="datetime-local"
-                   id="eventEndDateInput"
+            <input id="eventEndDateInput"
+                   th:attr="min=${minEndDateTime}"
                    th:field="*{eventEndDate}"
-                   th:attr="min=${minEndDateTime}">
+                   type="datetime-local">
 
             <p class="validation-error"
-               th:if="${#fields.hasErrors('eventEndDate')}"
-               th:errors="*{eventEndDate}">
+               th:errors="*{eventEndDate}"
+               th:if="${#fields.hasErrors('eventEndDate')}">
             </p>
 
         </div>
@@ -177,16 +178,16 @@
 
             <div class="map-search-row">
 
-                <input type="text"
+                <input autocomplete="off"
                        id="addressInput"
                        name="address"
-                       th:value="${event.address}"
                        placeholder="Введите адрес или выберите точку на карте"
-                       autocomplete="off">
+                       th:value="${event.address}"
+                       type="text">
 
-                <button type="button"
+                <button class="map-search-btn"
                         id="searchAddressBtn"
-                        class="map-search-btn">
+                        type="button">
                     Найти
                 </button>
 
@@ -196,7 +197,7 @@
 
         <!-- ===== Карта ===== -->
         <div class="input-block">
-            <div id="yandex-map" class="map-container"></div>
+            <div class="map-container" id="yandex-map"></div>
         </div>
 
         <!-- ===== Теги ===== -->
@@ -211,9 +212,9 @@
                 <label class="tag-item"
                        th:each="tag : ${tags}">
 
-                    <input type="checkbox"
-                           name="tagIds"
-                           th:value="${tag.id}">
+                    <input name="tagIds"
+                           th:value="${tag.id}"
+                           type="checkbox">
 
                     <span th:text="${tag.name}">
                     </span>
@@ -225,8 +226,8 @@
         </div>
 
         <!-- ===== Кнопка ===== -->
-        <button type="submit"
-                class="submit-btn">
+        <button class="submit-btn"
+                type="submit">
 
             Опубликовать
 
@@ -266,8 +267,8 @@
             function setPlacemark(coords, address) {
                 if (placemark) map.geoObjects.remove(placemark);
                 placemark = new ymaps.Placemark(coords,
-                    { balloonContent: address },
-                    { preset: "islands#redDotIcon" }
+                    {balloonContent: address},
+                    {preset: "islands#redDotIcon"}
                 );
                 map.geoObjects.add(placemark);
             }
@@ -275,7 +276,7 @@
             function searchByAddress() {
                 const query = addressInput.value.trim();
                 if (!query) return;
-                ymaps.geocode(query, { results: 1 }).then(function (res) {
+                ymaps.geocode(query, {results: 1}).then(function (res) {
                     const obj = res.geoObjects.get(0);
                     if (!obj) return;
                     const coords = obj.geometry.getCoordinates();
@@ -287,7 +288,7 @@
 
             map.events.add("click", function (e) {
                 const coords = e.get("coords");
-                ymaps.geocode(coords, { results: 1 }).then(function (res) {
+                ymaps.geocode(coords, {results: 1}).then(function (res) {
                     const obj = res.geoObjects.get(0);
                     if (!obj) return;
                     addressInput.value = obj.getAddressLine();
@@ -299,7 +300,10 @@
                 .addEventListener("click", searchByAddress);
 
             addressInput.addEventListener("keydown", function (e) {
-                if (e.key === "Enter") { e.preventDefault(); searchByAddress(); }
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    searchByAddress();
+                }
             });
 
             if (addressInput.value.trim()) searchByAddress();
@@ -307,7 +311,7 @@
     }
 
     const startInput = document.getElementById("eventDateInput");
-    const endInput   = document.getElementById("eventEndDateInput");
+    const endInput = document.getElementById("eventEndDateInput");
 
     function updateEndMin() {
         if (!startInput.value) return;
