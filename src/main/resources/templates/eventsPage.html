@@ -81,6 +81,19 @@
 
             </div>
 
+            <!-- ===== Адрес ===== -->
+            <div class="event-address">
+                <span class="event-address-icon">📍</span>
+                <span th:if="${event.address != null && !#strings.isEmpty(event.address)}"
+                      class="event-address-text"
+                      th:text="${event.address}">
+                </span>
+                <span th:if="${event.address == null || #strings.isEmpty(event.address)}"
+                      class="event-address-empty">
+                    Адрес не указан
+                </span>
+            </div>
+
             <!-- ===== Футер: теги + действия ===== -->
             <div class="event-footer">
 
@@ -151,6 +164,11 @@
 
         <form method="get" action="/event">
 
+            <!-- ===== Кнопка применить ===== -->
+            <button type="submit" class="apply-btn">
+                Применить
+            </button>
+
             <!-- ===== Поиск по названию ===== -->
             <div class="search-block">
 
@@ -168,6 +186,16 @@
                        name="organizer"
                        placeholder="Организатор..."
                        th:value="${organizer}">
+
+            </div>
+
+            <!-- ===== Поиск по адресу ===== -->
+            <div class="search-block">
+
+                <input type="text"
+                       name="address"
+                       placeholder="Адрес..."
+                       th:value="${address}">
 
             </div>
 
@@ -233,11 +261,6 @@
                 </label>
 
             </div>
-
-            <!-- ===== Кнопка применить ===== -->
-            <button type="submit" class="apply-btn">
-                Применить
-            </button>
 
         </form>
 

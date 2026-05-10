@@ -387,7 +387,10 @@
 
                                 <div class="review-header">
 
-                                    <p th:text="${review.user.username}"></p>
+                                    <a class="reviewer-name-link"
+                                       th:href="@{/userProfile/{u}(u=${review.user.username})}"
+                                       th:text="${review.user.username}">
+                                    </a>
 
                                     <span th:text="${review.rating + ' ★'}"></span>
 
@@ -498,6 +501,14 @@
 
                     </div>
 
+                    <div class="event-date">
+                        <p>📍 Адрес:</p>
+                        <p th:if="${participant.event.address != null && !#strings.isEmpty(participant.event.address)}"
+                           th:text="${participant.event.address}"></p>
+                        <p th:if="${participant.event.address == null || #strings.isEmpty(participant.event.address)}"
+                           class="event-no-address">Адрес не указан</p>
+                    </div>
+
                     <div class="event-organizer">
 
                         <p>Организатор:</p>
@@ -569,6 +580,14 @@
                         <p th:text="${#temporals.format(event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
                         </p>
 
+                    </div>
+
+                    <div class="event-date">
+                        <p>📍 Адрес:</p>
+                        <p th:if="${event.address != null && !#strings.isEmpty(event.address)}"
+                           th:text="${event.address}"></p>
+                        <p th:if="${event.address == null || #strings.isEmpty(event.address)}"
+                           class="event-no-address">Адрес не указан</p>
                     </div>
 
                     <div class="event-rating">

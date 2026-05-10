@@ -15,3 +15,7 @@ spring:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
+
+yandex:
+  maps:
+    api-key: ${YANDEX_MAPS_API_KEY}

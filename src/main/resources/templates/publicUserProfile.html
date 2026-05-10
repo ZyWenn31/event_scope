@@ -106,9 +106,10 @@
 
                                 <div class="review-top">
 
-                                    <p class="reviewer-name"
+                                    <a class="reviewer-name"
+                                       th:href="@{/userProfile/{u}(u=${review.user.username})}"
                                        th:text="${review.user.username}">
-                                    </p>
+                                    </a>
 
                                     <span class="review-stars"
                                           th:text="${review.rating + ' ★'}">
@@ -119,6 +120,11 @@
                                 <p class="review-comment"
                                    th:text="${review.comment}">
                                 </p>
+
+                                <button class="review-expand-btn"
+                                        type="button">
+                                    Развернуть
+                                </button>
 
                                 <p class="review-date"
                                    th:if="${review.createdAt != null}"
@@ -209,67 +215,6 @@
     <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
     <div class="events-section">
 
-        <!-- ===== Предстоящие события ===== -->
-        <div class="events-column">
-
-            <p class="column-title">Предстоящие события</p>
-
-            <div class="events-scroll">
-
-                <div th:if="${plannedParticipations.isEmpty()}"
-                     class="empty-state">
-                    Нет запланированных событий
-                </div>
-
-                <div class="event-card"
-                     th:each="p : ${plannedParticipations}"
-                     th:classappend="${p.event.status.name() == 'IN_PROGRESS'} ? 'card-in-progress'"
-                     th:attr="data-href=@{/event/{id}(id=${p.event.id})}">
-
-                    <p class="event-title"
-                       th:text="${p.event.title}">
-                    </p>
-
-                    <p class="event-description"
-                       th:text="${p.event.description}">
-                    </p>
-
-                    <div class="event-date-row">
-
-                        <p class="date-label">Дата:</p>
-
-                        <p class="date-value"
-                           th:text="${#temporals.format(p.event.eventDate, 'dd.MM.yyyy HH:mm')}">
-                        </p>
-
-                    </div>
-
-                    <div class="event-date-row"
-                         th:if="${p.event.eventEndDate != null}">
-
-                        <p class="date-label">Продлится до:</p>
-
-                        <p class="date-value"
-                           th:text="${#temporals.format(p.event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
-                        </p>
-
-                    </div>
-
-                    <div class="event-tags">
-
-                        <span class="event-tag"
-                              th:each="tag : ${p.event.tags}"
-                              th:text="${tag.name}">
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
         <!-- ===== Все мероприятия ===== -->
         <div class="events-column">
 
@@ -327,6 +272,15 @@
                            th:text="${#temporals.format(p.event.eventEndDate, 'dd.MM.yyyy HH:mm')}">
                         </p>
 
+                    </div>
+
+                    <div class="event-date-row">
+                        <p class="date-label">📍 Адрес:</p>
+                        <p class="date-value"
+                           th:if="${p.event.address != null && !#strings.isEmpty(p.event.address)}"
+                           th:text="${p.event.address}"></p>
+                        <p class="event-no-address"
+                           th:if="${p.event.address == null || #strings.isEmpty(p.event.address)}">Адрес не указан</p>
                     </div>
 
                     <div class="event-tags">
@@ -405,6 +359,15 @@
                     </div>
 
                     <div class="event-date-row">
+                        <p class="date-label">📍 Адрес:</p>
+                        <p class="date-value"
+                           th:if="${event.address != null && !#strings.isEmpty(event.address)}"
+                           th:text="${event.address}"></p>
+                        <p class="event-no-address"
+                           th:if="${event.address == null || #strings.isEmpty(event.address)}">Адрес не указан</p>
+                    </div>
+
+                    <div class="event-date-row">
 
                         <p class="date-label">Участников:</p>
 
@@ -450,11 +413,12 @@
     if (track) {
 
         const slides = Array.from(track.querySelectorAll(".review-slide"));
+        const viewport = document.querySelector(".slider-viewport");
         const dotsContainer = document.querySelector(".slider-dots");
+        const COLLAPSED_HEIGHT = 140;
 
         let current = 0;
 
-        // Создаём точки
         slides.forEach((_, i) => {
             const dot = document.createElement("span");
             dot.className = "dot" + (i === 0 ? " dot-active" : "");
@@ -462,7 +426,17 @@
             dotsContainer.appendChild(dot);
         });
 
+        function collapseSlide(slide) {
+            const comment = slide.querySelector(".review-comment");
+            const btn = slide.querySelector(".review-expand-btn");
+            if (!comment) return;
+            comment.classList.remove("expanded");
+            btn.textContent = "Развернуть";
+            viewport.style.height = COLLAPSED_HEIGHT + "px";
+        }
+
         function goTo(index) {
+            collapseSlide(slides[current]);
             current = (index + slides.length) % slides.length;
             track.style.transform = `translateX(-${current * 100}%)`;
             document.querySelectorAll(".dot").forEach((d, i) => {
@@ -475,6 +449,28 @@
 
         document.querySelector(".slider-next")
             .addEventListener("click", () => goTo(current + 1));
+
+        slides.forEach(slide => {
+            const comment = slide.querySelector(".review-comment");
+            const btn = slide.querySelector(".review-expand-btn");
+            if (!comment || !btn) return;
+
+            if (comment.scrollHeight > comment.clientHeight) {
+                btn.style.display = "block";
+            }
+
+            btn.addEventListener("click", e => {
+                e.stopPropagation();
+                const isExpanded = comment.classList.contains("expanded");
+                if (!isExpanded) {
+                    comment.classList.add("expanded");
+                    btn.textContent = "Свернуть";
+                    viewport.style.height = slide.scrollHeight + "px";
+                } else {
+                    collapseSlide(slide);
+                }
+            });
+        });
     }
 </script>
 

@@ -66,7 +66,7 @@ header p {
 
 /* ===== Основной layout ===== */
 .profile-layout {
-    height: calc(100vh - 85px);
+    height: calc(100vh - 120px);
 
     display: flex;
 
@@ -236,6 +236,10 @@ header p {
     overflow: hidden;
 
     border-radius: 16px;
+
+    height: 140px;
+
+    transition: height .3s ease;
 }
 
 .slider-track {
@@ -271,7 +275,16 @@ header p {
     font-size: 14px;
     font-weight: 600;
 
-    color: #111827;
+    color: #2563EB;
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.reviewer-name:hover {
+    color: #1D4ED8;
+    text-decoration: underline;
 }
 
 .review-stars {
@@ -287,6 +300,42 @@ header p {
     line-height: 1.5;
 
     color: #4B5563;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.review-comment.expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+}
+
+.review-expand-btn {
+    display: none;
+
+    background: none;
+    border: none;
+
+    color: #2563EB;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    align-self: flex-start;
+
+    transition: color .2s ease;
+}
+
+.review-expand-btn:hover {
+    color: #1D4ED8;
 }
 
 .review-date {
@@ -546,6 +595,11 @@ header p {
     font-weight: 500;
 }
 
+.event-no-address {
+    color: #9CA3AF;
+    font-style: italic;
+}
+
 /* ===== Теги ===== */
 .event-tags {
     display: flex;
@@ -574,12 +628,12 @@ header p {
 
     gap: 6px;
 
-    margin: 16px 24px 0;
+    margin: 4px 24px 0;
 
     border: none;
     border-radius: 12px;
 
-    padding: 9px 18px;
+    padding: 5px 18px;
 
     background-color: #EFF6FF;
 

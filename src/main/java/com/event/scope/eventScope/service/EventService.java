@@ -78,6 +78,7 @@ public class EventService {
             User user,
             String sortBy,
             String organizer,
+            String address,
             LocalDate eventDate,
             boolean inProgress
     ) {
@@ -96,6 +97,13 @@ public class EventService {
             events = events.stream()
                     .filter(e -> e.getOrganizer().getName() != null &&
                             e.getOrganizer().getName().toLowerCase().contains(organizer.toLowerCase()))
+                    .toList();
+        }
+
+        if (address != null && !address.isBlank()) {
+            events = events.stream()
+                    .filter(e -> e.getAddress() != null &&
+                            e.getAddress().toLowerCase().contains(address.toLowerCase()))
                     .toList();
         }
 
@@ -134,6 +142,7 @@ public class EventService {
             List<Long> tagIds,
             String sortBy,
             String organizer,
+            String address,
             LocalDate eventDate,
             boolean inProgress
     ) {
@@ -152,6 +161,13 @@ public class EventService {
             events = events.stream()
                     .filter(e -> e.getOrganizer().getName() != null &&
                             e.getOrganizer().getName().toLowerCase().contains(organizer.toLowerCase()))
+                    .toList();
+        }
+
+        if (address != null && !address.isBlank()) {
+            events = events.stream()
+                    .filter(e -> e.getAddress() != null &&
+                            e.getAddress().toLowerCase().contains(address.toLowerCase()))
                     .toList();
         }
 

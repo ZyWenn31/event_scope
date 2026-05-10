@@ -275,6 +275,34 @@ header p {
     letter-spacing: 0.03em;
 }
 
+/* ===== Адрес ===== */
+.event-address {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.event-address-icon {
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.event-address-text {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 500;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-address-empty {
+    font-size: 13px;
+    color: #9CA3AF;
+    font-style: italic;
+}
+
 /* ===== Футер карточки ===== */
 .event-footer {
     display: flex;
@@ -353,6 +381,9 @@ header p {
 
     position: sticky;
     top: 100px;
+
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
 
     flex-shrink: 0;
 }

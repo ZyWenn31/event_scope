@@ -133,15 +133,9 @@ public class UserController {
                 .sorted(Comparator.comparingInt(p -> publicStatusOrder.getOrDefault(p.getEvent().getStatus(), 4)))
                 .toList();
 
-        List<EventParticipant> plannedParticipations = allParticipations.stream()
-                .filter(p -> EventStatus.PLANNED.equals(p.getEvent().getStatus())
-                          || EventStatus.IN_PROGRESS.equals(p.getEvent().getStatus()))
-                .toList();
-
         model.addAttribute("profileUser", user);
         model.addAttribute("isOrganizer", isOrganizer);
         model.addAttribute("allParticipations", allParticipations);
-        model.addAttribute("plannedParticipations", plannedParticipations);
 
         if (isOrganizer) {
 

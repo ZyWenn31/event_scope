@@ -9,6 +9,11 @@
 
     <link rel="stylesheet"
           href="/css/eventDetailPage.css">
+
+    <script th:if="${event.address != null && !#strings.isEmpty(event.address)}"
+            th:src="|https://api-maps.yandex.ru/2.1/?apikey=${yandexMapsApiKey}&lang=ru_RU|"
+            type="text/javascript">
+    </script>
 </head>
 
 <header>
@@ -211,6 +216,20 @@
 
         </div>
 
+        <!-- ===== Адрес ===== -->
+        <div class="info-block"
+             th:if="${event.address != null && !#strings.isEmpty(event.address)}">
+
+            <p class="info-label">Адрес</p>
+
+            <p class="address-text" id="eventAddress"
+               th:text="${event.address}">
+            </p>
+
+            <div id="detail-map" class="detail-map-container"></div>
+
+        </div>
+
         <!-- ===== Теги ===== -->
         <div class="info-block"
              th:if="${event.tags != null && !event.tags.isEmpty()}">
@@ -383,6 +402,33 @@
 </body>
 
 <script>
+    // ===== Карта адреса (только чтение) =====
+    if (typeof ymaps !== "undefined") {
+        ymaps.ready(function () {
+            const addressEl = document.getElementById("eventAddress");
+            if (!addressEl) return;
+            const address = addressEl.textContent.trim();
+            if (!address) return;
+
+            ymaps.geocode(address, { results: 1 }).then(function (res) {
+                const obj = res.geoObjects.get(0);
+                if (!obj) return;
+                const coords = obj.geometry.getCoordinates();
+
+                const map = new ymaps.Map("detail-map", {
+                    center: coords,
+                    zoom: 15,
+                    controls: ["zoomControl"]
+                });
+
+                map.geoObjects.add(new ymaps.Placemark(coords,
+                    { balloonContent: address },
+                    { preset: "islands#redDotIcon" }
+                ));
+            });
+        });
+    }
+
     function confirmCancelEvent() {
         if (confirm("Данное мероприятие нельзя будет запланировать снова, вы уверены?")) {
             document.getElementById("cancelEventForm").submit();

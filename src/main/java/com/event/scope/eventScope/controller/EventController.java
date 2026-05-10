@@ -15,6 +15,7 @@ import com.event.scope.eventScope.service.UserService;
 import com.event.scope.eventScope.service.WishLikeService;
 import com.event.scope.eventScope.service.WishService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,6 +48,10 @@ public class EventController {
     private final WishService wishService;
     private final WishLikeService wishLikeService;
 
+
+    @Value("${yandex.maps.api-key}")
+    private String yandexMapsApiKey;
+
     public EventController(EventService eventService, UserService userService, EventParticipantService eventParticipantService, TagService tagService, EventReviewService eventReviewService, WishService wishService, WishLikeService wishLikeService) {
         this.eventService = eventService;
         this.userService = userService;
@@ -65,6 +70,7 @@ public class EventController {
             @RequestParam(required = false) List<Long> tagIds,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String organizer,
+            @RequestParam(required = false) String address,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate eventDate,
             @RequestParam(required = false, defaultValue = "false") boolean inProgress,
             @RequestParam(defaultValue = "0") int page,
@@ -86,6 +92,7 @@ public class EventController {
                     currentUser,
                     sortBy,
                     organizer,
+                    address,
                     eventDate,
                     inProgress
             );
@@ -100,7 +107,7 @@ public class EventController {
 
         } else {
 
-            events = eventService.findFiltered(title, tagIds, sortBy, organizer, eventDate, inProgress);
+            events = eventService.findFiltered(title, tagIds, sortBy, organizer, address, eventDate, inProgress);
 
             model.addAttribute("userId", -1);
             model.addAttribute("username", "");
@@ -124,6 +131,7 @@ public class EventController {
         model.addAttribute("isAuth", isAuth);
         model.addAttribute("selectedSortBy", sortBy != null ? sortBy : "DATE_ASC");
         model.addAttribute("organizer", organizer);
+        model.addAttribute("address", address);
         model.addAttribute("eventDate", eventDate);
         model.addAttribute("inProgress", inProgress);
 
@@ -180,6 +188,7 @@ public class EventController {
         model.addAttribute("canReview", canReview);
         model.addAttribute("alreadyReviewed", alreadyReviewed);
         model.addAttribute("canEdit", canEdit);
+        model.addAttribute("yandexMapsApiKey", yandexMapsApiKey);
 
         return "eventDetailPage";
     }
@@ -295,6 +304,7 @@ public class EventController {
                         .plusHours(1)
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
         );
+        model.addAttribute("yandexMapsApiKey", yandexMapsApiKey);
 
         return "editEventPage";
     }
@@ -363,6 +373,7 @@ public class EventController {
                             .plusHours(1)
                             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
             );
+            model.addAttribute("yandexMapsApiKey", yandexMapsApiKey);
             return "editEventPage";
         }
 
@@ -370,6 +381,7 @@ public class EventController {
         existing.setDescription(eventForm.getDescription());
         existing.setEventDate(eventForm.getEventDate());
         existing.setEventEndDate(eventForm.getEventEndDate());
+        existing.setAddress(eventForm.getAddress());
 
         Set<Tag> updatedTags = new HashSet<>();
         if (tagIds != null) {
@@ -403,6 +415,8 @@ public class EventController {
                         .plusHours(1)
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
         );
+
+        model.addAttribute("yandexMapsApiKey", yandexMapsApiKey);
 
         if (wishId != null) {
             var wish = wishService.findById(wishId);
@@ -467,6 +481,9 @@ public class EventController {
                 model.addAttribute("sourceWish", wishService.findById(wishId));
                 model.addAttribute("wishId", wishId);
             }
+
+            model.addAttribute("yandexMapsApiKey", yandexMapsApiKey);
+
 
             return "createEventPage";
         }

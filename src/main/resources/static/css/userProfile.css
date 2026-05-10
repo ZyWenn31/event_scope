@@ -448,6 +448,22 @@ header p{
     color: #111827;
 }
 
+.reviewer-name-link {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #2563EB;
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.reviewer-name-link:hover {
+    color: #1D4ED8;
+    text-decoration: underline;
+}
+
 .review-header span {
     color: #F59E0B;
 
@@ -769,6 +785,12 @@ header p{
 .event-organizer p:first-child,
 .event-rating p:first-child{
     color: #6B7280;
+}
+
+.event-no-address {
+    color: #9CA3AF;
+    font-style: italic;
+    font-size: 14px;
 }
 
 .event-date p:last-child,

@@ -9,6 +9,9 @@
 
     <link rel="stylesheet"
           href="/css/createEventPage.css">
+
+    <script th:src="|https://api-maps.yandex.ru/2.1/?apikey=${yandexMapsApiKey}&lang=ru_RU|"
+            type="text/javascript"></script>
 </head>
 
 <header>
@@ -119,6 +122,35 @@
 
         </div>
 
+        <!-- ===== Адрес ===== -->
+        <div class="input-block">
+
+            <label>Адрес (необязательно)</label>
+
+            <div class="map-search-row">
+
+                <input type="text"
+                       id="addressInput"
+                       name="address"
+                       th:value="${event.address}"
+                       placeholder="Введите адрес или выберите точку на карте"
+                       autocomplete="off">
+
+                <button type="button"
+                        id="searchAddressBtn"
+                        class="map-search-btn">
+                    Найти
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===== Карта ===== -->
+        <div class="input-block">
+            <div id="yandex-map" class="map-container"></div>
+        </div>
+
         <!-- ===== Теги ===== -->
         <div class="tags-section">
 
@@ -186,6 +218,63 @@
             sessionStorage.removeItem("editEventFormScrollY");
         }
     });
+
+    // ===== Яндекс карта =====
+    if (typeof ymaps !== "undefined") {
+        ymaps.ready(function () {
+
+            const addressInput = document.getElementById("addressInput");
+
+            const map = new ymaps.Map("yandex-map", {
+                center: [55.7558, 37.6173],
+                zoom: 11,
+                controls: ["zoomControl"]
+            });
+
+            let placemark = null;
+
+            function setPlacemark(coords, address) {
+                if (placemark) map.geoObjects.remove(placemark);
+                placemark = new ymaps.Placemark(coords,
+                    { balloonContent: address },
+                    { preset: "islands#redDotIcon" }
+                );
+                map.geoObjects.add(placemark);
+            }
+
+            function searchByAddress() {
+                const query = addressInput.value.trim();
+                if (!query) return;
+                ymaps.geocode(query, { results: 1 }).then(function (res) {
+                    const obj = res.geoObjects.get(0);
+                    if (!obj) return;
+                    const coords = obj.geometry.getCoordinates();
+                    addressInput.value = obj.getAddressLine();
+                    map.setCenter(coords, 16);
+                    setPlacemark(coords, addressInput.value);
+                });
+            }
+
+            map.events.add("click", function (e) {
+                const coords = e.get("coords");
+                ymaps.geocode(coords, { results: 1 }).then(function (res) {
+                    const obj = res.geoObjects.get(0);
+                    if (!obj) return;
+                    addressInput.value = obj.getAddressLine();
+                    setPlacemark(coords, addressInput.value);
+                });
+            });
+
+            document.getElementById("searchAddressBtn")
+                .addEventListener("click", searchByAddress);
+
+            addressInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") { e.preventDefault(); searchByAddress(); }
+            });
+
+            if (addressInput.value.trim()) searchByAddress();
+        });
+    }
 
     const startInput = document.getElementById("eventDateInput");
     const endInput   = document.getElementById("eventEndDateInput");
