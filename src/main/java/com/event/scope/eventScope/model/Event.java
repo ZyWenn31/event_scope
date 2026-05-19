@@ -1,6 +1,5 @@
 package com.event.scope.eventScope.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -176,4 +175,3 @@ public class Event {
         this.tags = tags;
     }
 }
-

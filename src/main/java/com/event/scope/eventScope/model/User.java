@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "t_user",
-        uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")})
+@Table(name = "t_user", uniqueConstraints = {@UniqueConstraint(columnNames = "username"), @UniqueConstraint(columnNames = "email")})
 public class User {
 
     @Id
@@ -36,23 +34,18 @@ public class User {
 
     private String avatarPath;
 
-    
     @OneToMany(mappedBy = "organizer")
     private List<Event> organizedEvents;
 
-    
     @OneToMany(mappedBy = "user")
     private List<EventParticipant> participations;
 
-    
     @OneToMany(mappedBy = "user")
     private List<EventReview> eventReviews;
 
-    
     @OneToMany(mappedBy = "user")
     private List<OrganizerReview> organizerReviews;
 
-    
     @OneToMany(mappedBy = "organizer")
     private List<OrganizerReview> receivedReviews;
 

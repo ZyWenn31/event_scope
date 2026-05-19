@@ -65,15 +65,7 @@ public class EventController {
 
             User currentUser = userService.findByUsername(principal.getName());
 
-            events = eventService.findFiltered(
-                    title,
-                    tagIds,
-                    currentUser,
-                    sortBy,
-                    organizer,
-                    address,
-                    eventDate,
-                    inProgress
+            events = eventService.findFiltered(title, tagIds, currentUser, sortBy, organizer, address, eventDate, inProgress
             );
 
             model.addAttribute(

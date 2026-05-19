@@ -1,4 +1,4 @@
-package com.event.scope.eventScope;
+package com.event.scope.eventScope.unit;
 
 import com.event.scope.eventScope.model.Event;
 import com.event.scope.eventScope.model.EventStatus;
